@@ -1,0 +1,38 @@
+{
+  "name": "socialtap",
+  "version": "1.582.32",
+  "description": "SocialTap API client: Social media scraper API. Live data from any public link.",
+  "license": "MIT",
+  "homepage": "https://socialtap.dev/docs",
+  "bugs": { "email": "support@socialtap.dev" },
+  "repository": { "type": "git", "url": "git+https://github.com/SocialTapDev/socialtap.git" },
+  "keywords": ["socialtap", "social media", "api", "sdk", "transcripts", "scraping", "mcp", "ai", "agents", "cli"],
+  "type": "module",
+  "engines": { "node": ">=20.3" },
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./ai": { "types": "./dist/ai.d.ts", "default": "./dist/ai.js" }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": { "socialtap": "./dist/bin.js" },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tsc --noEmit",
+    "test": "node --test --test-reporter=spec \"test/**/*.test.ts\"",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "ai": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "ai": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ai": "^7.0.0",
+    "typescript": "^7.0.2"
+  }
+}
