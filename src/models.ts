@@ -9808,14 +9808,24 @@ export interface Subscription {
 }
 
 export interface PaymentMethodSummary {
-  /** Card brand (visa, mastercard, amex, …). */
-  brand: string;
-  /** The card number's last four digits. */
-  last4: string;
-  /** Expiry month (1–12). */
-  exp_month: number;
-  /** Expiry year. */
-  exp_year: number;
+  /**
+   * What kind of payment method: card (Apple Pay and Google Pay included), link (Stripe's Link), cashapp (Cash App
+   * Pay) or amazon_pay (Amazon Pay). New values may be added. Known values: card, link, cashapp, amazon_pay.
+   */
+  type: "card" | "link" | "cashapp" | "amazon_pay" | (string & {});
+  /** Card brand (visa, mastercard, amex, …); null when type isn't card. */
+  brand: string | null;
+  /** The card number's last four digits; null when type isn't card. */
+  last4: string | null;
+  /** Expiry month (1–12); null when type isn't card. */
+  exp_month: number | null;
+  /** Expiry year; null when type isn't card. */
+  exp_year: number | null;
+  /**
+   * The wallet account it charges, as its provider shows it: the Link account's email, or the Cash App $Cashtag;
+   * null for a card, for Amazon Pay, or when the provider doesn't say.
+   */
+  account: string | null;
 }
 
 export interface AutoTopupCharge {
@@ -9885,12 +9895,12 @@ export interface AutoTopup {
   /**
    * Why auto top-up turned itself off (null while on, or when a person turned it off): card_declined (the bank
    * declined the charge), authentication_required (the bank asked the cardholder to confirm it: buy the pack in
-   * Billing, then turn auto top-up back on), no_card (no saved card), billing_address_required (Stripe Tax needs
-   * the card's billing address: add it in the payment settings), payment_failed (another payment error), disputed
-   * (a payment on this account was disputed: auto top-up turns on again only with a different card), bank_inquiry
-   * (a bank asked about a payment on this account, which is not yet a dispute: turn it back on when you are
-   * ready), plan_ended (it bought a monthly plan's top-up, and the plan ended). It never retries: fix the cause,
-   * then turn it on again. Known values: card_declined, authentication_required, no_card,
+   * Billing, then turn auto top-up back on), no_card (no saved payment method), billing_address_required (Stripe
+   * Tax needs your billing address: add it in the payment settings), payment_failed (another payment error),
+   * disputed (a payment on this account was disputed: auto top-up turns on again only with a different payment
+   * method), bank_inquiry (a bank asked about a payment on this account, which is not yet a dispute: turn it back
+   * on when you are ready), plan_ended (it bought a monthly plan's top-up, and the plan ended). It never retries:
+   * fix the cause, then turn it on again. Known values: card_declined, authentication_required, no_card,
    * billing_address_required, payment_failed, disputed, bank_inquiry, plan_ended.
    */
   off_reason: "card_declined" | "authentication_required" | "no_card" | "billing_address_required" | "payment_failed" | "disputed" | "bank_inquiry" | "plan_ended" | (string & {}) | null;
@@ -9899,8 +9909,8 @@ export interface AutoTopup {
   /** When it turned itself off, RFC 3339 UTC; null when off_reason is. Format: date-time. */
   off_at: string | null;
   /**
-   * The saved card a top-up charges (the default card in the payment settings, else the newest); null when there
-   * is none, or when the payment processor could not be reached.
+   * The saved payment method a top-up charges (the default in the payment settings, else the newest one saved);
+   * null when there is none, or when the payment processor could not be reached.
    */
   payment_method: PaymentMethodSummary | null;
   /** The latest top-up, whatever its outcome; null before the first. */
