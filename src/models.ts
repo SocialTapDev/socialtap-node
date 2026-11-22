@@ -80,8 +80,8 @@ export interface ActivityPlatformSpecific {
 }
 
 /**
- * An account's public activity: pushes, pull requests, issues, comments, reviews, releases, stars and forks,
- * with the repository, branch or tag, issue or pull request number and title, and when.
+ * An account's public activity (pushes, pull requests, issues, comments, reviews, releases, stars and forks)
+ * with the repository, what it touched and when.
  */
 export interface Activity {
   /** Platform ID (github, …). */
@@ -2054,8 +2054,8 @@ export interface EmbedPlatformSpecific {
 }
 
 /**
- * Platforms' own embed code for public posts, videos, playlists and profiles: the HTML to paste, its iframe URL
- * and size, and the title, author and thumbnail it shows.
+ * Platforms' own embed code for public posts, videos, playlists and profiles: the HTML to paste, the iframe URL
+ * and size, and the title and thumbnail.
  */
 export interface Embed {
   /** Platform ID (instagram, youtube, tiktok, …). */
@@ -5989,8 +5989,8 @@ export interface EngagementPlatformSpecific {
 }
 
 /**
- * Engagement rate, average views, likes and comments, posting cadence and top post for an account, computed from
- * its recent posts the same way on every platform.
+ * Engagement rate, average views, likes and comments, posting cadence and top post of an account, computed from
+ * recent posts the same way on every platform.
  */
 export interface Engagement {
   /** Platform ID (tiktok, instagram, …). */
@@ -6372,8 +6372,8 @@ export interface IssuePlatformSpecific {
 }
 
 /**
- * Issues and pull requests with their state, labels, author, assignees, milestone, comment and reaction counts,
- * and for pull requests the branches, merge time and lines changed.
+ * Issues and pull requests with state, labels, author, assignees and comment counts, and for pull requests the
+ * branches, merge time and lines changed.
  */
 export interface Issue {
   /** Platform ID (github, …). */
@@ -6573,8 +6573,8 @@ export interface JobPostingPlatformSpecific {
 }
 
 /**
- * Job postings with the title, employer, location and workplace type, employment type, seniority, salary range,
- * description, posting date, whether it is closed, applicants and apply link.
+ * Job postings with the title, employer, location, workplace and employment type, seniority, salary range,
+ * posting date, applicants and apply link.
  */
 export interface JobPosting {
   /** Platform ID (linkedin, …). */
@@ -7988,8 +7988,8 @@ export interface ReleasePlatformSpecific {
 }
 
 /**
- * Software releases with their tag, title, release notes, author, pre-release flag, date, downloadable files
- * with sizes and download counts, and source archives.
+ * Software releases with their tag, title, notes, author, pre-release flag, date, downloadable files with sizes
+ * and download counts, and source archives.
  */
 export interface Release {
   /** Platform ID (github, …). */
