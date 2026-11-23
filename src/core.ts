@@ -2,7 +2,7 @@
 // The HTTP runtime every generated method calls: auth, timeouts, retries (with free GET retries through
 // max_age), errors and pagination. It holds no endpoint knowledge; constants.ts is rendered from the catalog.
 
-import { API_KEY_ENV, DEFAULT_BASE_URL, DEFAULT_LONG_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DEFAULT_TIMEOUT_MS, ERROR_CODES, HEADERS, SIGNUP_URL, VERSION } from "./constants.ts";
+import { API_KEY_ENV, CLIENT_NAME, DEFAULT_BASE_URL, DEFAULT_LONG_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DEFAULT_TIMEOUT_MS, ERROR_CODES, HEADERS, SIGNUP_URL, VERSION } from "./constants.ts";
 import { APIConnectionError, APIDecodeError, APIError, APITimeoutError, RetryAfterExceededError, SocialTapError } from "./error.ts";
 import { makeAPIError } from "./errors.ts";
 import type { EnvelopeMeta, EnvelopePage } from "./models.ts";
@@ -153,6 +153,22 @@ function str(v: unknown): string | null {
   return typeof v === "string" ? v : null;
 }
 
+/** @internal Set while keylessClient builds a client: its constructor then takes no key. */
+let buildingKeyless = false;
+
+/**
+ * @internal A client without an API key, for the tools the server answers without one (KEYLESS_TOOLS; the CLI's
+ * `tool` command when no key is given): its requests carry no key header. `new` without a key still throws.
+ */
+export function keylessClient<C extends Core>(make: () => C): C {
+  buildingKeyless = true;
+  try {
+    return make();
+  } finally {
+    buildingKeyless = false;
+  }
+}
+
 /** The transport every generated resource calls. */
 export class Core {
   readonly apiKey: string;
@@ -164,13 +180,15 @@ export class Core {
   _sleep: (ms: number) => Promise<void> = (ms) => new Promise((r) => setTimeout(r, ms));
   /** @internal jitter source (tests replace it). */
   _random: () => number = Math.random;
+  /** @internal The name it sends as its User-Agent's product and its MCP clientInfo name (the CLI sets its own). */
+  _client: string = CLIENT_NAME;
   readonly #fetch: typeof fetch;
   readonly #headers: Record<string, string>;
 
   constructor(options: ClientOptions = {}) {
     const key = options.apiKey ?? readEnv(API_KEY_ENV);
-    if (!key) throw new SocialTapError(`missing API key: pass apiKey or set ${API_KEY_ENV}${SIGNUP_URL ? `. Get one at ${SIGNUP_URL}` : ""}`);
-    this.apiKey = key;
+    if (!key && !buildingKeyless) throw new SocialTapError(`missing API key: pass apiKey or set ${API_KEY_ENV}${SIGNUP_URL ? `. Get one at ${SIGNUP_URL}` : ""}`);
+    this.apiKey = key ?? "";
     this.baseURL = (options.baseURL ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
     this.timeout = options.timeout ?? DEFAULT_TIMEOUT_MS;
     this.#timeoutSet = options.timeout !== undefined;
@@ -325,10 +343,10 @@ export class Core {
       }
       const headers: Record<string, string> = {
         accept: "application/json",
-        "user-agent": `socialtap-typescript/${VERSION}`,
+        "user-agent": `${this._client}/${VERSION}`,
         ...this.#headers,
         ...(options.headers ?? {}),
-        [HEADERS.apiKey]: this.apiKey,
+        ...(this.apiKey ? { [HEADERS.apiKey]: this.apiKey } : {}),
       };
       if (req.body !== undefined) headers["content-type"] = "application/json";
       const timer = AbortSignal.timeout(timeout);

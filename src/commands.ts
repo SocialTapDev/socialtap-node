@@ -3,7 +3,7 @@
 
 import type { SocialTap } from "./client.ts";
 import type { IterateOptions, ListResult, Paginator, RequestOptions, Result } from "./core.ts";
-import type { AmazonDealProductsParams, AmazonOffersParams, AmazonProductParams, AmazonReviewsParams, AmazonSearchProductsParams, AmazonSellerParams, AmazonShopParams, AmazonShopListsParams, AmazonShopPostsParams, AmazonTopProductsParams, AppleMusicAlbumParams, AppleMusicArtistParams, AppleMusicSearchAlbumsParams, AppleMusicSearchArtistsParams, AppleMusicSearchPlaylistsParams, AppleMusicSearchTracksParams, AppleMusicTopAlbumsParams, AppleMusicTopPlaylistsParams, AppleMusicTopTracksParams, AppleMusicTrackParams, BlueskyCommentsParams, BlueskyPostParams, BlueskyPostsParams, BlueskyProfileParams, BlueskySearchPostsParams, FacebookAdParams, FacebookAdTranscriptParams, FacebookAdsParams, FacebookAdvertiserParams, FacebookCommentsParams, FacebookEngagementParams, FacebookEventParams, FacebookEventsParams, FacebookGroupParams, FacebookGroupPostsParams, FacebookListingParams, FacebookPhotosParams, FacebookPlaceEventsParams, FacebookPostParams, FacebookPostsParams, FacebookProfileParams, FacebookReelsParams, FacebookRepliesParams, FacebookSearchAdsParams, FacebookSearchAdvertisersParams, FacebookSearchEventsParams, FacebookSearchGroupsParams, FacebookSearchListingsParams, FacebookSearchPlacesParams, FacebookSearchPostsParams, FacebookSearchProfilesParams, FacebookTranscriptParams, GitHubActivityParams, GitHubContributionsParams, GitHubFollowersParams, GitHubFollowingParams, GitHubIssueParams, GitHubIssueCommentsParams, GitHubIssuesParams, GitHubPinnedRepositoriesParams, GitHubProfileParams, GitHubProfilePullRequestsParams, GitHubReadmeParams, GitHubReleasesParams, GitHubRepositoriesParams, GitHubRepositoryParams, GitHubRepositoryContributorsParams, GitHubSearchIssuesParams, GitHubSearchProfilesParams, GitHubSearchRepositoriesParams, GitHubTrendingProfilesParams, GitHubTrendingRepositoriesParams, GoogleAdParams, GoogleAdsParams, GoogleAdvertiserParams, GoogleSearchAdsParams, GoogleSearchAdvertisersParams, GoogleSearchSuggestionsParams, HackerNewsCommentParams, HackerNewsCommentsParams, HackerNewsFeedStoriesParams, HackerNewsSearchCommentsParams, HackerNewsSearchStoriesParams, HackerNewsStoryParams, HackerNewsUserParams, HackerNewsUserCommentsParams, HackerNewsUserFavoritesParams, HackerNewsUserStoriesParams, HackerNewsWhoishiringJobsParams, InstagramCommentParams, InstagramCommentsParams, InstagramEmbedParams, InstagramEngagementParams, InstagramHashtagParams, InstagramHashtagPostsParams, InstagramHighlightsParams, InstagramPlaceParams, InstagramPlacePostsParams, InstagramPlaylistStoriesParams, InstagramPopularTrendsParams, InstagramPostParams, InstagramPostsParams, InstagramProfileParams, InstagramReelsParams, InstagramSearchHashtagsParams, InstagramSearchPlacesParams, InstagramSearchPostsParams, InstagramSearchProfilesParams, InstagramSearchSoundsParams, InstagramSearchSuggestionsParams, InstagramSimilarProfilesParams, InstagramSoundParams, InstagramSoundPostsParams, InstagramStoryParams, InstagramTopicParams, InstagramTranscriptParams, InstagramTrendingPostsParams, InstagramUsernameParams, KickPostParams, KickTranscriptParams, KomiPageParams, KwaiPostParams, KwaiPostsParams, KwaiProfileParams, LnkBioProfileParams, LinkedInAdParams, LinkedInCommentsParams, LinkedInEmployeesParams, LinkedInEngagementParams, LinkedInFollowingParams, LinkedInJobParams, LinkedInJobRelatedJobsParams, LinkedInJobsParams, LinkedInLikedPostsParams, LinkedInPostParams, LinkedInPostReactionsParams, LinkedInPostRepostsParams, LinkedInPostsParams, LinkedInProfileParams, LinkedInProfileCommentsParams, LinkedInProfileGroupsParams, LinkedInSearchAdsParams, LinkedInSearchJobsParams, LinkedInSearchPostsParams, LinkedInSearchProfilesParams, LinkedInTranscriptParams, LinkmeProfileParams, LinktreeProfileParams, PillarPageParams, PinterestBoardParams, PinterestBoardPinsParams, PinterestBoardsParams, PinterestPinParams, PinterestPinsParams, PinterestProfileParams, PinterestSearchPinsParams, PinterestTopTrendsParams, PinterestTopicParams, PinterestWebPageParams, RedditCommentsParams, RedditEngagementParams, RedditPostParams, RedditPostsParams, RedditProfileParams, RedditProfileCommentsParams, RedditSearchCommentsParams, RedditSearchPostsParams, RedditSearchProfilesParams, RedditSearchSubredditsParams, RedditSubredditParams, RedditSubredditPostsParams, RedditTranscriptParams, RumbleCommentsParams, RumbleEngagementParams, RumblePostParams, RumblePostsParams, RumbleProfileParams, RumbleSearchPostsParams, RumbleTranscriptParams, SnapchatCommentsParams, SnapchatProfileParams, SnapchatSpotlightParams, SoundCloudArtistParams, SoundCloudTrackParams, SoundCloudTracksParams, SpotifyAlbumParams, SpotifyArtistParams, SpotifyPlaylistParams, SpotifyPlaylistTracksParams, SpotifyPodcastParams, SpotifyPodcastEpisodesParams, SpotifySearchAlbumsParams, SpotifySearchArtistsParams, SpotifySearchPlaylistsParams, SpotifySearchPodcastsParams, SpotifySearchTracksParams, SpotifyTrackParams, TelegramChannelParams, TelegramChannelPostsParams, TelegramPostParams, TelegramSearchChannelsParams, ThreadsCommentsParams, ThreadsPostParams, ThreadsPostsParams, ThreadsProfileParams, ThreadsSearchPostsParams, ThreadsSearchProfilesParams, TikTokAdParams, TikTokCommentParams, TikTokCommentsParams, TikTokDownloadParams, TikTokEffectParams, TikTokEffectPostsParams, TikTokEngagementParams, TikTokFollowersParams, TikTokFollowingParams, TikTokHashtagParams, TikTokHashtagPostsParams, TikTokLikedPostsParams, TikTokLiveParams, TikTokPlacePostsParams, TikTokPlaylistPostsParams, TikTokPlaylistsParams, TikTokPostParams, TikTokPostsParams, TikTokProfileParams, TikTokRepliesParams, TikTokSearchAdsParams, TikTokSearchHashtagsParams, TikTokSearchPostsParams, TikTokSearchProfilesParams, TikTokSearchSoundsParams, TikTokSearchSuggestionsParams, TikTokSearchTopParams, TikTokSoundParams, TikTokSoundPostsParams, TikTokTopAdsParams, TikTokTopPostsParams, TikTokTranscriptParams, TikTokTrendingHashtagsParams, TikTokTrendingPostsParams, TikTokShopProductParams, TikTokShopProductsParams, TikTokShopReviewsParams, TikTokShopSearchProductsParams, TruthSocialPostParams, TruthSocialPostsParams, TruthSocialProfileParams, TwitchProfileParams, TwitchScheduleParams, TwitchTranscriptParams, TwitchVideoParams, TwitchVideosParams, XCommentsParams, XCommunityParams, XCommunityPostsParams, XEngagementParams, XFriendshipParams, XListParams, XListFollowersParams, XPostParams, XPostsParams, XProfileParams, XProfileMentionsParams, XSearchCommunitiesParams, XSearchHashtagsParams, XSearchPostsParams, XSearchProfilesParams, XSpaceParams, XTranscriptParams, YouTubeCommentsParams, YouTubeEngagementParams, YouTubePostParams, YouTubePostsParams, YouTubeProfileParams, YouTubeTranscriptParams } from "./resources.ts";
+import type { AmazonDealProductsParams, AmazonOffersParams, AmazonProductParams, AmazonReviewsParams, AmazonSearchProductsParams, AmazonSellerParams, AmazonShopParams, AmazonShopListsParams, AmazonShopPostsParams, AmazonTopProductsParams, AppleMusicAlbumParams, AppleMusicArtistParams, AppleMusicSearchAlbumsParams, AppleMusicSearchArtistsParams, AppleMusicSearchPlaylistsParams, AppleMusicSearchTracksParams, AppleMusicTopAlbumsParams, AppleMusicTopPlaylistsParams, AppleMusicTopTracksParams, AppleMusicTrackParams, BlueskyCommentsParams, BlueskyPostParams, BlueskyPostsParams, BlueskyProfileParams, BlueskySearchPostsParams, FacebookAdParams, FacebookAdTranscriptParams, FacebookAdsParams, FacebookAdvertiserParams, FacebookCommentsParams, FacebookEngagementParams, FacebookEventParams, FacebookEventsParams, FacebookGroupParams, FacebookGroupPostsParams, FacebookListingParams, FacebookPhotosParams, FacebookPlaceEventsParams, FacebookPostParams, FacebookPostsParams, FacebookProfileParams, FacebookReelsParams, FacebookRepliesParams, FacebookSearchAdsParams, FacebookSearchAdvertisersParams, FacebookSearchEventsParams, FacebookSearchGroupsParams, FacebookSearchListingsParams, FacebookSearchPlacesParams, FacebookSearchPostsParams, FacebookSearchProfilesParams, FacebookTranscriptParams, GitHubActivityParams, GitHubContributionsParams, GitHubFollowersParams, GitHubFollowingParams, GitHubIssueParams, GitHubIssueCommentsParams, GitHubIssuesParams, GitHubPinnedRepositoriesParams, GitHubProfileParams, GitHubProfilePullRequestsParams, GitHubReadmeParams, GitHubReleasesParams, GitHubRepositoriesParams, GitHubRepositoryParams, GitHubRepositoryContributorsParams, GitHubSearchIssuesParams, GitHubSearchProfilesParams, GitHubSearchRepositoriesParams, GitHubTrendingProfilesParams, GitHubTrendingRepositoriesParams, GoogleAdParams, GoogleAdsParams, GoogleAdvertiserParams, GoogleSearchAdsParams, GoogleSearchAdvertisersParams, GoogleSearchSuggestionsParams, HackerNewsCommentParams, HackerNewsCommentsParams, HackerNewsFeedStoriesParams, HackerNewsSearchCommentsParams, HackerNewsSearchStoriesParams, HackerNewsStoryParams, HackerNewsUserParams, HackerNewsUserCommentsParams, HackerNewsUserFavoritesParams, HackerNewsUserStoriesParams, HackerNewsWhoishiringJobsParams, InstagramCommentParams, InstagramCommentsParams, InstagramEmbedParams, InstagramEngagementParams, InstagramHashtagParams, InstagramHashtagPostsParams, InstagramHighlightsParams, InstagramPlaceParams, InstagramPlacePostsParams, InstagramPlaylistStoriesParams, InstagramPopularTrendsParams, InstagramPostParams, InstagramPostsParams, InstagramProfileParams, InstagramReelsParams, InstagramSearchHashtagsParams, InstagramSearchPlacesParams, InstagramSearchPostsParams, InstagramSearchProfilesParams, InstagramSearchSoundsParams, InstagramSearchSuggestionsParams, InstagramSimilarProfilesParams, InstagramSoundParams, InstagramSoundPostsParams, InstagramStoryParams, InstagramTopicParams, InstagramTranscriptParams, InstagramTrendingPostsParams, InstagramUsernameParams, KickPostParams, KickTranscriptParams, KomiPageParams, KwaiPostParams, KwaiPostsParams, KwaiProfileParams, LnkBioProfileParams, LinkedInAdParams, LinkedInCommentsParams, LinkedInEmployeesParams, LinkedInEngagementParams, LinkedInFollowingParams, LinkedInJobParams, LinkedInJobRelatedJobsParams, LinkedInJobsParams, LinkedInLikedPostsParams, LinkedInPostParams, LinkedInPostReactionsParams, LinkedInPostRepostsParams, LinkedInPostsParams, LinkedInProfileParams, LinkedInProfileCommentsParams, LinkedInProfileGroupsParams, LinkedInSearchAdsParams, LinkedInSearchJobsParams, LinkedInSearchPostsParams, LinkedInSearchProfilesParams, LinkedInTranscriptParams, LinkmeProfileParams, LinktreeProfileParams, PillarPageParams, PinterestBoardParams, PinterestBoardPinsParams, PinterestBoardsParams, PinterestPinParams, PinterestPinsParams, PinterestProfileParams, PinterestSearchPinsParams, PinterestTopTrendsParams, PinterestTopicParams, PinterestWebPageParams, RedditCommentsParams, RedditEngagementParams, RedditPostParams, RedditPostsParams, RedditProfileParams, RedditProfileCommentsParams, RedditSearchCommentsParams, RedditSearchPostsParams, RedditSearchProfilesParams, RedditSearchSubredditsParams, RedditSubredditParams, RedditSubredditPostsParams, RedditTranscriptParams, RumbleCommentsParams, RumbleEngagementParams, RumblePostParams, RumblePostsParams, RumbleProfileParams, RumbleSearchPostsParams, RumbleTranscriptParams, SnapchatCommentsParams, SnapchatProfileParams, SnapchatSpotlightParams, SoundCloudArtistParams, SoundCloudTrackParams, SoundCloudTracksParams, SpotifyAlbumParams, SpotifyArtistParams, SpotifyPlaylistParams, SpotifyPlaylistTracksParams, SpotifyPodcastParams, SpotifyPodcastEpisodesParams, SpotifySearchAlbumsParams, SpotifySearchArtistsParams, SpotifySearchPlaylistsParams, SpotifySearchPodcastsParams, SpotifySearchTracksParams, SpotifyTrackParams, TelegramChannelParams, TelegramChannelPostsParams, TelegramPostParams, TelegramSearchChannelsParams, ThreadsCommentsParams, ThreadsPostParams, ThreadsPostsParams, ThreadsProfileParams, ThreadsSearchPostsParams, ThreadsSearchProfilesParams, TikTokAdParams, TikTokCommentParams, TikTokCommentsParams, TikTokDownloadParams, TikTokEffectParams, TikTokEffectPostsParams, TikTokEngagementParams, TikTokFollowersParams, TikTokFollowingParams, TikTokHashtagParams, TikTokHashtagPostsParams, TikTokLikedPostsParams, TikTokLiveParams, TikTokPlacePostsParams, TikTokPlaylistPostsParams, TikTokPlaylistsParams, TikTokPostParams, TikTokPostsParams, TikTokProfileParams, TikTokRepliesParams, TikTokSearchAdsParams, TikTokSearchHashtagsParams, TikTokSearchPostsParams, TikTokSearchProfilesParams, TikTokSearchSoundsParams, TikTokSearchSuggestionsParams, TikTokSearchTopParams, TikTokSoundParams, TikTokSoundPostsParams, TikTokTopAdsParams, TikTokTopPostsParams, TikTokTranscriptParams, TikTokTrendingHashtagsParams, TikTokTrendingPostsParams, TikTokShopProductParams, TikTokShopProductsParams, TikTokShopReviewsParams, TikTokShopSearchProductsParams, TruthSocialPostParams, TruthSocialPostsParams, TruthSocialProfileParams, TwitchProfileParams, TwitchScheduleParams, TwitchTranscriptParams, TwitchVideoParams, TwitchVideosParams, XCommentsParams, XCommunityParams, XCommunityPostsParams, XEngagementParams, XFriendshipParams, XListParams, XListFollowersParams, XPostParams, XPostsParams, XProfileParams, XProfileMentionsParams, XSearchCommunitiesParams, XSearchHashtagsParams, XSearchPostsParams, XSearchProfilesParams, XSpaceParams, XTranscriptParams, YouTubeCommentsParams, YouTubeEngagementParams, YouTubeHashtagPostsParams, YouTubePostParams, YouTubePostsParams, YouTubeProfileParams, YouTubeSearchPostsParams, YouTubeSearchProfilesParams, YouTubeSearchSuggestionsParams, YouTubeTranscriptParams } from "./resources.ts";
 
 /** The product (the CLI's name for it). */
 export const PRODUCT_NAME = "SocialTap";
@@ -883,7 +883,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_groups",
     endpoint: "facebook.search_groups",
     summary: "Groups by topic, place or name",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Facebook groups by, as a web search reads them: a topic, a place, a group's name (gardening, buy and sell houston, \"addicted to gardening\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and an operator that narrows to a page's title, text or link (intitle:, inurl:, intext:, url:) reads as its words. At most 200 characters. Example: gardening" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -951,7 +951,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_posts",
     endpoint: "facebook.search_posts",
     summary: "Public posts and videos by keyword",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Facebook posts by, as a web search reads them: a topic, a product, a brand or a place (coffee roaster, electric vehicle charging, \"nancy grace roman\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and an operator that narrows to a page's title, text or link (intitle:, inurl:, intext:, url:) reads as its words. At most 200 characters. Example: coffee roaster" },
       { name: "media", type: "string", required: false, description: "video: only the videos of Pages and profiles (facebook.com/<name>/videos/…), found the same way, so fill=true gets each video's post record with its views. All posts when omitted. One of: video.", enum: ["video"] },
@@ -973,7 +973,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_profiles",
     endpoint: "facebook.search_profiles",
     summary: "Pages and people by name, niche or place",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Facebook accounts by, as a web search reads them: a Page's or a person's name, a business type and a place (coffee roaster, yoga studio austin, john smith, \"national geographic\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. At most 200 characters. Example: coffee roaster" },
       { name: "account_type", type: "string", required: false, description: "Only accounts of this kind: page (a Page, or a person in professional mode, as Facebook describes both alike) or person. Both when omitted, which finds mostly Pages: use person to find people. One of: page, person. Example: person", enum: ["page", "person"] },
@@ -1953,7 +1953,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_places",
     endpoint: "instagram.search_places",
     summary: "Locations by name, kind of place or city",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Instagram locations by, as a web search reads them: a venue's name, a kind of place and a city, a neighborhood (blue bottle coffee, rooftop bar brooklyn, \"central park\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. At most 200 characters. Example: rooftop bar brooklyn" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -1991,7 +1991,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_profiles",
     endpoint: "instagram.search_profiles",
     summary: "Accounts by keyword, niche or place",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Instagram accounts by, as a web search reads them: a niche, a business type, a place, a name (coffee roaster, yoga studio austin, \"blue bottle\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. At most 200 characters. Example: coffee roaster" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -2010,7 +2010,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_sounds",
     endpoint: "instagram.search_sounds",
     summary: "Songs and original audio by name or artist",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Instagram audio by, as a web search reads them: a song, an artist, a creator, \"original audio\" and a theme (espresso sabrina carpenter, bad bunny, \"original audio\" lofi). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. At most 200 characters. Example: bad bunny" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -2597,7 +2597,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_posts",
     endpoint: "linkedin.search_posts",
     summary: "Public posts by keyword or hashtag",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find LinkedIn posts by, as a web search reads them: a topic, a phrase, a name or a hashtag (supply chain resilience, \"remote work\" burnout, #sustainability). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. At most 200 characters. Example: supply chain resilience" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -2616,7 +2616,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_profiles",
     endpoint: "linkedin.search_profiles",
     summary: "Companies, schools and people by keyword",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find LinkedIn accounts by, as a web search reads them: a company's or a person's name, an industry and a place, a job title and an employer (stripe, coffee roaster seattle, \"bill gates\", software engineer stripe). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint, and intitle:, inurl: and intext: count as plain words. A link to LinkedIn's search of people, companies or schools (linkedin.com/search/results/people/?keywords=…, or the people directory's /pub/dir/<first>/<last>) is read as that search: its keywords, name, title, company and school become the words (its NOT as a leading -) and its tab the account_type. Its location, company, industry and connection filters are LinkedIn IDs a web search can't apply, and are refused. At most 400 characters. Example: coffee roaster" },
       { name: "account_type", type: "string", required: false, description: "Only accounts of this kind: company (a company's Page), school (a school's Page), showcase (a company's page for one brand or product) or member (a person). Every kind when omitted, which finds fewer of each: use it when you know what you are looking for. One of: company, school, showcase, member. Example: company", enum: ["company", "school", "showcase", "member"] },
@@ -3552,7 +3552,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_channels",
     endpoint: "telegram.search_channels",
     summary: "Channels for any topic, niche or name",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find Telegram channels by, as a web search reads them: a topic, a niche, a channel's name (crypto news, golang jobs, \"the block\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: crypto news channel" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4029,7 +4029,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_hashtags",
     endpoint: "tiktok.search_hashtags",
     summary: "Hashtags for a keyword, topic or niche",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find TikTok hashtags by, as a web search reads them: a topic, a niche, a community (cooking, home gym, \"meal prep\"). A leading # is dropped, quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: cooking" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4068,7 +4068,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_profiles",
     endpoint: "tiktok.search_profiles",
     summary: "Accounts by keyword, niche or place",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find TikTok accounts by, as a web search reads them: a niche, a business type, a place, a name (barber, yoga studio austin, \"wine bar\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: barber" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4087,7 +4087,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_sounds",
     endpoint: "tiktok.search_sounds",
     summary: "Sounds and songs by title, artist or keyword",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find TikTok sounds by, as a web search reads them: a song, an artist, a mood (taylor swift, lofi, \"cruel summer\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: taylor swift" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4124,7 +4124,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_top",
     endpoint: "tiktok.search_top",
     summary: "Accounts, videos, hashtags and sounds in one search",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to search TikTok for, as a web search reads them: a topic, a name, a song (cooking, taylor swift, \"wine bar\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: cooking" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4649,7 +4649,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_communities",
     endpoint: "x.search_communities",
     summary: "Communities by topic, niche or name",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find X Communities by, as a web search reads them: a topic, a niche, a community's name (machine learning, build in public, \"indie hackers\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: build in public" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4686,7 +4686,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_posts",
     endpoint: "x.search_posts",
     summary: "Posts by keyword, hashtag or @mention",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find X posts by, as a web search reads them: a topic, a product, a phrase (coffee roaster, \"blue bottle\" review), or one #hashtag or @handle to find posts that show it. Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. X's since: and until: operators are read as the since and until params; its other operators (from:, to:, lang:, min_faves:, min_retweets:, min_replies:, filter:, include:, exclude: and the like) can't be applied to a web search and are refused. At most 200 characters. Example: coffee roaster" },
       { name: "since", type: "string", required: false, description: "Only items at or after this time: RFC 3339 (2026-10-01T12:00:00Z) or a date (2026-10-01, midnight UTC). On newest-first lists, paging stops when it is reached, so later pages are not fetched or charged. By the post's exact time, read from its ID; the search engine is asked for the same dates, so this also finds recent posts the plain ranking leaves out. A date filter narrows a ranking, not an order: results are still by relevance. Example: 2026-10-01" },
@@ -4707,7 +4707,7 @@ export const COMMANDS: readonly Command[] = [
     name: "search_profiles",
     endpoint: "x.search_profiles",
     summary: "Accounts by name, keyword, niche or place",
-    price: "1 credit + 1 per result filled in",
+    price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
       { name: "query", type: "string", required: true, description: "Words to find X accounts by, as a web search reads them: a name, a niche, a business type, a place (sam altman, coffee roaster, yoga studio austin, \"blue bottle\"). Quotes keep a phrase together and a leading - leaves a word out; site: is set by the endpoint. At most 200 characters. Example: coffee roaster" },
       { name: "fill", type: "string", required: false, description: "true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it. Priced per result filled; a result the platform no longer serves stays unfilled and costs nothing more. One of: true, false. Example: true", enum: ["true", "false"] },
@@ -4787,6 +4787,26 @@ export const COMMANDS: readonly Command[] = [
     get: (c, p, o) => c.youtube.engagement.get(p as unknown as YouTubeEngagementParams, o),
   },
   {
+    kind: "list",
+    platform: "youtube",
+    name: "hashtag_posts",
+    endpoint: "youtube.hashtag_posts",
+    summary: "Videos and shorts under a hashtag with exact views",
+    price: "1 credit",
+    params: [
+      { name: "url", type: "string", required: true, description: "A YouTube hashtag link (youtube.com/hashtag/cooking, or its Shorts tab: youtube.com/hashtag/cooking/shorts), or the hashtag itself with or without the # (cooking, #cooking). Hashtags are case-insensitive and may be in any script (#料理). At most 2048 characters. Example: https://www.youtube.com/hashtag/cooking" },
+      { name: "kind", type: "string", required: false, description: "Which tab of the hashtag's page: all (default: its videos, shorts and streams, each with its channel, exact view count, upload time and length) or short (its Shorts tab: a separate list of shorts, each with its title, channel ID and rounded view count). A Shorts tab link sent without kind lists short. One of: all, short. Example: short", enum: ["all", "short"] },
+      { name: "since", type: "string", required: false, description: "Only items at or after this time: RFC 3339 (2026-10-01T12:00:00Z) or a date (2026-10-01, midnight UTC). On newest-first lists, paging stops when it is reached, so later pages are not fetched or charged. The videos come in YouTube's order for the hashtag, not by time, so since and until filter each page by published_at (from YouTube's relative upload label, to the day beyond a day old). Not with kind=short: the Shorts tab shows no upload time. Example: 2026-10-01" },
+      { name: "until", type: "string", required: false, description: "Only items before this time (exclusive): RFC 3339 or a date (midnight UTC). Example: 2026-10-08" },
+      { name: "max_age", type: "integer", required: false, description: "Accept a cached response up to this many seconds old. Cache hits cost 0 credits. Omit to always fetch fresh. The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0." },
+      { name: "fields", type: "string", required: false, description: "Return only these fields of each item: comma-separated paths in the schema's notation (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always returned whole." },
+      { name: "limit", type: "integer", required: false, description: "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it: every page costs the same, so a smaller limit means more pages to pay for. Range: 1 to 36. Default: 36." },
+      { name: "cursor", type: "string", required: false, description: "page.next_cursor from the previous response. Send the same other parameters; omit to start from the first page." },
+    ],
+    list: (c, p, o) => c.youtube.hashtagPosts.list(p as unknown as YouTubeHashtagPostsParams, o),
+    iterate: (c, p, o) => c.youtube.hashtagPosts.iterate(p as unknown as YouTubeHashtagPostsParams, o),
+  },
+  {
     kind: "get",
     platform: "youtube",
     name: "post",
@@ -4834,6 +4854,65 @@ export const COMMANDS: readonly Command[] = [
       { name: "fields", type: "string", required: false, description: "Return only these fields of each item: comma-separated paths in the schema's notation (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always returned whole." },
     ],
     get: (c, p, o) => c.youtube.profile.get(p as unknown as YouTubeProfileParams, o),
+  },
+  {
+    kind: "list",
+    platform: "youtube",
+    name: "search_posts",
+    endpoint: "youtube.search_posts",
+    summary: "Videos, shorts and live streams by keyword",
+    price: "1 credit",
+    params: [
+      { name: "query", type: "string", required: true, description: "Words or a phrase, matched by YouTube's search as on youtube.com, in any language. YouTube's operators pass through: \"exact phrase\", intitle:word, -word, #hashtag. At most 500 characters. Example: marathon training" },
+      { name: "kind", type: "string", required: false, description: "Which results: all (default: the videos, streams and shorts in YouTube's result list, without its shelves), video (YouTube's Videos filter), short (its Shorts filter, each with its channel, upload time and length) or live (streams on air now). platform_type says which each result is. One of: all, video, short, live. Default: all. Example: short", enum: ["all", "video", "short", "live"] },
+      { name: "duration", type: "string", required: false, description: "Only videos of a length: short (under 3 minutes), medium (3 to 20 minutes) or long (over 20 minutes), by YouTube's Duration filter. Lists videos only (no shorts or streams), so not with kind short or live. One of: short, medium, long. Example: long", enum: ["short", "medium", "long"] },
+      { name: "author", type: "string", required: false, description: "Only this channel's videos, as its Search tab finds them: a handle (@MrBeast), any channel link or a UC… channel ID. Its results come in YouTube's order for the channel, so not with kind, duration or sort=popular. All of YouTube when omitted. At most 512 characters. Example: @NASA" },
+      { name: "sort", type: "string", required: false, description: "Order of the results. relevance (default): YouTube's best match. popular: YouTube's Popularity ranking, roughly most viewed first. One of: relevance, popular. Default: relevance.", enum: ["relevance", "popular"] },
+      { name: "since", type: "string", required: false, description: "Only items at or after this time: RFC 3339 (2026-10-01T12:00:00Z) or a date (2026-10-01, midnight UTC). On newest-first lists, paging stops when it is reached, so later pages are not fetched or charged. Results are ranked, not ordered by time, so since and until filter each page by published_at, which comes from YouTube's relative upload label (\"1 month ago\") and can be up to one label unit later than the upload: a result whose label could fall inside the window is kept, so results up to one label unit older may be included. Send a date. YouTube's own Upload date filter (this week, month or year) is applied when it covers since, so fewer pages are fetched. Example: 2026-10-01" },
+      { name: "until", type: "string", required: false, description: "Only items before this time (exclusive): RFC 3339 or a date (midnight UTC). Example: 2026-10-08" },
+      { name: "max_age", type: "integer", required: false, description: "Accept a cached response up to this many seconds old. Cache hits cost 0 credits. Omit to always fetch fresh. The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0." },
+      { name: "fields", type: "string", required: false, description: "Return only these fields of each item: comma-separated paths in the schema's notation (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always returned whole." },
+      { name: "limit", type: "integer", required: false, description: "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it: every page costs the same, so a smaller limit means more pages to pay for. Range: 1 to 30. Default: 30." },
+      { name: "cursor", type: "string", required: false, description: "page.next_cursor from the previous response. Send the same other parameters; omit to start from the first page." },
+    ],
+    list: (c, p, o) => c.youtube.searchPosts.list(p as unknown as YouTubeSearchPostsParams, o),
+    iterate: (c, p, o) => c.youtube.searchPosts.iterate(p as unknown as YouTubeSearchPostsParams, o),
+  },
+  {
+    kind: "list",
+    platform: "youtube",
+    name: "search_profiles",
+    endpoint: "youtube.search_profiles",
+    summary: "Channels by keyword, with subscribers and handles",
+    price: "1 credit",
+    params: [
+      { name: "query", type: "string", required: true, description: "Words, a name or a handle, matched by YouTube's channel search as on youtube.com, in any language: a channel's name, its handle (@mrbeast) and the words in its description. At most 500 characters. Example: marathon" },
+      { name: "max_age", type: "integer", required: false, description: "Accept a cached response up to this many seconds old. Cache hits cost 0 credits. Omit to always fetch fresh. The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0." },
+      { name: "fields", type: "string", required: false, description: "Return only these fields of each item: comma-separated paths in the schema's notation (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always returned whole." },
+      { name: "limit", type: "integer", required: false, description: "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it: every page costs the same, so a smaller limit means more pages to pay for. Range: 1 to 20. Default: 20." },
+      { name: "cursor", type: "string", required: false, description: "page.next_cursor from the previous response. Send the same other parameters; omit to start from the first page." },
+    ],
+    list: (c, p, o) => c.youtube.searchProfiles.list(p as unknown as YouTubeSearchProfilesParams, o),
+    iterate: (c, p, o) => c.youtube.searchProfiles.iterate(p as unknown as YouTubeSearchProfilesParams, o),
+  },
+  {
+    kind: "list",
+    platform: "youtube",
+    name: "search_suggestions",
+    endpoint: "youtube.search_suggestions",
+    summary: "Search box autocomplete for a partial query",
+    price: "1 credit",
+    params: [
+      { name: "query", type: "string", required: true, description: "The start of a search, as typed into YouTube's search box: a word, part of a word, a channel's name or @handle, in any language (marathon tr, mrbea, 料理). Up to 100 characters, YouTube's own limit, where an emoji counts as two. At most 100 characters. Example: marathon tr" },
+      { name: "lang", type: "string", required: false, description: "Preferred language: a BCP-47 tag such as en or pt-BR (case-insensitive; _ is read as -). The language of the search box: YouTube completes in it where it can and writes entity descriptions in it. A BCP-47 tag such as en, ja or pt-BR (case-insensitive). Default: en. Default: en. Example: en" },
+      { name: "country", type: "string", required: false, description: "Region: an ISO 3166-1 alpha-2 country code such as US or BR (case-insensitive). The country whose searches to complete with: an ISO 3166-1 alpha-2 code such as US, GB or JP (case-insensitive). A country YouTube keeps no list of its own for gets its worldwide list, the US one. Default: US. Default: US. Example: US" },
+      { name: "max_age", type: "integer", required: false, description: "Accept a cached response up to this many seconds old. Cache hits cost 0 credits. Omit to always fetch fresh. The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0." },
+      { name: "fields", type: "string", required: false, description: "Return only these fields of each item: comma-separated paths in the schema's notation (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always returned whole." },
+      { name: "limit", type: "integer", required: false, description: "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it: every page costs the same, so a smaller limit means more pages to pay for. Range: 1 to 14. Default: 14." },
+      { name: "cursor", type: "string", required: false, description: "page.next_cursor from the previous response. Send the same other parameters; omit to start from the first page." },
+    ],
+    list: (c, p, o) => c.youtube.searchSuggestions.list(p as unknown as YouTubeSearchSuggestionsParams, o),
+    iterate: (c, p, o) => c.youtube.searchSuggestions.iterate(p as unknown as YouTubeSearchSuggestionsParams, o),
   },
   {
     kind: "get",

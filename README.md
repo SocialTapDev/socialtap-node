@@ -5,7 +5,7 @@
 SocialTap is the social media scraper API for developers and AI agents. Send a public link, a handle or a search and get live data back in one schema. Failed requests are free.
 
 The TypeScript SDK for the SocialTap API: a method for every endpoint, typed models and errors, retries and pagination.
-Generated from the SocialTap catalog (version 1.585.34). Docs: https://socialtap.dev/docs. Source: https://github.com/SocialTapDev/socialtap-node.
+Generated from the SocialTap catalog (version 1.597.37). Docs: https://socialtap.dev/docs/. Source: https://github.com/SocialTapDev/socialtap-node.
 
 ## Install
 
@@ -30,7 +30,9 @@ members this version doesn't model included. `Event` is a union narrowed by `typ
 The client reads your API key from `SOCIALTAP_API_KEY`, or takes it as an option. Requests send it in the
 `x-api-key` header. Get a key at https://socialtap.dev/signup/: every account starts with 100 free credits.
 
-## First call: Exact follower and like counts, bio and country
+## First call
+
+TikTok Profile API (`tiktok.profile`). Exact follower and like counts, bio and country.
 
 ```ts
 import { SocialTap } from "socialtap";
@@ -143,11 +145,11 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `facebook.search_ads` | `client.facebook.searchAds.list()` | 1 credit |
 | `facebook.search_advertisers` | `client.facebook.searchAdvertisers.list()` | 1 credit |
 | `facebook.search_events` | `client.facebook.searchEvents.list()` | 1 credit |
-| `facebook.search_groups` | `client.facebook.searchGroups.list()` | 1 credit + 1 per result filled in |
+| `facebook.search_groups` | `client.facebook.searchGroups.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `facebook.search_listings` | `client.facebook.searchListings.list()` | 1 credit |
 | `facebook.search_places` | `client.facebook.searchPlaces.list()` | 1 credit |
-| `facebook.search_posts` | `client.facebook.searchPosts.list()` | 1 credit + 1 per result filled in |
-| `facebook.search_profiles` | `client.facebook.searchProfiles.list()` | 1 credit + 1 per result filled in |
+| `facebook.search_posts` | `client.facebook.searchPosts.list()` | 1 credit + 1 per result filled in (with fill=true) |
+| `facebook.search_profiles` | `client.facebook.searchProfiles.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `facebook.transcript` | `client.facebook.transcript.get()` | 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true) |
 | `github.activity` | `client.github.activity.list()` | 1 credit |
 | `github.contributions` | `client.github.contributions.get()` | 1 credit |
@@ -202,10 +204,10 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `instagram.profile` | `client.instagram.profile.get()` | 1 credit |
 | `instagram.reels` | `client.instagram.reels.list()` | 1 credit |
 | `instagram.search_hashtags` | `client.instagram.searchHashtags.list()` | 1 credit |
-| `instagram.search_places` | `client.instagram.searchPlaces.list()` | 1 credit + 1 per result filled in |
+| `instagram.search_places` | `client.instagram.searchPlaces.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `instagram.search_posts` | `client.instagram.searchPosts.list()` | 1 credit |
-| `instagram.search_profiles` | `client.instagram.searchProfiles.list()` | 1 credit + 1 per result filled in |
-| `instagram.search_sounds` | `client.instagram.searchSounds.list()` | 1 credit + 1 per result filled in |
+| `instagram.search_profiles` | `client.instagram.searchProfiles.list()` | 1 credit + 1 per result filled in (with fill=true) |
+| `instagram.search_sounds` | `client.instagram.searchSounds.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `instagram.search_suggestions` | `client.instagram.searchSuggestions.list()` | 1 credit |
 | `instagram.similar_profiles` | `client.instagram.similarProfiles.list()` | 1 credit |
 | `instagram.sound` | `client.instagram.sound.get()` | 1 credit |
@@ -240,8 +242,8 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `linkedin.profile_groups` | `client.linkedin.profileGroups.list()` | 5 credits |
 | `linkedin.search_ads` | `client.linkedin.searchAds.list()` | 1 credit |
 | `linkedin.search_jobs` | `client.linkedin.searchJobs.list()` | 1 credit |
-| `linkedin.search_posts` | `client.linkedin.searchPosts.list()` | 1 credit + 1 per result filled in |
-| `linkedin.search_profiles` | `client.linkedin.searchProfiles.list()` | 1 credit + 1 per result filled in |
+| `linkedin.search_posts` | `client.linkedin.searchPosts.list()` | 1 credit + 1 per result filled in (with fill=true) |
+| `linkedin.search_profiles` | `client.linkedin.searchProfiles.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `linkedin.transcript` | `client.linkedin.transcript.get()` | 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true) |
 | `linkme.profile` | `client.linkme.profile.get()` | 1 credit |
 | `linktree.profile` | `client.linktree.profile.get()` | 1 credit |
@@ -297,7 +299,7 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `telegram.channel` | `client.telegram.channel.get()` | 1 credit |
 | `telegram.channel_posts` | `client.telegram.channelPosts.list()` | 1 credit |
 | `telegram.post` | `client.telegram.post.get()` | 1 credit |
-| `telegram.search_channels` | `client.telegram.searchChannels.list()` | 1 credit + 1 per result filled in |
+| `telegram.search_channels` | `client.telegram.searchChannels.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `threads.comments` | `client.threads.comments.list()` | 1 credit |
 | `threads.post` | `client.threads.post.get()` | 1 credit |
 | `threads.posts` | `client.threads.posts.list()` | 1 credit |
@@ -325,12 +327,12 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `tiktok.profile` | `client.tiktok.profile.get()` | 1 credit |
 | `tiktok.replies` | `client.tiktok.replies.list()` | 1 credit |
 | `tiktok.search_ads` | `client.tiktok.searchAds.list()` | 1 credit |
-| `tiktok.search_hashtags` | `client.tiktok.searchHashtags.list()` | 1 credit + 1 per result filled in |
+| `tiktok.search_hashtags` | `client.tiktok.searchHashtags.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `tiktok.search_posts` | `client.tiktok.searchPosts.list()` | 1 credit |
-| `tiktok.search_profiles` | `client.tiktok.searchProfiles.list()` | 1 credit + 1 per result filled in |
-| `tiktok.search_sounds` | `client.tiktok.searchSounds.list()` | 1 credit + 1 per result filled in |
+| `tiktok.search_profiles` | `client.tiktok.searchProfiles.list()` | 1 credit + 1 per result filled in (with fill=true) |
+| `tiktok.search_sounds` | `client.tiktok.searchSounds.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `tiktok.search_suggestions` | `client.tiktok.searchSuggestions.list()` | 1 credit |
-| `tiktok.search_top` | `client.tiktok.searchTop.list()` | 1 credit + 1 per result filled in |
+| `tiktok.search_top` | `client.tiktok.searchTop.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `tiktok.sound` | `client.tiktok.sound.get()` | 1 credit |
 | `tiktok.sound_posts` | `client.tiktok.soundPosts.list()` | 1 credit |
 | `tiktok.top_ads` | `client.tiktok.topAds.list()` | 1 credit |
@@ -361,17 +363,21 @@ Every result also carries the envelope `meta` (request ID, source, cache status,
 | `x.posts` | `client.x.posts.list()` | 1 credit |
 | `x.profile` | `client.x.profile.get()` | 1 credit |
 | `x.profile_mentions` | `client.x.profileMentions.list()` | 1 credit |
-| `x.search_communities` | `client.x.searchCommunities.list()` | 1 credit + 1 per result filled in |
+| `x.search_communities` | `client.x.searchCommunities.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `x.search_hashtags` | `client.x.searchHashtags.list()` | 1 credit |
-| `x.search_posts` | `client.x.searchPosts.list()` | 1 credit + 1 per result filled in |
-| `x.search_profiles` | `client.x.searchProfiles.list()` | 1 credit + 1 per result filled in |
+| `x.search_posts` | `client.x.searchPosts.list()` | 1 credit + 1 per result filled in (with fill=true) |
+| `x.search_profiles` | `client.x.searchProfiles.list()` | 1 credit + 1 per result filled in (with fill=true) |
 | `x.space` | `client.x.space.get()` | 1 credit |
 | `x.transcript` | `client.x.transcript.get()` | 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true) |
 | `youtube.comments` | `client.youtube.comments.list()` | 1 credit |
 | `youtube.engagement` | `client.youtube.engagement.get()` | 1 credit |
+| `youtube.hashtag_posts` | `client.youtube.hashtagPosts.list()` | 1 credit |
 | `youtube.post` | `client.youtube.post.get()` | 1 credit |
 | `youtube.posts` | `client.youtube.posts.list()` | 1 credit |
 | `youtube.profile` | `client.youtube.profile.get()` | 1 credit |
+| `youtube.search_posts` | `client.youtube.searchPosts.list()` | 1 credit |
+| `youtube.search_profiles` | `client.youtube.searchProfiles.list()` | 1 credit |
+| `youtube.search_suggestions` | `client.youtube.searchSuggestions.list()` | 1 credit |
 | `youtube.transcript` | `client.youtube.transcript.get()` | 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true) |
 
 ### Endpoints newer than this package
@@ -548,7 +554,7 @@ const { text } = await generateText({ model, tools: socialtapTools(), stopWhen: 
 // Any other tool-calling API: hand TOOLS (name, description, inputSchema) to the model, run its calls with callTool.
 import { SocialTap, TOOLS, callTool } from "socialtap";
 
-const r = await callTool(new SocialTap(), "find_endpoint", { query: "Exact follower and like counts, bio and country" });
+const r = await callTool(new SocialTap(), "find_endpoint", { query: "TikTok profile" });
 console.log(r.isError, r.output);
 ```
 
@@ -673,14 +679,18 @@ line), the agent tools, and `init`, which sets up coding agents.
 ```sh
 npx socialtap tiktok profile --handle nasa
 npx socialtap endpoints          # every command, its params and price
-npx socialtap tool find_endpoint '{"query":"Exact follower and like counts, bio and country"}'
+npx socialtap tool find_endpoint '{"query":"TikTok profile"}'
 npx socialtap init               # Claude Code, Codex, Cursor, Gemini CLI: the Agent Skill + the MCP server
 ```
 
+`find_endpoint`, `search_docs` and `read_doc` need no API key. Every other command and tool takes your key from `--api-key` or `SOCIALTAP_API_KEY`.
+
 `init` installs the Agent Skill the site publishes (its discovery index, digest checked) into each agent's user
-skills directory and registers the MCP server with your key (`--api-key`, or `SOCIALTAP_API_KEY`) in each agent's own user
-config: Claude Code through `claude mcp add-json`, Codex's `config.toml`, Cursor's `mcp.json`, Gemini CLI's
-`settings.json`. It sets up every agent it finds (`--agent <id>` to choose) and is safe to run again.
+skills directory and registers the MCP server in each agent's own user config: Claude Code through
+`claude mcp add-json`, Codex's `config.toml`, Cursor's `mcp.json`, Gemini CLI's `settings.json`. Each agent signs
+you in with your browser the first time a tool needs a key. `--api-key` stores your key in the agent's config
+instead (plain text, readable only by you). `SOCIALTAP_API_KEY` does too, except for Claude Code in a terminal, which
+signs you in with your browser. It sets up every agent it finds (`--agent <id>` to choose) and is safe to run again.
 
 ## Versioning
 

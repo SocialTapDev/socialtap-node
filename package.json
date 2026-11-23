@@ -1,9 +1,9 @@
 {
   "name": "socialtap",
-  "version": "1.585.34",
+  "version": "1.597.37",
   "description": "SocialTap API client: Social media scraper API. Live data from any public link.",
   "license": "MIT",
-  "homepage": "https://socialtap.dev/docs",
+  "homepage": "https://socialtap.dev/docs/",
   "bugs": { "email": "support@socialtap.dev" },
   "repository": { "type": "git", "url": "git+https://github.com/SocialTapDev/socialtap.git" },
   "keywords": ["socialtap", "social media", "api", "sdk", "transcripts", "scraping", "mcp", "ai", "agents", "cli"],

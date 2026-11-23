@@ -11,10 +11,10 @@ import { parseArgs } from "node:util";
 import { AGENTS, type Agent, type AgentId, claudeHoldsKey, fetchSkills, type McpServer, runProgram, type SetupEnv, writeSkills } from "./agents.ts";
 import { SocialTap } from "./client.ts";
 import { AGENTS_DOCS_URL, COMMANDS, type Command, type CommandParam, MCP_SERVER_NAME, PRODUCT_NAME, SKILLS_INDEX_PATH } from "./commands.ts";
-import { API_KEY_ENV, DEFAULT_BASE_URL, SIGNUP_URL, VERSION } from "./constants.ts";
-import type { ClientOptions } from "./core.ts";
+import { API_KEY_ENV, CLI_CLIENT_NAME, DEFAULT_BASE_URL, SIGNUP_URL, VERSION } from "./constants.ts";
+import { type ClientOptions, keylessClient } from "./core.ts";
 import { APIError } from "./error.ts";
-import { MCP_PATH, TOOLS } from "./tooldefs.ts";
+import { KEYLESS_TOOLS, MCP_PATH, TOOLS } from "./tooldefs.ts";
 import { callTool, findTool, type ToolDefinition } from "./tools.ts";
 
 /** Where the CLI reads and writes: replaced in tests. */
@@ -138,6 +138,7 @@ function usage(): string {
     "  socialtap skill                                         print the Agent Skill (SKILL.md)",
     "",
     `Options: --api-key <key> (default: $${API_KEY_ENV}), --base-url <url> (default: ${DEFAULT_BASE_URL}), --help.`,
+    ...(KEYLESS_TOOLS.length ? [`The tools ${andList(KEYLESS_TOOLS)} need no API key.`] : []),
     `Platforms: ${platforms.join(", ")}. \`socialtap <platform>\` lists its endpoints, \`socialtap <platform> <endpoint> --help\` its params.`,
     "Flags and endpoint names take kebab-case or snake_case: --max-age or --max_age, search-posts or search_posts.",
   ].join("\n");
@@ -162,12 +163,23 @@ function commandHelp(c: Command): string {
   return lines.join("\n");
 }
 
-function client(values: { "api-key"?: string; "base-url"?: string }, io: IO): SocialTap {
+/**
+ * The client for a command: with the key given or in the environment, or without one when `keyless` (KEYLESS_TOOLS).
+ * It names itself the CLI (CLI_CLIENT_NAME), not the SDK it is built on.
+ */
+function client(values: { "api-key"?: string; "base-url"?: string }, io: IO, keyless = false): SocialTap {
   const apiKey = values["api-key"] ?? io.env[API_KEY_ENV];
-  if (!apiKey) throw new Error(`missing API key: pass --api-key <key> or set ${API_KEY_ENV}${SIGNUP_URL ? `. Get one at ${SIGNUP_URL}` : ""}`);
-  const options: ClientOptions = { apiKey, fetch: io.fetch };
+  const options: ClientOptions = { apiKey: apiKey ?? "", fetch: io.fetch };
   if (values["base-url"]) options.baseURL = values["base-url"];
-  return new SocialTap(options);
+  if (!apiKey && !keyless) throw new Error(`missing API key: pass --api-key <key> or set ${API_KEY_ENV}${SIGNUP_URL ? `. Get one at ${SIGNUP_URL}` : ""}`);
+  const c = apiKey ? new SocialTap(options) : keylessClient(() => new SocialTap(options));
+  c._client = CLI_CLIENT_NAME;
+  return c;
+}
+
+/** Names in prose: "a", "a and b", "a, b and c". */
+function andList(names: readonly string[]): string {
+  return names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 }
 
 // ---- endpoints ----
@@ -261,7 +273,7 @@ async function tool(rest: readonly string[], io: IO): Promise<number> {
   })();
   const [name, json] = positionals;
   if (name === undefined) {
-    io.out(TOOLS.map((t) => `${t.name}: ${t.title}`).join("\n") || "this API has no MCP server");
+    io.out(TOOLS.map((t) => `${t.name}: ${t.title}${keylessTool(t.name) ? " (no API key needed)" : ""}`).join("\n") || "this API has no MCP server");
     return 0;
   }
   const def = findTool(name);
@@ -280,9 +292,14 @@ async function tool(rest: readonly string[], io: IO): Promise<number> {
     }
     if (args === null || typeof args !== "object" || Array.isArray(args)) throw new UsageError("tool arguments must be a JSON object");
   }
-  const r = await callTool(client(values, io), name, args);
+  const r = await callTool(client(values, io, keylessTool(name)), name, args);
   (r.isError ? io.err : io.out)(typeof r.output === "string" ? r.output : JSON.stringify(r.output, null, 2));
   return r.isError ? 1 : 0;
+}
+
+/** Whether the server answers the tool without an API key. */
+function keylessTool(name: string): boolean {
+  return (KEYLESS_TOOLS as readonly string[]).includes(name);
 }
 
 /** The names of a tool's required arguments. */
@@ -295,7 +312,7 @@ function required(def: ToolDefinition): string[] {
 function toolHelp(def: ToolDefinition): string {
   const props = (def.inputSchema.properties ?? {}) as Record<string, { type?: unknown; enum?: unknown; description?: unknown }>;
   const req = required(def);
-  const lines = [`socialtap tool ${def.name} '<json arguments>': ${def.title}`, "", def.description, "", "Arguments:"];
+  const lines = [`socialtap tool ${def.name} '<json arguments>': ${def.title}`, "", def.description, ...(keylessTool(def.name) ? ["No API key needed."] : []), "", "Arguments:"];
   for (const [arg, s] of Object.entries(props)) {
     const type = Array.isArray(s.enum) ? s.enum.join("|") : typeof s.type === "string" ? s.type : "value";
     lines.push(`  ${arg} <${type}>${req.includes(arg) ? " (required)" : ""}`);

@@ -57,7 +57,7 @@ export async function callTool(client: Core, name: string, args: Record<string, 
       arguments: args,
       _meta: {
         "io.modelcontextprotocol/protocolVersion": MCP_PROTOCOL_VERSION,
-        "io.modelcontextprotocol/clientInfo": { name: "socialtap-typescript", version: VERSION },
+        "io.modelcontextprotocol/clientInfo": { name: client._client, version: VERSION },
         "io.modelcontextprotocol/clientCapabilities": {},
       },
     },

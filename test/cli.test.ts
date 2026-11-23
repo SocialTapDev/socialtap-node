@@ -129,8 +129,9 @@ test("init installs the site's skill and registers the MCP server in every agent
   if (SKILLS_INDEX_PATH === null || MCP_PATH === null) return;
   const home = await mkdtemp(join(tmpdir(), "socialtap-init-"));
   t.after(() => rm(home, { recursive: true, force: true }));
-  for (const d of [".claude", ".codex", ".cursor", ".gemini"]) await mkdir(join(home, d));
+  for (const d of [".claude", ".codex", ".cursor", ".grok", ".gemini"]) await mkdir(join(home, d));
   await writeFile(join(home, ".codex", "config.toml"), 'model = "o"\n');
+  await writeFile(join(home, ".grok", "config.toml"), '[ui]\ntheme = "dark"\n');
   await writeFile(join(home, ".cursor", "mcp.json"), JSON.stringify({ mcpServers: { other: { url: "https://o" } } }));
   await writeFile(join(home, ".gemini", "settings.json"), JSON.stringify({ theme: "dark" }));
 
@@ -144,7 +145,7 @@ test("init installs the site's skill and registers the MCP server in every agent
   const r = await run(["init", "--api-key", "st_live_key", "--base-url", mock.url], { home });
   assert.equal(r.code, 0, r.out + r.err);
   assert.equal(mock.requests[0]!.path, SKILLS_INDEX_PATH);
-  for (const dir of [".claude/skills", ".agents/skills"]) assert.equal(await readFile(join(home, dir, "socialtap", "SKILL.md"), "utf8"), skill);
+  for (const dir of [".claude/skills", ".agents/skills", ".grok/skills"]) assert.equal(await readFile(join(home, dir, "socialtap", "SKILL.md"), "utf8"), skill);
 
   const url = mock.url + MCP_PATH;
   const add = r.calls.find((c) => c[0] === "claude" && c[2] === "add-json")!;
@@ -155,6 +156,9 @@ test("init installs the site's skill and registers the MCP server in every agent
   assert.ok(toml.includes(`[mcp_servers.${MCP_SERVER_NAME}]\nurl = "${url}"\nhttp_headers = { "Authorization" = "Bearer st_live_key" }\n`));
   const cursor = JSON.parse(await readFile(join(home, ".cursor", "mcp.json"), "utf8"));
   assert.deepEqual(cursor.mcpServers, { other: { url: "https://o" }, [MCP_SERVER_NAME]: { url, headers: { Authorization: "Bearer st_live_key" } } });
+  const grok = await readFile(join(home, ".grok", "config.toml"), "utf8");
+  assert.ok(grok.startsWith('[ui]\ntheme = "dark"\n'));
+  assert.ok(grok.includes(`[mcp_servers.${MCP_SERVER_NAME}]\nurl = "${url}"\nheaders = { "Authorization" = "Bearer st_live_key" }\n`));
   const gemini = JSON.parse(await readFile(join(home, ".gemini", "settings.json"), "utf8"));
   assert.deepEqual(gemini, { theme: "dark", mcpServers: { [MCP_SERVER_NAME]: { httpUrl: url, headers: { Authorization: "Bearer st_live_key" } } } });
 

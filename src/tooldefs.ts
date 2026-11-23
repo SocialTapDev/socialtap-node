@@ -123,7 +123,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -178,7 +178,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "tab": {
-          "description": "Only on Bluesky, Rumble or YouTube. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on Bluesky, Rumble or YouTube. Bluesky: Which of the profile's tabs to list: posts (default): its posts, its own threads and its reposts, without its replies to others; replies: those too… Rumble: The tab to list: videos (default), shorts or live (Rumble's Livestreams tab: streams on air now, scheduled ones and past ones). YouTube: The channel tab to list: videos (default), shorts or live (upcoming, live and past streams).",
           "enum": [
             "posts",
             "replies",
@@ -199,7 +199,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "media": {
-          "description": "Only on LinkedIn or X. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on LinkedIn or X. LinkedIn: Only posts of one kind: image (a photo or a gallery), video (a native video) or article (LinkedIn articles: a member's Articles section when their… X: Only the account's own posts (no reposts) with media: any (a photo, video or GIF), image (one or more photos) or video (a video or GIF).",
           "enum": [
             "image",
             "video",
@@ -228,14 +228,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -314,7 +314,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -402,14 +402,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 1000,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, post_id, url, edited_at, is_edited, is_liked_by_author and is_by_post_author; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -463,11 +463,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "transcribe_audio": {
           "description": "true transcribes the audio with speech-to-text when the platform has no captions, at the endpoint's speech-to-text price (without it, captions only).",
-          "enum": [
-            "true",
-            "false"
-          ],
-          "type": "string"
+          "type": "boolean"
         },
         "lang": {
           "description": "Only on Kick, Reddit, Rumble, TikTok, Twitch, X or YouTube. Preferred language: a BCP-47 tag such as en or pt-BR (case-insensitive; _ is read as -).",
@@ -475,7 +471,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without segments and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -526,7 +522,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "tab": {
-          "description": "Only on Rumble or YouTube. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on Rumble or YouTube. Rumble: The uploads the figures cover: videos (default: the Videos tab), shorts, or live (Rumble's Livestreams tab: past streams, with the one on air and… YouTube: The uploads the figures cover: the channel's latest videos (default) or its latest shorts.",
           "enum": [
             "videos",
             "shorts",
@@ -536,7 +532,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without bottom_post_id and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -563,7 +559,7 @@ export const TOOLS: readonly ToolDefinition[] = [
   {
     name: "search",
     title: "Search by query",
-    description: "Search a platform by query for ads, advertisers, albums, channels, comments, communities, events, groups, hashtags, issues, jobs, places, playlists, podcasts, posts, products, profiles, repositories, sounds, suggestions or top. Pass platform, type and query. Types by platform: amazon: products; applemusic: albums, profiles, playlists, posts; bluesky: posts; facebook: ads, advertisers, events, groups, products, places, posts, profiles; github: issues, profiles, repositories; google: ads, profiles, suggestions; hackernews: comments, posts; instagram: hashtags, places, posts, profiles, sounds, suggestions; linkedin: ads, jobs, posts, profiles; pinterest: posts; reddit: comments, posts, profiles, communities; rumble: posts; spotify: albums, profiles, playlists, podcasts, posts; telegram: channels; threads: posts, profiles; tiktok: ads, hashtags, posts, profiles, sounds, suggestions, top; tiktokshop: products; x: communities, hashtags, posts, profiles. Price per successful page: Amazon, Apple Music, Bluesky, GitHub, Google, Hacker News, Instagram, Pinterest, Reddit, Rumble, Spotify, Threads, TikTok Shop: 1 credit. Facebook, LinkedIn, Telegram, TikTok, X: 1 credit + 1 per result filled in. Follow next_cursor while it is set; a short page is not the end.",
+    description: "Search a platform by query for ads, advertisers, albums, channels, comments, communities, events, groups, hashtags, issues, jobs, places, playlists, podcasts, posts, products, profiles, repositories, sounds, suggestions or top. Pass platform, type and query. Types by platform: amazon: products; applemusic: albums, profiles, playlists, posts; bluesky: posts; facebook: ads, advertisers, events, groups, products, places, posts, profiles; github: issues, profiles, repositories; google: ads, profiles, suggestions; hackernews: comments, posts; instagram: hashtags, places, posts, profiles, sounds, suggestions; linkedin: ads, jobs, posts, profiles; pinterest: posts; reddit: comments, posts, profiles, communities; rumble: posts; spotify: albums, profiles, playlists, podcasts, posts; telegram: channels; threads: posts, profiles; tiktok: ads, hashtags, posts, profiles, sounds, suggestions, top; tiktokshop: products; x: communities, hashtags, posts, profiles; youtube: posts, profiles, suggestions. Price per successful page: Amazon, Apple Music, Bluesky, GitHub, Google, Hacker News, Instagram, Pinterest, Reddit, Rumble, Spotify, Threads, TikTok Shop, YouTube: 1 credit. Facebook, LinkedIn, Telegram, TikTok, X: 1 credit + 1 per result filled in (with fill=true). Follow next_cursor while it is set; a short page is not the end.",
     inputSchema: {
       "type": "object",
       "properties": {
@@ -587,7 +583,8 @@ export const TOOLS: readonly ToolDefinition[] = [
             "threads",
             "tiktok",
             "tiktokshop",
-            "x"
+            "x",
+            "youtube"
           ],
           "type": "string"
         },
@@ -644,11 +641,11 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "lang": {
-          "description": "Only for Apple Music (every type), Bluesky posts, Facebook ads, Spotify (every type). Preferred language: a BCP-47 tag such as en or pt-BR (case-insensitive; _ is read as -).",
+          "description": "Only for Apple Music (every type), Bluesky posts, Facebook ads, Spotify (every type), YouTube suggestions. Preferred language: a BCP-47 tag such as en or pt-BR (case-insensitive; _ is read as -).",
           "type": "string"
         },
         "kind": {
-          "description": "Only for Apple Music playlists or posts, GitHub issues, Hacker News posts, Spotify profiles or posts. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Apple Music playlists or posts, GitHub issues, Hacker News posts, Spotify profiles or posts, YouTube posts. Apple Music playlists: What to list: playlists (the default) or radio stations. Apple Music posts: What to list: songs (the default), music videos or radio episodes. GitHub issues: Which kind of item: all (the default: issues and pull requests together), issue or pull_request. Hacker News posts: Which stories: all (default: stories, jobs and polls), story (every story but jobs and polls: links, Ask HN, Show HN and Launch HN), ask_hn (Ask HN… Spotify profiles: Whose accounts: artist (default), or listener, the people, brands and labels whose accounts own playlists. Spotify posts: What to list: tracks (the default) or podcast episodes. YouTube posts: Which results: all (default: the videos, streams and shorts in YouTube's result list, without its shelves), video (YouTube's Videos filter), short…",
           "enum": [
             "playlist",
             "station",
@@ -667,13 +664,16 @@ export const TOOLS: readonly ToolDefinition[] = [
             "artist",
             "listener",
             "track",
-            "episode"
+            "episode",
+            "video",
+            "short",
+            "live"
           ],
           "type": "string"
         },
         "author": {
-          "description": "Only for Bluesky posts, Hacker News (every type). Differs by platform: find_endpoint gives each endpoint's.",
-          "maxLength": 300,
+          "description": "Only for Bluesky posts, Hacker News (every type), YouTube posts. Bluesky posts: Only posts by this account: a handle, a DID or a profile link. Hacker News comments: Only comments written by this user: a username (case-sensitive, as on Hacker News) or a profile link. Hacker News posts: Only stories posted by this user: a username (case-sensitive, as on Hacker News) or a profile link. YouTube posts: Only this channel's videos, as its Search tab finds them: a handle (@MrBeast), any channel link or a UC… channel ID.",
+          "maxLength": 512,
           "type": "string"
         },
         "mentions": {
@@ -714,26 +714,22 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "location": {
-          "description": "Only for Facebook events or products, LinkedIn jobs. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Facebook events or products, LinkedIn jobs. Facebook events: Only events in this place: its Facebook events link (facebook.com/events/explore/\u003ccity\u003e/\u003cid\u003e/) or its numeric ID, the one the Facebook Marketplace… Facebook products: The place to search around, instead of lat and lng: a Marketplace place ID (platform_specific.facebook.location_id of a listing there, such as… LinkedIn jobs: Where the jobs are: a city, region or country in words, as in LinkedIn's location box (Berlin, Germany; London Area; Germany; Worldwide), or…",
           "maxLength": 2048,
           "type": "string"
         },
         "fill": {
           "description": "Only on some platforms (find_endpoint lists which). true also fetches each result's item from the platform: its full, current record in details (exact counts, its ID), as the platform's own endpoint for that kind returns it.",
-          "enum": [
-            "true",
-            "false"
-          ],
-          "type": "string"
+          "type": "boolean"
         },
         "lat": {
-          "description": "Only for Facebook products or places. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Facebook products or places. Facebook products: Latitude of the place to search around (WGS 84 degrees), with lng; or use location. Facebook places: Latitude (WGS 84 degrees) to rank places near, with lng: of two Springfields, the closer comes first.",
           "maximum": 90,
           "minimum": -90,
           "type": "number"
         },
         "lng": {
-          "description": "Only for Facebook products or places. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Facebook products or places. Facebook products: Longitude of the place to search around (WGS 84 degrees), with lat; or use location. Facebook places: Longitude (WGS 84 degrees) to rank places near, with lat.",
           "maximum": 180,
           "minimum": -180,
           "type": "number"
@@ -793,7 +789,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "media": {
-          "description": "Only for Facebook posts, Reddit posts. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Facebook posts, Reddit posts. Facebook posts: video: only the videos of Pages and profiles (facebook.com/\u003cname\u003e/videos/…), found the same way, so fill=true gets each video's post record with… Reddit posts: Only posts that carry media uploaded to Reddit: image (one image or GIF), video (a Reddit video), carousel (a gallery, several images in one post) or…",
           "enum": [
             "video",
             "image",
@@ -803,7 +799,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "account_type": {
-          "description": "Only for Facebook profiles, LinkedIn profiles. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Facebook profiles, LinkedIn profiles. Facebook profiles: Only accounts of this kind: page (a Page, or a person in professional mode, as Facebook describes both alike) or person. LinkedIn profiles: Only accounts of this kind: company (a company's Page), school (a school's Page), showcase (a company's page for one brand or product) or member (a…",
           "enum": [
             "page",
             "person",
@@ -848,7 +844,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "search_in": {
-          "description": "Only for Hacker News (every type). Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Hacker News (every type). Hacker News comments: Where the words must appear: all (default: the comment's text and its author's username) or text (the text alone). Hacker News posts: Where the words must appear: all (default: the title, the link's address, the text and the poster's username), title, url (the link's address: a…",
           "enum": [
             "all",
             "text",
@@ -874,7 +870,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "boolean"
         },
         "search_by": {
-          "description": "Only for LinkedIn ads, TikTok ads. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for LinkedIn ads, TikTok ads. LinkedIn ads: What query names. TikTok ads: advertiser: the advertiser named exactly as query, else TikTok's first suggestion.",
           "enum": [
             "keyword",
             "advertiser",
@@ -889,7 +885,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "advertiser_id": {
-          "description": "Only for LinkedIn ads, TikTok ads. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for LinkedIn ads, TikTok ads. LinkedIn ads: Only this company's ads, for a keyword or payer search: its numeric ID, several with commas, or its link by ID (advertiser.url from the LinkedIn Ad… TikTok ads: An advertiser's business ID (platform_specific.tiktok.advertiser_business_id), with query its name.",
           "maxLength": 500,
           "type": "string"
         },
@@ -912,12 +908,12 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "boolean"
         },
         "subreddit": {
-          "description": "Only for Reddit comments or posts. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Reddit comments or posts. Reddit comments: Only comments in this subreddit: its name (golang), r/golang or its link. Reddit posts: Only posts in this subreddit: its name (golang), r/golang, or its link (https://www.reddit.com/r/golang/).",
           "maxLength": 256,
           "type": "string"
         },
         "include_body": {
-          "description": "Only for Reddit posts. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only for Reddit posts. Also return each post's body (text, mentions) and its exact type, read from Reddit's feed of the page's posts: a second upstream request per page, at…",
           "type": "boolean"
         },
         "tab": {
@@ -929,15 +925,16 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "duration": {
-          "description": "Only for Rumble posts. Only short videos (Rumble's Under 4 minutes) or long ones (Over 20 minutes).",
+          "description": "Only for Rumble posts, YouTube posts. Rumble posts: Only short videos (Rumble's Under 4 minutes) or long ones (Over 20 minutes). YouTube posts: Only videos of a length: short (under 3 minutes), medium (3 to 20 minutes) or long (over 20 minutes), by YouTube's Duration filter.",
           "enum": [
             "short",
-            "long"
+            "long",
+            "medium"
           ],
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
@@ -1027,7 +1024,7 @@ export const TOOLS: readonly ToolDefinition[] = [
   {
     name: "read_doc",
     title: "Read a docs page",
-    description: "Read one SocialTap docs page as Markdown: a path from search_docs or llms.txt (/docs/pagination/), or a full docs URL. Long pages come in parts: call again with cursor=next_cursor for the rest. Free, and it works without an API key.",
+    description: "Read one SocialTap docs page as Markdown: a path from search_docs or llms.txt (/docs/pagination/), or a full docs URL. A page longer than about 20,000 tokens comes in parts: call again with cursor=next_cursor for the rest. Free, and it works without an API key.",
     inputSchema: {
       "type": "object",
       "properties": {
@@ -1077,13 +1074,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Instagram story URL: a story's own link (instagram.com/stories/\u003cusername\u003e/\u003cstory id\u003e/, as the app shares it) or a highlight's item…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1161,14 +1158,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1203,7 +1200,8 @@ export const TOOLS: readonly ToolDefinition[] = [
           "description": "Optional: a link names its platform. Needed only for a bare ID.",
           "enum": [
             "instagram",
-            "tiktok"
+            "tiktok",
+            "youtube"
           ],
           "type": "string"
         },
@@ -1220,15 +1218,23 @@ export const TOOLS: readonly ToolDefinition[] = [
           "description": "Only items before this time (exclusive): RFC 3339 or a date (midnight UTC).",
           "type": "string"
         },
+        "kind": {
+          "description": "Only on YouTube. Which tab of the hashtag's page: all (default: its videos, shorts and streams, each with its channel, exact view count, upload time and length) or…",
+          "enum": [
+            "all",
+            "short"
+          ],
+          "type": "string"
+        },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
-          "maximum": 24,
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
+          "maximum": 36,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1281,14 +1287,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1349,14 +1355,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1409,14 +1415,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1469,14 +1475,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 12,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1529,14 +1535,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1609,7 +1615,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "rank_by": {
-          "description": "Only on TikTok. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on TikTok. What the board ranks by in the window: views (the default; paid and organic), organic_views (views not bought as ads), engagement_rate (interactions…",
           "enum": [
             "views",
             "organic_views",
@@ -1630,14 +1636,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1711,14 +1717,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 40,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1776,14 +1782,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1822,7 +1828,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A TikTok effect link (the effect page's tiktok.com/effect/Bold-Glamour-14519845, or the older tiktok.com/sticker/Bold-Glamour-14519845) or the…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -1836,14 +1842,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 30,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1883,7 +1889,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "feed": {
           "default": "top",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which feed: top is the front page (the default), new the newest stories, best the highest voted of recent days, ask Ask HN, show Show HN, jobs the…",
           "enum": [
             "top",
             "new",
@@ -1904,14 +1910,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 30,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -1950,13 +1956,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Facebook profile (a Page's or a person's): its vanity name (NASA, case-insensitive), its numeric profile ID, or any link to it…",
           "maxLength": 2048,
           "type": "string"
         },
         "tab": {
           "default": "uploaded",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which photos: uploaded, the profile's own (the tab Facebook calls \u003cname\u003e's Photos); tagged, the ones others tagged it in (Photos of \u003cname\u003e), which…",
           "enum": [
             "uploaded",
             "tagged"
@@ -1973,14 +1979,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 8,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 8,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2019,7 +2025,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Pinterest account: its username (any case, with or without the @), its profile link (pinterest.com/\u003cusername\u003e/, any of its tabs such as…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2032,7 +2038,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "tab": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which pins: saved (default), every pin the account saved, its own and the ones it saved from others, as its profile's Pins tab lists them; created…",
           "enum": [
             "saved",
             "created"
@@ -2041,14 +2047,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 25,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 25,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2087,7 +2093,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "An Instagram highlight: its link (instagram.com/stories/highlights/18195781759377100/), its share link…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2101,14 +2107,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2147,20 +2153,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The playlist: its link (open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M, also under /intl-de/ and /embed/, the old /user/\u003cname\u003e/playlist/… form…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2199,7 +2205,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The podcast: its link (open.spotify.com/show/2MAi0BvDc6GTFvKFPXnkCL, also under /intl-de/ and /embed/, with any share parameters), a share link…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2213,14 +2219,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2259,7 +2265,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A LinkedIn post or article: a post's link as the share menu gives it (linkedin.com/posts/\u003cauthor\u003e_\u003cslug\u003e-activity-\u003cid\u003e-\u003ccode\u003e), its feed or embed…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2273,14 +2279,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2319,7 +2325,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "X account whose mentions to find: a username with or without the @ (NASA, @NASA), a numeric user ID (11348282), or a profile link (x.com/NASA or…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2333,14 +2339,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2379,7 +2385,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The influencer's storefront: its handle (sydneydelrey, the name after /shop/ in its link, any case, with or without the @) or its link on any Amazon…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2399,14 +2405,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2445,7 +2451,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The SoundCloud account: its name (forss, also written @forss), its link (soundcloud.com/forss, with any tab such as /tracks, also on…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2459,14 +2465,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2505,20 +2511,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Hacker News user: a username (case-sensitive: pg, not PG) or a link to the user's page or one of its lists (news.ycombinator.com/user?id=pg…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 30,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2557,13 +2563,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Hacker News user: a username (case-sensitive: pg, not PG) or a link to the user's page or one of its lists (news.ycombinator.com/user?id=pg…",
           "maxLength": 2048,
           "type": "string"
         },
         "kind": {
           "default": "all",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which stories: all (default: stories, jobs and polls), story (every story but jobs and polls: links, Ask HN, Show HN and Launch HN), ask_hn (Ask HN…",
           "enum": [
             "all",
             "story",
@@ -2585,14 +2591,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2665,14 +2671,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, link_url, language, coauthors, thumbnail_url, media, mentions, is_sponsored, is_nsfw and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2717,7 +2723,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2756,7 +2762,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The seller: its merchant ID (A3A7XJ7DLGM1CB, the seller= in its links) or its link on any Amazon marketplace: its page (amazon.com/sp?seller=…)…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2766,7 +2772,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2805,7 +2811,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The influencer's storefront: its handle (sydneydelrey, the name after /shop/ in its link, any case, with or without the @), its link on any Amazon…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2815,7 +2821,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2861,7 +2867,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "kind": {
-          "description": "Only on LinkedIn. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on LinkedIn. Which of the member's interests: companies (default: the company Pages they follow), top_voices (the Top Voices, influential members, they follow)…",
           "enum": [
             "companies",
             "top_voices",
@@ -2871,14 +2877,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2923,14 +2929,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -2969,7 +2975,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The company: its LinkedIn Page link (linkedin.com/company/\u003cname\u003e, any tab of it), its name with or without company/ (company/anthropicresearch), or…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -2980,14 +2986,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 25,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 25,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3026,20 +3032,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The List: its link on x.com or twitter.com (x.com/i/lists/\u003cid\u003e, any of its views such as /followers or /members, the older…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 200,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 200,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3078,12 +3084,12 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A LinkedIn post or article: a post's link as the share menu gives it (linkedin.com/posts/\u003cauthor\u003e_\u003cslug\u003e-activity-\u003cid\u003e-\u003ccode\u003e), its feed or embed…",
           "maxLength": 2048,
           "type": "string"
         },
         "reaction": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only the accounts that reacted this way: like, praise, empathy, appreciation, interest or entertainment (LinkedIn's own names, as reaction_type…",
           "enum": [
             "like",
             "praise",
@@ -3101,14 +3107,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3147,20 +3153,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The repository whose contributors to list: its link (github.com/cli/cli, or any page under it: a file, a folder, its issues or releases), owner/name…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3199,20 +3205,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Instagram username with or without the @, a numeric user ID (787132), or a profile URL (instagram.com/natgeo, m.instagram.com, instagr.am, a…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3261,20 +3267,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "programming_language": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only developers trending for one programming language, named as GitHub names it, in any case (rust, python, c++, c#, Jupyter Notebook): a…",
           "maxLength": 100,
           "type": "string"
         },
         "limit": {
           "default": 25,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 25,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, country_code and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3320,13 +3326,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "comment_id": {
-          "description": "Only on Instagram or TikTok. Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only on Instagram or TikTok. Instagram: ID of the comment (the id of a comment from the comments endpoint). TikTok: ID of the comment: any TikTok comment, top-level or reply (the id of a comment from the comments or replies endpoints).",
           "maxLength": 64,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, post_id, url, edited_at, is_edited, is_liked_by_author and is_by_post_author; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3390,14 +3396,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, post_id, url, edited_at, is_edited, is_liked_by_author and is_by_post_author; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3442,7 +3448,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "comment_id": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Facebook: ID of the top-level comment whose replies to list (data[].id from the Facebook Comments API). TikTok: ID of the top-level comment whose replies to list (the id of a TikTok comment; a reply's thread_id names its top-level comment).",
           "maxLength": 64,
           "type": "string"
         },
@@ -3455,14 +3461,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, post_id, url, edited_at, is_edited, is_liked_by_author and is_by_post_author; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3501,7 +3507,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The issue or pull request: its link (https://github.com/golang/go/issues/70000, https://github.com/react/react/pull/27522 or any of its tabs, or…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -3515,14 +3521,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, post_id, url, edited_at, is_edited, is_liked_by_author and is_by_post_author; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3561,7 +3567,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The video ad's Meta Ad Library link (facebook.com/ads/library/?id=…), the official Ad Library API's ad_snapshot_url…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -3571,15 +3577,11 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "transcribe_audio": {
           "description": "true transcribes the audio with speech-to-text when the platform has no captions, at the endpoint's speech-to-text price (without it, captions only).",
-          "enum": [
-            "true",
-            "false"
-          ],
-          "type": "string"
+          "type": "boolean"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without segments and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3627,7 +3629,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without paid_by, publisher_platforms, languages, country_codes, is_political, reach, audience_size and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3689,7 +3691,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "format": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Facebook: Only ads of this kind, as the Ad Library files them: image, video, meme (an image with text in it), image_and_meme (both) or text (no image or video). Google: Only ads of this format.",
           "enum": [
             "image",
             "video",
@@ -3737,14 +3739,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 40,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without paid_by, publisher_platforms, languages, country_codes, is_political, reach, audience_size and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3799,7 +3801,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "rank_by": {
           "default": "for_you",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "How Creative Center ranks the board: for_you (its own blend, the default), or best first by impressions, likes, click-through rate (ctr), conversion…",
           "enum": [
             "for_you",
             "impressions",
@@ -3876,14 +3878,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without paid_by, publisher_platforms, languages, country_codes, is_political, reach, audience_size and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -3929,7 +3931,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4005,14 +4007,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4059,7 +4061,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, categories, rules and moderators; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4106,7 +4108,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4157,7 +4159,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, category_id, max_price, condition_label, thumbnail_url, media, attributes, shipping and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4211,7 +4213,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, cover_url, upc, copyrights and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4257,7 +4259,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without cover_url, play_url, streaming_links and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4303,7 +4305,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4353,7 +4355,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4398,7 +4400,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, text, published_at, thumbnail_url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4437,13 +4439,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A TikTok effect link (the effect page's tiktok.com/effect/Bold-Glamour-14519845, or the older tiktok.com/sticker/Bold-Glamour-14519845) or the…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without icon_url, media and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4482,7 +4484,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Instagram post, reel or profile link (instagram.com/p/…, /reel/…, /reels/…, /tv/…, /\u003cusername\u003e/p/…, share links, m.instagram.com…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -4501,7 +4503,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, thumbnail_width, thumbnail_height and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4540,13 +4542,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The event's Facebook link (facebook.com/events/\u003cid\u003e/, with its slugged form /events/\u003cvenue\u003e/\u003cname\u003e/\u003cid\u003e/, a date of a series /events/\u003cseries\u003e/\u003cdate\u003e/…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, cover_url and community_id; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4585,13 +4587,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The issue or pull request: its link (https://github.com/golang/go/issues/70000, https://github.com/react/react/pull/27522 with any tab such as…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, closed_by, merged_by, base_branch, head_branch, head_repository and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4630,13 +4632,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A LinkedIn job: its link (linkedin.com/jobs/view/\u003cid\u003e, with or without the title in it), a job search or collection link with the job open…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, industries, job_functions, skills, benefits, expires_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4675,13 +4677,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "TikTok username with or without the @ (aljazeeraenglish, @aljazeeraenglish), a profile or LIVE page URL (tiktok.com/@aljazeeraenglish…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, thumbnail_url and streams; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4720,13 +4722,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "An Instagram location link (instagram.com/explore/locations/212988663/new-york-new-york/, as a post's location tag opens it; any name or tab after…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, postal_code, phone, website_url, images and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4765,13 +4767,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The podcast: its link (open.spotify.com/show/2MAi0BvDc6GTFvKFPXnkCL, also under /intl-de/ and /embed/, with any share parameters), a share link…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without cover_url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4810,13 +4812,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The repository: its link (github.com/torvalds/linux, or any page under it: its README's page, a file, a folder), owner/name alone (torvalds/linux), a…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without raw_url, ref and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4855,7 +4857,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The account whose follow is checked (the source): a username with or without the @ (NASA, @NASA), a numeric user ID (11348282), or a profile link…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -4866,7 +4868,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4906,13 +4908,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The repository: its link (github.com/torvalds/linux, or any page under it: a file, a folder, its issues or releases), owner/name alone…",
           "maxLength": 2048,
           "type": "string"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without name, avatar_url, owner_type, homepage_url, default_branch, parent, size_bytes, created_at, updated_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -4961,7 +4963,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, thumbnail_url and streams; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5006,7 +5008,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5051,7 +5053,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5108,14 +5110,14 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "limit": {
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, url, language, variant_id, media, country_code, is_incentivized and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5154,7 +5156,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The GitHub account: its username (login), with or without the @; its numeric account ID; or its link (github.com/torvalds, with any tab…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -5168,14 +5170,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform_type, head_sha, text and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5214,20 +5216,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Pinterest account: its username (any case, with or without the @), its profile link (pinterest.com/pinterest/, any tab of it, also on a country's…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5270,20 +5272,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "category": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only the deals of one category: its browse node ID (172282 is Electronics on amazon.com), or a link that names one: a category link…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, category_id, max_price, condition_label, thumbnail_url, media, attributes, shipping and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5322,7 +5324,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The Facebook profile (a Page's or a person's): its vanity name (jannuslive, case-insensitive), its numeric profile ID, or any link to it…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -5345,14 +5347,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 8,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 8,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, cover_url and community_id; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5391,20 +5393,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Instagram username with or without the @, a numeric user ID (528817151), or a profile URL (instagram.com/nasa, m.instagram.com, instagr.am, a /reels/…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 10,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 10,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5443,7 +5445,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The repository: its link (https://github.com/golang/go, any of its pages such as /issues or /pulls, its clone link ending in .git, or…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -5493,14 +5495,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, closed_by, merged_by, base_branch, head_branch, head_repository and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5539,13 +5541,13 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "A LinkedIn job: its link (linkedin.com/jobs/view/\u003cid\u003e, with or without the title in it), a job search or collection link with the job open…",
           "maxLength": 2048,
           "type": "string"
         },
         "list": {
           "default": "similar",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which list beside the job: similar, the jobs LinkedIn shows as similar to it (its Similar jobs, with their pay when the card shows it); also_viewed…",
           "enum": [
             "similar",
             "also_viewed"
@@ -5554,14 +5556,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 30,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, industries, job_functions, skills, benefits, expires_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5600,12 +5602,12 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The LinkedIn company: its Page's link (linkedin.com/company/\u003cname\u003e, any tab of it such as /jobs/), its name (amazon-web-services, company/\u003cname\u003e)…",
           "maxLength": 2048,
           "type": "string"
         },
         "location": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only jobs in this place: a country, state, metro area or city in words (Germany, California, London), matched to the first place LinkedIn's own…",
           "maxLength": 100,
           "type": "string"
         },
@@ -5623,14 +5625,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 60,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 60,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, industries, job_functions, skills, benefits, expires_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5669,7 +5671,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The product: its link on any Amazon marketplace (amazon.com/dp/B0FQFB8FMG, with or without the title before /dp/, /gp/product/, /gp/aw/d/…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -5679,14 +5681,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 11,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 11,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without platform, product_id, url, title, country_code, metrics and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5725,20 +5727,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The GitHub user or organization: its username, with or without the @; its numeric account ID, which survives a rename; or its profile link…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 6,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 6,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without name, avatar_url, owner_type, homepage_url, default_branch, parent, size_bytes, created_at, updated_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5802,14 +5804,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 12,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 12,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, cover_url and community_id; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5854,14 +5856,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 30,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 30,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5900,7 +5902,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "section": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Only the terms of one section of Instagram's popular page: trending_now (Trending now), entertainment (Pop culture moments), get_inspired (Get…",
           "enum": [
             "trending_now",
             "entertainment",
@@ -5914,14 +5916,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -5966,14 +5968,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, category_id, max_price, condition_label, thumbnail_url, media, attributes, shipping and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6012,20 +6014,20 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The LinkedIn member: their profile link (linkedin.com/in/\u003cname\u003e, any tab of it), their public name, with or without in/ (in/satyanadella), or their…",
           "maxLength": 2048,
           "type": "string"
         },
         "limit": {
           "default": 25,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 25,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without avatar_url, banner_url, categories, rules and moderators; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6064,7 +6066,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The GitHub account whose pull requests to list: its username (login), with or without the @; its numeric account ID, which survives a rename; its…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -6100,14 +6102,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, closed_by, merged_by, base_branch, head_branch, head_repository and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6146,7 +6148,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "url": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The repository: its link (https://github.com/cli/cli, or any page under it such as /releases or a release's own page), owner/name (cli/cli), a clone…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -6160,14 +6162,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 10,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 10,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without notes, assets, tarball_url, zipball_url and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6206,7 +6208,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The GitHub user or organization whose repositories to list: its username (login), with or without the @; its numeric account ID, which survives a…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -6240,14 +6242,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without name, avatar_url, owner_type, homepage_url, default_branch, parent, size_bytes, created_at, updated_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6292,14 +6294,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without text, thumbnail_url and streams; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6338,7 +6340,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "handle": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The influencer's storefront: its handle (sydneydelrey, the name after /shop/ in its link, any case, with or without the @), its link on any Amazon…",
           "maxLength": 2048,
           "type": "string"
         },
@@ -6348,14 +6350,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 20,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 20,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6412,14 +6414,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, cover_url, upc, copyrights and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6468,14 +6470,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url, is_collaborative, created_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6514,12 +6516,12 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "category": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "The category: its department's slug as Amazon's Best Sellers links write it (electronics, books, or ce-de on Amazon Germany), optionally with a…",
           "maxLength": 2048,
           "type": "string"
         },
         "list": {
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which of the category's lists: best_sellers (the most sold), new_releases (the best-selling new and upcoming products), movers_and_shakers (the…",
           "enum": [
             "best_sellers",
             "new_releases",
@@ -6535,14 +6537,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, category_id, max_price, condition_label, thumbnail_url, media, attributes, shipping and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6588,7 +6590,7 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "kind": {
           "default": "top_monthly",
-          "description": "Differs by platform: find_endpoint gives each endpoint's.",
+          "description": "Which board: top_monthly (the default: the most searched terms this month), top_yearly (this year), growing (the terms whose searches rose most this…",
           "enum": [
             "top_monthly",
             "top_yearly",
@@ -6659,14 +6661,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 50,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 50,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without thumbnail_url; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6726,14 +6728,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 25,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 25,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without name, avatar_url, owner_type, homepage_url, default_branch, parent, size_bytes, created_at, updated_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -6786,14 +6788,14 @@ export const TOOLS: readonly ToolDefinition[] = [
         },
         "limit": {
           "default": 100,
-          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it).",
+          "description": "Items per page, 1 to the endpoint's page size (its default and maximum; larger values are reduced to it). Omit it for the cheapest walk: a page costs the same whatever its limit.",
           "maximum": 100,
           "minimum": 1,
           "type": "integer"
         },
         "detail": {
           "default": "concise",
-          "description": "concise (default) returns the fields that answer most questions; full returns every field. Same price.",
+          "description": "concise (default) returns the fields that answer most questions, without description, industries, job_functions, skills, benefits, expires_at and platform_specific; full returns every field. Same price: ask for full in the first call when you need one of them.",
           "enum": [
             "concise",
             "full"
@@ -7133,9 +7135,13 @@ export const TOOLS: readonly ToolDefinition[] = [
                   "x.transcript",
                   "youtube.comments",
                   "youtube.engagement",
+                  "youtube.hashtag_posts",
                   "youtube.post",
                   "youtube.posts",
                   "youtube.profile",
+                  "youtube.search_posts",
+                  "youtube.search_profiles",
+                  "youtube.search_suggestions",
                   "youtube.transcript"
                 ],
                 "type": "string"
@@ -7273,3 +7279,6 @@ export type ToolName = "find_endpoint" | "get_post" | "list_posts" | "get_profil
  * kinds of data most platforms have, call_endpoint for every other endpoint, the docs and the account.
  */
 export const DEFAULT_TOOLS: readonly ToolName[] = ["find_endpoint", "get_post", "list_posts", "get_profile", "list_comments", "get_transcript", "get_engagement", "search", "call_endpoint", "search_docs", "read_doc", "get_account"];
+
+/** The tools the server answers without an API key, free (catalog mcp.tools keyless): finding an endpoint and the docs. */
+export const KEYLESS_TOOLS: readonly ToolName[] = ["find_endpoint", "search_docs", "read_doc"];
