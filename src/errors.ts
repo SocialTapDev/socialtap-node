@@ -50,7 +50,8 @@ export class ForbiddenError extends APIError {
 }
 
 /**
- * `insufficient_credits` (HTTP 402): The account does not have enough credits for this request.
+ * `insufficient_credits` (HTTP 402): The account does not have enough credits for this request, or the request
+ * costs more than the max_credits it was sent with (details.reason max_credits). Either way it is free.
  *
  * Remediation: Have a person buy credits at details.purchase_url (details.options lists the plans and packs with
  * their prices; details.checkout makes a checkout link for a pack), then repeat the request. Do not retry

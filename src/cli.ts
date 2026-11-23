@@ -183,7 +183,7 @@ function commandHelp(c: Command): string {
   }
   lines.push("", "Output:", "  --data               print only data (without meta and page)");
   if (c.kind === "list") {
-    lines.push("", "List options:", "  --all                walk every page: one JSON item per line on stdout, a summary on stderr", "  --max-pages <n>      stop --all after n pages", "  --max-credits <n>    stop --all before spending more than n credits");
+    lines.push("", "List options:", "  --all                walk every page: one JSON item per line on stdout, a summary on stderr", "  --max-pages <n>      stop --all after n pages", "  --max-credits <n>    also stop --all before the walk spends more than n credits in total");
   }
   return lines.join("\n");
 }

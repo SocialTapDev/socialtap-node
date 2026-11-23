@@ -28,6 +28,13 @@ export interface AmazonDealProductsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -111,6 +118,13 @@ export interface AmazonOffersParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -198,6 +212,13 @@ export interface AmazonProductParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -262,6 +283,13 @@ export interface AmazonReviewsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -351,6 +379,13 @@ export interface AmazonSearchProductsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -435,6 +470,13 @@ export interface AmazonSellerParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -492,6 +534,13 @@ export interface AmazonShopParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -548,6 +597,13 @@ export interface AmazonShopListsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -638,6 +694,13 @@ export interface AmazonShopPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -733,6 +796,13 @@ export interface AmazonTopProductsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -868,6 +938,13 @@ export interface AppleMusicAlbumParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -930,6 +1007,13 @@ export interface AppleMusicArtistParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -988,6 +1072,13 @@ export interface AppleMusicSearchAlbumsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1076,6 +1167,13 @@ export interface AppleMusicSearchArtistsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1168,6 +1266,13 @@ export interface AppleMusicSearchPlaylistsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1263,6 +1368,13 @@ export interface AppleMusicSearchTracksParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -1354,6 +1466,13 @@ export interface AppleMusicTopAlbumsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -1435,6 +1554,13 @@ export interface AppleMusicTopPlaylistsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1532,6 +1658,13 @@ export interface AppleMusicTopTracksParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -1623,6 +1756,13 @@ export interface AppleMusicTrackParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1731,6 +1871,13 @@ export interface BlueskyCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -1811,6 +1958,13 @@ export interface BlueskyPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -1877,6 +2031,13 @@ export interface BlueskyPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -1956,6 +2117,13 @@ export interface BlueskyProfileParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2042,6 +2210,13 @@ export interface BlueskySearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2147,6 +2322,13 @@ export interface FacebookAdParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2208,6 +2390,13 @@ export interface FacebookAdTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2299,6 +2488,13 @@ export interface FacebookAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2377,6 +2573,13 @@ export interface FacebookAdvertiserParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2441,6 +2644,13 @@ export interface FacebookCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2519,6 +2729,13 @@ export interface FacebookEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2569,6 +2786,13 @@ export interface FacebookEventParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2635,6 +2859,13 @@ export interface FacebookEventsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2713,6 +2944,13 @@ export interface FacebookGroupParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2769,6 +3007,13 @@ export interface FacebookGroupPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -2847,6 +3092,13 @@ export interface FacebookListingParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -2914,6 +3166,13 @@ export interface FacebookPhotosParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3008,6 +3267,13 @@ export interface FacebookPlaceEventsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3086,6 +3352,13 @@ export interface FacebookPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3146,6 +3419,13 @@ export interface FacebookPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3225,6 +3505,13 @@ export interface FacebookProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3286,6 +3573,13 @@ export interface FacebookReelsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3378,6 +3672,13 @@ export interface FacebookRepliesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3484,6 +3785,13 @@ export interface FacebookSearchAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3567,6 +3875,13 @@ export interface FacebookSearchAdvertisersParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3659,6 +3974,13 @@ export interface FacebookSearchEventsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3749,6 +4071,13 @@ export interface FacebookSearchGroupsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -3887,6 +4216,13 @@ export interface FacebookSearchListingsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -3977,6 +4313,13 @@ export interface FacebookSearchPlacesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -4082,6 +4425,13 @@ export interface FacebookSearchPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4179,6 +4529,13 @@ export interface FacebookSearchProfilesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4263,6 +4620,13 @@ export interface FacebookTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -4431,6 +4795,13 @@ export interface GitHubActivityParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4512,6 +4883,13 @@ export interface GitHubContributionsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4559,6 +4937,13 @@ export interface GitHubFollowersParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -4636,6 +5021,13 @@ export interface GitHubFollowingParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -4716,6 +5108,13 @@ export interface GitHubIssueParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4773,6 +5172,13 @@ export interface GitHubIssueCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -4881,6 +5287,13 @@ export interface GitHubIssuesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -4957,6 +5370,13 @@ export interface GitHubPinnedRepositoriesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5036,6 +5456,13 @@ export interface GitHubProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5108,6 +5535,13 @@ export interface GitHubProfilePullRequestsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5189,6 +5623,13 @@ export interface GitHubReadmeParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5247,6 +5688,13 @@ export interface GitHubReleasesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5346,6 +5794,13 @@ export interface GitHubRepositoriesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5425,6 +5880,13 @@ export interface GitHubRepositoryParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5474,6 +5936,13 @@ export interface GitHubRepositoryContributorsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5589,6 +6058,13 @@ export interface GitHubSearchIssuesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5674,6 +6150,13 @@ export interface GitHubSearchProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5771,6 +6254,13 @@ export interface GitHubSearchRepositoriesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -5854,6 +6344,13 @@ export interface GitHubTrendingProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -5942,6 +6439,13 @@ export interface GitHubTrendingRepositoriesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6094,6 +6598,13 @@ export interface GoogleAdParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -6180,6 +6691,13 @@ export interface GoogleAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -6262,6 +6780,13 @@ export interface GoogleAdvertiserParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6347,6 +6872,13 @@ export interface GoogleSearchAdsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6436,6 +6968,13 @@ export interface GoogleSearchAdvertisersParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -6519,6 +7058,13 @@ export interface GoogleSearchSuggestionsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6633,6 +7179,13 @@ export interface HackerNewsCommentParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -6697,6 +7250,13 @@ export interface HackerNewsCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6784,6 +7344,13 @@ export interface HackerNewsFeedStoriesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -6895,6 +7462,13 @@ export interface HackerNewsSearchCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7015,6 +7589,13 @@ export interface HackerNewsSearchStoriesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7094,6 +7675,13 @@ export interface HackerNewsStoryParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7141,6 +7729,13 @@ export interface HackerNewsUserParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7199,6 +7794,13 @@ export interface HackerNewsUserCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7276,6 +7878,13 @@ export interface HackerNewsUserFavoritesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7370,6 +7979,13 @@ export interface HackerNewsUserStoriesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7457,6 +8073,13 @@ export interface HackerNewsWhoishiringJobsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7589,6 +8212,13 @@ export interface InstagramCommentParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7645,6 +8275,13 @@ export interface InstagramCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7735,6 +8372,13 @@ export interface InstagramEmbedParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7785,6 +8429,13 @@ export interface InstagramEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -7834,6 +8485,13 @@ export interface InstagramHashtagParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7891,6 +8549,13 @@ export interface InstagramHashtagPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -7971,6 +8636,13 @@ export interface InstagramHighlightsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8046,6 +8718,13 @@ export interface InstagramPlaceParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8107,6 +8786,13 @@ export interface InstagramPlacePostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8193,6 +8879,13 @@ export interface InstagramPlaylistStoriesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8271,6 +8964,13 @@ export interface InstagramPopularTrendsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8351,6 +9051,13 @@ export interface InstagramPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8407,6 +9114,13 @@ export interface InstagramPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8486,6 +9200,13 @@ export interface InstagramProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8543,6 +9264,13 @@ export interface InstagramReelsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8620,6 +9348,13 @@ export interface InstagramSearchHashtagsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8712,6 +9447,13 @@ export interface InstagramSearchPlacesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -8797,6 +9539,13 @@ export interface InstagramSearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8887,6 +9636,13 @@ export interface InstagramSearchProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -8980,6 +9736,13 @@ export interface InstagramSearchSoundsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9057,6 +9820,13 @@ export interface InstagramSearchSuggestionsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9136,6 +9906,13 @@ export interface InstagramSimilarProfilesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9214,6 +9991,13 @@ export interface InstagramSoundParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9271,6 +10055,13 @@ export interface InstagramSoundPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9350,6 +10141,13 @@ export interface InstagramStoryParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9399,6 +10197,13 @@ export interface InstagramTopicParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9455,6 +10260,13 @@ export interface InstagramTranscriptParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9507,6 +10319,13 @@ export interface InstagramTrendingPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9584,6 +10403,13 @@ export interface InstagramUsernameParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9735,6 +10561,13 @@ export interface KickPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9797,6 +10630,13 @@ export interface KickTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -9864,6 +10704,13 @@ export interface KomiPageParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9928,6 +10775,13 @@ export interface KwaiPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -9988,6 +10842,13 @@ export interface KwaiPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -10066,6 +10927,13 @@ export interface KwaiProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10134,6 +11002,13 @@ export interface LnkBioProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10198,6 +11073,13 @@ export interface LinkedInAdParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10250,6 +11132,13 @@ export interface LinkedInCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -10336,6 +11225,13 @@ export interface LinkedInEmployeesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10413,6 +11309,13 @@ export interface LinkedInEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10469,6 +11372,13 @@ export interface LinkedInFollowingParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -10547,6 +11457,13 @@ export interface LinkedInJobParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10601,6 +11518,13 @@ export interface LinkedInJobRelatedJobsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -10701,6 +11625,13 @@ export interface LinkedInJobsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10790,6 +11721,13 @@ export interface LinkedInLikedPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10868,6 +11806,13 @@ export interface LinkedInPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -10928,6 +11873,13 @@ export interface LinkedInPostReactionsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11021,6 +11973,13 @@ export interface LinkedInPostRepostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11118,6 +12077,13 @@ export interface LinkedInPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -11198,6 +12164,13 @@ export interface LinkedInProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -11262,6 +12235,13 @@ export interface LinkedInProfileCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11340,6 +12320,13 @@ export interface LinkedInProfileGroupsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11463,6 +12450,13 @@ export interface LinkedInSearchAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -11561,6 +12555,13 @@ export interface LinkedInSearchJobsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -11651,6 +12652,13 @@ export interface LinkedInSearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11753,6 +12761,13 @@ export interface LinkedInSearchProfilesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -11840,6 +12855,13 @@ export interface LinkedInTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -11971,6 +12993,13 @@ export interface LinkmeProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12035,6 +13064,13 @@ export interface LinktreeProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12095,6 +13131,13 @@ export interface PillarPageParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -12162,6 +13205,13 @@ export interface PinterestBoardParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12211,6 +13261,13 @@ export interface PinterestBoardPinsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -12290,6 +13347,13 @@ export interface PinterestBoardsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12367,6 +13431,13 @@ export interface PinterestPinParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12430,6 +13501,13 @@ export interface PinterestPinsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -12508,6 +13586,13 @@ export interface PinterestProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12556,6 +13641,13 @@ export interface PinterestSearchPinsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -12662,6 +13754,13 @@ export interface PinterestTopTrendsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12740,6 +13839,13 @@ export interface PinterestTopicParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12789,6 +13895,13 @@ export interface PinterestWebPageParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -12910,6 +14023,13 @@ export interface RedditCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -12989,6 +14109,13 @@ export interface RedditEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -13039,6 +14166,13 @@ export interface RedditPostParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13107,6 +14241,13 @@ export interface RedditPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13186,6 +14327,13 @@ export interface RedditProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -13251,6 +14399,13 @@ export interface RedditProfileCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13348,6 +14503,13 @@ export interface RedditSearchCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13458,6 +14620,13 @@ export interface RedditSearchPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -13536,6 +14705,13 @@ export interface RedditSearchProfilesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -13610,6 +14786,13 @@ export interface RedditSearchSubredditsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13688,6 +14871,13 @@ export interface RedditSubredditParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -13752,6 +14942,13 @@ export interface RedditSubredditPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13847,6 +15044,13 @@ export interface RedditTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -13964,6 +15168,13 @@ export interface RumbleCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14051,6 +15262,13 @@ export interface RumbleEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14100,6 +15318,13 @@ export interface RumblePostParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14182,6 +15407,13 @@ export interface RumblePostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14263,6 +15495,13 @@ export interface RumbleProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14331,6 +15570,13 @@ export interface RumbleSearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14423,6 +15669,13 @@ export interface RumbleTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14522,6 +15775,13 @@ export interface SnapchatCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14599,6 +15859,13 @@ export interface SnapchatProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14647,6 +15914,13 @@ export interface SnapchatSpotlightParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14719,6 +15993,13 @@ export interface SoundCloudArtistParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14768,6 +16049,13 @@ export interface SoundCloudTrackParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14828,6 +16116,13 @@ export interface SoundCloudTracksParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -14927,6 +16222,13 @@ export interface SpotifyAlbumParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -14976,6 +16278,13 @@ export interface SpotifyArtistParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15027,6 +16336,13 @@ export interface SpotifyPlaylistParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15076,6 +16392,13 @@ export interface SpotifyPlaylistTracksParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15154,6 +16477,13 @@ export interface SpotifyPodcastParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15209,6 +16539,13 @@ export interface SpotifyPodcastEpisodesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15293,6 +16630,13 @@ export interface SpotifySearchAlbumsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15383,6 +16727,13 @@ export interface SpotifySearchArtistsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15467,6 +16818,13 @@ export interface SpotifySearchPlaylistsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15550,6 +16908,13 @@ export interface SpotifySearchPodcastsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15639,6 +17004,13 @@ export interface SpotifySearchTracksParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15717,6 +17089,13 @@ export interface SpotifyTrackParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15814,6 +17193,13 @@ export interface TelegramChannelParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -15879,6 +17265,13 @@ export interface TelegramChannelPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -15960,6 +17353,13 @@ export interface TelegramPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16030,6 +17430,13 @@ export interface TelegramSearchChannelsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16142,6 +17549,13 @@ export interface ThreadsCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16219,6 +17633,13 @@ export interface ThreadsPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16275,6 +17696,13 @@ export interface ThreadsPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16354,6 +17782,13 @@ export interface ThreadsProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16415,6 +17850,13 @@ export interface ThreadsSearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16491,6 +17933,13 @@ export interface ThreadsSearchProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16598,6 +18047,13 @@ export interface TikTokAdParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16653,6 +18109,13 @@ export interface TikTokCommentParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16711,6 +18174,13 @@ export interface TikTokCommentsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16788,6 +18258,13 @@ export interface TikTokDownloadParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -16837,6 +18314,13 @@ export interface TikTokEffectParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16894,6 +18378,13 @@ export interface TikTokEffectPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -16971,6 +18462,13 @@ export interface TikTokEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17019,6 +18517,13 @@ export interface TikTokFollowersParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17095,6 +18600,13 @@ export interface TikTokFollowingParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17174,6 +18686,13 @@ export interface TikTokHashtagParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17231,6 +18750,13 @@ export interface TikTokHashtagPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17316,6 +18842,13 @@ export interface TikTokLikedPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17393,6 +18926,13 @@ export interface TikTokLiveParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17450,6 +18990,13 @@ export interface TikTokPlacePostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17536,6 +19083,13 @@ export interface TikTokPlaylistPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17610,6 +19164,13 @@ export interface TikTokPlaylistsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17686,6 +19247,13 @@ export interface TikTokPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17740,6 +19308,13 @@ export interface TikTokPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17817,6 +19392,13 @@ export interface TikTokProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -17872,6 +19454,13 @@ export interface TikTokRepliesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -17979,6 +19568,13 @@ export interface TikTokSearchAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18068,6 +19664,13 @@ export interface TikTokSearchHashtagsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18155,6 +19758,13 @@ export interface TikTokSearchPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -18244,6 +19854,13 @@ export interface TikTokSearchProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -18335,6 +19952,13 @@ export interface TikTokSearchSoundsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18418,6 +20042,13 @@ export interface TikTokSearchSuggestionsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -18510,6 +20141,13 @@ export interface TikTokSearchTopParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18589,6 +20227,13 @@ export interface TikTokSoundParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18646,6 +20291,13 @@ export interface TikTokSoundPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -18754,6 +20406,13 @@ export interface TikTokTopAdsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18858,6 +20517,13 @@ export interface TikTokTopPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -18948,6 +20614,13 @@ export interface TikTokTranscriptParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19010,6 +20683,13 @@ export interface TikTokTrendingHashtagsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19096,6 +20776,13 @@ export interface TikTokTrendingPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19291,6 +20978,13 @@ export interface TikTokShopProductParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19339,6 +21033,13 @@ export interface TikTokShopProductsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19416,6 +21117,13 @@ export interface TikTokShopReviewsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19491,6 +21199,13 @@ export interface TikTokShopSearchProductsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19595,6 +21310,13 @@ export interface TruthSocialPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19652,6 +21374,13 @@ export interface TruthSocialPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19730,6 +21459,13 @@ export interface TruthSocialProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19800,6 +21536,13 @@ export interface TwitchProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19848,6 +21591,13 @@ export interface TwitchScheduleParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -19939,6 +21689,13 @@ export interface TwitchTranscriptParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -19987,6 +21744,13 @@ export interface TwitchVideoParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20061,6 +21825,13 @@ export interface TwitchVideosParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20175,6 +21946,13 @@ export interface XCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20252,6 +22030,13 @@ export interface XCommunityParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20317,6 +22102,13 @@ export interface XCommunityPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20398,6 +22190,13 @@ export interface XEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20455,6 +22254,13 @@ export interface XFriendshipParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20504,6 +22310,13 @@ export interface XListParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20551,6 +22364,13 @@ export interface XListFollowersParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20629,6 +22449,13 @@ export interface XPostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20703,6 +22530,13 @@ export interface XPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20784,6 +22618,13 @@ export interface XProfileParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -20847,6 +22688,13 @@ export interface XProfileMentionsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -20938,6 +22786,13 @@ export interface XSearchCommunitiesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21021,6 +22876,13 @@ export interface XSearchHashtagsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -21127,6 +22989,13 @@ export interface XSearchPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21217,6 +23086,13 @@ export interface XSearchProfilesParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21298,6 +23174,13 @@ export interface XSpaceParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21362,6 +23245,13 @@ export interface XTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -21493,6 +23383,13 @@ export interface YouTubeCommentsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21576,6 +23473,13 @@ export interface YouTubeEngagementParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21641,6 +23545,13 @@ export interface YouTubeHashtagPostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -21718,6 +23629,13 @@ export interface YouTubePostParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -21788,6 +23706,13 @@ export interface YouTubePostsParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -21866,6 +23791,13 @@ export interface YouTubeProfileParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -21951,6 +23883,13 @@ export interface YouTubeSearchPostsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -22026,6 +23965,13 @@ export interface YouTubeSearchProfilesParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
@@ -22117,6 +24063,13 @@ export interface YouTubeSearchSuggestionsParams {
    */
   max_age?: number;
   /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
+  /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
    * rejected. Applied after the cache, so it changes neither the price nor cache hits; page and meta are always
@@ -22206,6 +24159,13 @@ export interface YouTubeTranscriptParams {
    * The Cache-Control: max-age=N request header is equivalent; max_age wins when both are sent. Minimum: 0.
    */
   max_age?: number;
+  /**
+   * The most this request may be charged, in credits. A request that would cost more answers insufficient_credits
+   * with details.reason max_credits, free, before the work that would cost more (a speech-to-text transcription, a
+   * data partner's lookup, results filled in). Omit it to be charged the endpoint's price, up to its maximum.
+   * Minimum: 1.
+   */
+  max_credits?: number;
   /**
    * Return only these fields of each item: comma-separated paths in the schema's notation
    * (id,text,metrics.view_count,segments[].text; a parent path keeps the whole object). Unknown paths are
