@@ -436,7 +436,7 @@ export const TOOLS: readonly ToolDefinition[] = [
   {
     name: "get_transcript",
     title: "Transcript by link",
-    description: "Timed transcripts of public videos: the platform's caption track, or speech-to-text on the audio when there is none and you ask for it. Pass url: its link or ID. Price per successful call: Facebook, Instagram, LinkedIn, Reddit, Rumble, TikTok, X, YouTube: 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true). Kick, Twitch: 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true).",
+    description: "Timed transcripts of public videos: the platform's caption track, or speech-to-text on the audio when there is none. Pass url: its link or ID. Price per successful call: Facebook, Instagram, LinkedIn, Reddit, Rumble, TikTok, X, YouTube: 1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true). Kick, Twitch: 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true).",
     inputSchema: {
       "type": "object",
       "properties": {
@@ -462,7 +462,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "transcribe_audio": {
-          "description": "true transcribes the audio with speech-to-text when the platform has no captions, at the endpoint's speech-to-text price (without it, captions only).",
+          "description": "Speech-to-text for media the platform has no captions for, at the endpoint's speech-to-text price.",
           "type": "boolean"
         },
         "lang": {
@@ -3555,7 +3555,7 @@ export const TOOLS: readonly ToolDefinition[] = [
   {
     name: "get_ad_transcript",
     title: "Ad transcript by link",
-    description: "Get an ad transcript. Timed transcripts of public videos: the platform's caption track, or speech-to-text on the audio when there is none and you ask for it. Pass url: its link or ID. Price per successful call: 2 credits + 2 per started minute of media (speech-to-text, with transcribe_audio=true).",
+    description: "Get an ad transcript. Timed transcripts of public videos: the platform's caption track, or speech-to-text on the audio when there is none. Pass url: its link or ID. Price per successful call: 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true).",
     inputSchema: {
       "type": "object",
       "properties": {
@@ -3576,7 +3576,7 @@ export const TOOLS: readonly ToolDefinition[] = [
           "type": "string"
         },
         "transcribe_audio": {
-          "description": "true transcribes the audio with speech-to-text when the platform has no captions, at the endpoint's speech-to-text price (without it, captions only).",
+          "description": "Speech-to-text for media the platform has no captions for, at the endpoint's speech-to-text price.",
           "type": "boolean"
         },
         "detail": {

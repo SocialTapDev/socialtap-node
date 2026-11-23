@@ -8760,7 +8760,7 @@ export interface TranscriptPlatformSpecific {
 
 /**
  * Timed transcripts of public videos: the platform's caption track, or speech-to-text on the audio when there is
- * none and you ask for it.
+ * none.
  */
 export interface Transcript {
   /** Platform the media is hosted on. */

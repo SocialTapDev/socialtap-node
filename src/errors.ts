@@ -177,7 +177,8 @@ export class PrivateOrUnavailableError extends APIError {
 
 /**
  * `no_transcript` (HTTP 404): The video or audio exists but has no transcript: the platform has no captions for
- * it, and speech-to-text was not asked for (transcribe_audio) or found no speech.
+ * it, and speech-to-text found no speech, or did not run (the media is longer than it transcribes without
+ * transcribe_audio=true, or transcribe_audio=false).
  *
  * Remediation: Do not retry. If the platform offers other languages, try one with lang.
  */
