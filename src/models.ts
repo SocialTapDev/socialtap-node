@@ -32,10 +32,10 @@ export interface ActivityRepository {
 
 export interface ActivityTarget {
   /**
-   * The kind of thing acted on: issue, pull_request (a GitLab merge request), release, discussion, wiki_page,
-   * commit (a commit comment), repository (the fork created), profile (the member added); other: a platform's own
-   * kind. New values may be added; treat any other value as other. Known values: issue, pull_request, release,
-   * discussion, wiki_page, commit, repository, profile, other.
+   * The kind of thing acted on. pull_request includes merge requests; commit: the commit commented on; repository:
+   * the fork created; profile: the member added; other: a platform's own kind. New values may be added; treat
+   * unknown values as other. Known values: issue, pull_request, release, discussion, wiki_page, commit,
+   * repository, profile, other.
    */
   type: "issue" | "pull_request" | "release" | "discussion" | "wiki_page" | "commit" | "repository" | "profile" | "other" | (string & {});
   /** The target's platform-native ID (a commit's hash); null when not shown. */
@@ -43,9 +43,8 @@ export interface ActivityTarget {
   /** An issue's, pull request's or discussion's number in its repository (#1089); null for other targets. */
   number: number | null;
   /**
-   * The target's title as the platform shows it (an issue's or pull request's title, a release's name, the fork's
-   * path, the member's username); null when the source does not carry it (GitHub's events omit a pull request's
-   * title).
+   * The target's name: an issue's or pull request's title, a release's name, the fork's path, the member's
+   * username; null when the source omits it (GitHub's events omit pull requests' titles).
    */
   title: string | null;
   /** The target's page; null when unknown. Format: uri. */
@@ -54,17 +53,16 @@ export interface ActivityTarget {
 
 export interface ActivityMetrics {
   /**
-   * For a push, or a create of a branch or tag by a push, the commits it added (for a period's group, the commits
-   * in the period); null for other kinds or when the platform does not say.
+   * Commits a push added (a create by a push included), or the commits in a month's group; null for other kinds or
+   * when the platform does not say.
    */
   commit_count: number | null;
 }
 
 export interface GitHubActivitySpecific {
   /**
-   * For an item that groups the commits an account made to one repository in a month (GitHub's contribution
-   * timeline), the month's first day, RFC 3339 UTC; created_at is then the month's last day, or the day of the
-   * fetch for the month still running. Null for a single action. Format: date-time.
+   * For an item grouping a month's commits to one repository (the contribution timeline), the month's first day,
+   * RFC 3339 UTC; created_at is its last. Null for a single action. Format: date-time.
    */
   period_start_at: string | null;
   /**
@@ -92,13 +90,11 @@ export interface Activity {
    */
   id: string;
   /**
-   * What the account did: push (commits to a branch or tag), create and delete (a repository, branch or tag:
-   * ref_type), fork, star, watch (subscribed to a repository's notifications), issue and pull_request (opened,
-   * closed, merged…: action), review (of a pull request), comment (on an issue, pull request or commit), release,
-   * member (added to or left a repository or group), wiki (edited its pages), discussion; other: the platform's
-   * own kind in platform_type. New values may be added; treat any other value as other. Known values: push,
-   * create, delete, fork, star, watch, issue, pull_request, review, comment, release, member, wiki, discussion,
-   * other.
+   * What the account did; create and delete name a repository, branch or tag (ref_type), and issue, pull_request
+   * and review carry action. watch: subscribed to notifications; member: added to or left a repository or group;
+   * wiki: edited pages; other: see platform_type. New values may be added; treat unknown values as other. Known
+   * values: push, create, delete, fork, star, watch, issue, pull_request, review, comment, release, member, wiki,
+   * discussion, other.
    */
   type: "push" | "create" | "delete" | "fork" | "star" | "watch" | "issue" | "pull_request" | "review" | "comment" | "release" | "member" | "wiki" | "discussion" | "other" | (string & {});
   /**
@@ -107,20 +103,16 @@ export interface Activity {
    */
   platform_type: string | null;
   /**
-   * What happened to the target, for kinds with more than one action: opened, closed, reopened, merged, edited,
-   * created, deleted, published (a release), approved, changes_requested, commented, dismissed (a review),
-   * ready_for_review, added and removed (a member), joined and left, assigned, unassigned, labeled, unlabeled,
-   * review_requested, synchronized (new commits on a pull request). Null for a kind that is its own action (push,
-   * star, fork) or when not shown. New values may be added; treat any other value as null. Known values: opened,
-   * closed, reopened, merged, edited, created, deleted, published, approved, changes_requested, commented,
-   * dismissed, ready_for_review, added, removed, joined, left, assigned, unassigned, labeled, unlabeled,
-   * review_requested, synchronized.
+   * What happened to the target, for kinds with several actions (synchronized: new commits pushed to a pull
+   * request); null for a kind that is its own action (push, star, fork). New values may be added; treat unknown
+   * values as null. Known values: opened, closed, reopened, merged, edited, created, deleted, published, approved,
+   * changes_requested, commented, dismissed, ready_for_review, added, removed, joined, left, assigned, unassigned,
+   * labeled, unlabeled, review_requested, synchronized.
    */
   action: "opened" | "closed" | "reopened" | "merged" | "edited" | "created" | "deleted" | "published" | "approved" | "changes_requested" | "commented" | "dismissed" | "ready_for_review" | "added" | "removed" | "joined" | "left" | "assigned" | "unassigned" | "labeled" | "unlabeled" | "review_requested" | "synchronized" | (string & {}) | null;
   /**
-   * When it happened, RFC 3339 UTC, never later than the fetch. A date-only value is listed in approximate_fields;
-   * an item grouping a period's commits (GitHub's contribution timeline) is dated by the period's last day, or the
-   * day of the fetch while the period runs. Format: date-time.
+   * When it happened, RFC 3339 UTC, never after the fetch. Date-only values are in approximate_fields; a month's
+   * commit group takes the month's last day, or the fetch day if earlier. Format: date-time.
    */
   created_at: string;
   /** The account that acted; fields null when not shown. */
@@ -136,24 +128,23 @@ export interface Activity {
    */
   ref: string | null;
   /**
-   * What ref names, or what was created or deleted: branch, tag, or repository (a create or delete of the
-   * repository itself, with ref null); null for other kinds. New values may be added; treat any other value as
-   * null. Known values: branch, tag, repository.
+   * What ref names, or what was created or deleted (repository: the repository itself, with ref null); null for
+   * other kinds. New values may be added; treat unknown values as null. Known values: branch, tag, repository.
    */
   ref_type: "branch" | "tag" | "repository" | (string & {}) | null;
   /**
-   * For a push, or a create of a branch or tag by a push, the commit the branch or tag points to after it (a full
-   * hexadecimal commit hash); null for other kinds or when not shown.
+   * The full hexadecimal hash of the commit the branch or tag points to after a push (or a create by a push); null
+   * for other kinds.
    */
   head_sha: string | null;
   /**
-   * What the action was on, beyond the repository: the issue, pull request, release, discussion, wiki page or
-   * commit, the fork created, the member added; null for a push, a star and a create or delete of a ref.
+   * What the action was on besides the repository (target.type says which kind); null for a push, a star and a
+   * create or delete of a ref.
    */
   target: ActivityTarget | null;
   /**
-   * What the account wrote in this action: a comment's or a review's body, as plain text or Markdown as the
-   * platform holds it; null for kinds with no text of their own or an empty review.
+   * What the account wrote: a comment's or review's body, plain text or Markdown as the platform holds it; null
+   * for kinds with no text and an empty review.
    */
   text: string | null;
   /**
@@ -170,10 +161,7 @@ export interface Activity {
    * [] when all exact.
    */
   approximate_fields: string[];
-  /**
-   * JSON paths of lists whose [] means unknown rather than none; null already means unknown for every other field.
-   * [] when every list is known.
-   */
+  /** JSON paths of lists whose [] means unknown, not none. [] when every list is known. */
   unknown_fields: string[];
 }
 
@@ -710,8 +698,8 @@ export interface Ad {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -766,7 +754,7 @@ export interface AlbumTrack {
    * when not exposed. Format: uri.
    */
   play_url: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: AlbumTrackMetrics;
 }
 
@@ -804,7 +792,7 @@ export interface SoundcloudAlbumSpecific {
   purchase_url: string | null;
   /** The label of the buy link; null when SoundCloud's default is used. */
   purchase_title: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: SoundcloudAlbumMetrics;
 }
 
@@ -900,9 +888,8 @@ export interface Album {
   /** Canonical album page URL. Format: uri. */
   url: string;
   /**
-   * What kind of release it is, as the platform says: album, single, ep or compilation; null when the platform
-   * does not say. New values may be added; treat unknown values as album. Known values: album, single, ep,
-   * compilation.
+   * What kind of release it is, as the platform says; null when it does not say. New values may be added; treat
+   * unknown values as album. Known values: album, single, ep, compilation.
    */
   type: "album" | "single" | "ep" | "compilation" | (string & {}) | null;
   /**
@@ -916,22 +903,20 @@ export interface Album {
    */
   description: string | null;
   /**
-   * Who the platform credits for the release, as one display string (it can name more people than have an account
-   * linked: artists holds the linked ones); null when the source does not name them.
+   * Who the platform credits for the release, as one display string, which can name more people than artists
+   * links; null when the source names no one.
    */
   artist_name: string | null;
   /**
-   * The platform accounts of the artists credited on the release, main artist first, in the platform's order; []
-   * when none is linked, as on a Various Artists compilation (listed in unknown_fields when the source cannot see
-   * them).
+   * Accounts of the artists credited on the release, in the platform's order, main artist first; [] when none is
+   * linked, as on a Various Artists compilation (or unknown: see unknown_fields).
    */
   artists: ProfileRef[];
   /** Cover art URL at the largest size the platform serves; null when it has none. Format: uri. */
   cover_url: string | null;
   /**
-   * When it was released, RFC 3339 UTC. A release date with no time (nearly all) is midnight UTC of that date,
-   * listed in approximate_fields, and so is a year or month alone (its first day). Null when the platform states
-   * none. Format: date-time.
+   * When it was released, RFC 3339 UTC. A date without a time (nearly all) is midnight UTC, a year or month alone
+   * its first day, both listed in approximate_fields. Format: date-time.
    */
   released_at: string | null;
   /** The record label as the platform names it; null when none is shown. */
@@ -941,8 +926,8 @@ export interface Album {
   /** The release's copyright lines as the platform shows them; [] when none. */
   copyrights: AlbumCopyright[];
   /**
-   * Genres the platform files it under, as shown (not normalized), the main one first; [] when none (listed in
-   * unknown_fields when the source cannot see them).
+   * Genres the platform files it under, as shown (not normalized), the main one first; [] when none (or unknown:
+   * see unknown_fields).
    */
   genres: string[];
   /**
@@ -956,23 +941,22 @@ export interface Album {
    */
   duration_ms: number | null;
   /**
-   * The release's tracks in album order (by disc, then track number). A list of albums, whose source shows none,
-   * answers [] and lists tracks in unknown_fields; a list the source could only read part of is listed in
-   * approximate_fields.
+   * The release's tracks by disc, then track number. [] in a list of albums, which shows none (listed in
+   * unknown_fields); listed in approximate_fields when only partly read.
    */
   tracks: AlbumTrack[];
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: AlbumMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: AlbumPlatformSpecific;
   /**
-   * JSON paths of values that are date-only, rounded by the platform or parsed from display text (released_at from
-   * a date, duration_ms from "1 hour 1 minute"). A list path means the list may be incomplete. [] when all exact.
+   * JSON paths of values that are date-only, rounded by the platform or parsed from display text. A list path
+   * means the list may be incomplete. [] when all exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them), tracks[].artists
-   * for that list on every track; null already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them); tracks[].artists stands
+   * for every track's. [] when every list is known.
    */
   unknown_fields: string[];
 }
@@ -1001,15 +985,13 @@ export interface TikTokCommentSpecific {
 
 export interface RumbleCommentSpecific {
   /**
-   * Thumbs-down votes on the comment. Exact below 1,000; from 1,000 Rumble shows a label such as "1.31K", taken to
-   * be cut to three significant digits as Rumble's other counts are (not checked against an exact count), and
-   * listed in approximate_fields.
+   * Thumbs-down votes on the comment. Exact below 1,000; above, read from a label such as "1.31K" (three
+   * significant digits, presumably truncated) and listed in approximate_fields.
    */
   dislike_count: number | null;
   /**
-   * The badges Rumble shows beside the commenter's name, by their label as Rumble writes it (seen: Verified,
-   * Admin, Moderator, Supporter, Supporter+, Supporter++, Sub, Locals Supporter; new labels may appear). [] when
-   * none.
+   * Labels of the badges beside the commenter's name, as Rumble writes them (Verified, Admin, Moderator,
+   * Supporter, Supporter+, Supporter++, Sub, Locals Supporter; others may appear). [] when none.
    */
   author_badges: string[];
 }
@@ -1059,8 +1041,8 @@ export interface RedditCommentSpecific {
    */
   subreddit: RedditSubredditRef | null;
   /**
-   * Net score as Reddit shows it: upvotes minus downvotes, fuzzed by Reddit; negative for a comment most votes are
-   * against. Null when Reddit hides it (a subreddit that hides recent comments' scores, a deleted comment).
+   * Upvotes minus downvotes as Reddit shows it, fuzzed, and negative when most votes are against. Null when Reddit
+   * hides it (a subreddit hiding recent scores, a deleted comment).
    */
   score: number | null;
   /** How deep in the post's thread the comment is: 0 for a comment on the post, 1 for a reply to one, and so on. */
@@ -1078,19 +1060,18 @@ export interface RedditCommentSpecific {
    */
   is_collapsed: boolean | null;
   /**
-   * The comment's body was deleted by its author or removed by a moderator or Reddit; text is then empty. Reddit
-   * keeps such a comment in the thread when it has replies.
+   * True when the body was deleted by its author or removed by a moderator or Reddit; text is then empty. Reddit
+   * keeps such a comment while it has replies.
    */
   is_deleted: boolean | null;
   /**
-   * Replies under this comment (with their own replies) that the page leaves out, as Reddit counts them in its "N
-   * more replies" link: request the comment's url to page through them. 0 when every reply Reddit has is included.
+   * Replies under this comment, nested ones included, that the page leaves out (Reddit's "N more replies");
+   * request the comment's url to read them. 0 when none are left out.
    */
   more_replies_count: number | null;
   /**
-   * The author of the comment this one replies to, where the list names them (a user's comments: Reddit's "replied
-   * to u/…"); null where Reddit does not name them (a comment on the post, a deleted parent account) and where
-   * parent_id places the comment in its thread.
+   * Author of the comment this one replies to, where a user's comments name them ("replied to u/…") instead of a
+   * parent_id. Null otherwise, and for a deleted parent account.
    */
   reply_to_author: ProfileRef | null;
   /**
@@ -1102,9 +1083,8 @@ export interface RedditCommentSpecific {
 
 export interface InstagramCommentSpecific {
   /**
-   * The GIF the comment is (Instagram's GIPHY picker; text is then usually empty), on Meta's CDN; the URL is
-   * signed and expires within days. null when the comment has no GIF or the source does not show it (the post
-   * page's first comments). Format: uri.
+   * The comment's GIF (GIPHY; text is then usually empty), a signed Meta CDN URL that expires within days. Null
+   * when none or not shown (the post page's first comments). Format: uri.
    */
   gif_url: string | null;
 }
@@ -1184,8 +1164,8 @@ export interface BlueskyCommentSpecific {
   /** Times the reply was bookmarked; never negative. */
   save_count: number | null;
   /**
-   * Bluesky folds the reply under the thread's "Show more replies" button: the post's author hid it, or Bluesky's
-   * own ranking set it aside. Null when the thread was read from the route that does not say.
+   * True when Bluesky folds the reply under "Show more replies": the post's author hid it, or Bluesky's ranking
+   * set it aside. Null when the source does not say.
    */
   is_hidden: boolean | null;
   /** The post's author hid this reply from their thread. */
@@ -1226,24 +1206,23 @@ export interface BlueskyCommentSpecific {
    */
   quoted_post_id: string | null;
   /**
-   * The post this reply quotes, as Bluesky embeds it; null when it quotes none, or when the quoted post was
-   * deleted, is blocked, was detached by its author, or is by an account shown only to signed-in people.
+   * The post this reply quotes, as Bluesky embeds it. Null when none, or the quoted post is deleted, blocked,
+   * detached by its author or shown only to signed-in people.
    */
   quoted_post: BlueskyEmbeddedPost | null;
   /** The at:// URI of a custom feed, list or starter pack the reply embeds; null when it embeds none. */
   embedded_record_uri: string | null;
   /**
-   * The link Bridgy Fed records for a reply it brought to Bluesky from the fediverse or the web, usually where it
-   * was first published; null when it was written on Bluesky. Format: uri.
+   * The link Bridgy Fed records for a reply it brought from the fediverse or the web, usually where it was first
+   * published; null when written on Bluesky. Format: uri.
    */
   bridged_from_url: string | null;
 }
 
 export interface SnapchatCommentSpecific {
   /**
-   * The commenter's user ID, the same as platform_specific.snapchat.user_id of their snapchat.profile. It stays
-   * when they replace their public profile, which changes author.id; null when Snapchat names no account for the
-   * comment.
+   * The commenter's user ID, as in their profile's platform_specific.snapchat.user_id. Unlike author.id, it stays
+   * when they replace their public profile; null when Snapchat names no account.
    */
   author_user_id: string | null;
 }
@@ -1271,10 +1250,9 @@ export interface GitHubCommentSpecific {
   /** GitHub's GraphQL node ID of the comment (IC_kwDO…). */
   node_id: string | null;
   /**
-   * The commenter's relation to the repository: owner, member (of its organization), collaborator, contributor
-   * (has a merged commit), first_time_contributor, first_timer (first contribution on GitHub), mannequin (an
-   * imported placeholder) or none. New values may be added. Known values: owner, member, collaborator,
-   * contributor, first_time_contributor, first_timer, mannequin, none.
+   * The commenter's relation to the repository. member: of its organization; contributor: has a merged commit;
+   * first_timer: first contribution on GitHub; mannequin: an imported placeholder. New values may be added. Known
+   * values: owner, member, collaborator, contributor, first_time_contributor, first_timer, mannequin, none.
    */
   author_association: "owner" | "member" | "collaborator" | "contributor" | "first_time_contributor" | "first_timer" | "mannequin" | "none" | (string & {}) | null;
   /** Reactions to the comment, every emoji counted; never negative. */
@@ -1348,8 +1326,8 @@ export interface HackernewsCommentStory {
 
 export interface HackernewsCommentSpecific {
   /**
-   * How deep in the story's thread the comment is: 0 for a comment on the story, 1 for a reply to one, and so on.
-   * Null where the endpoint does not read the thread.
+   * How deep in the story's thread the comment is: 0 on the story, 1 for a reply to one, and so on. Null where the
+   * thread is not read.
    */
   depth: number | null;
   /**
@@ -1358,8 +1336,8 @@ export interface HackernewsCommentSpecific {
    */
   is_deleted: boolean | null;
   /**
-   * Hacker News killed the comment (flagged by users or caught by its filters), so its text is hidden from
-   * logged-out readers: text is then empty. It stays in the thread while it has replies.
+   * True when Hacker News killed the comment (flagged or caught by its filters); text is then empty, hidden from
+   * logged-out readers. It stays in the thread while it has replies.
    */
   is_dead: boolean | null;
   /**
@@ -1404,7 +1382,7 @@ export interface ProfileMetrics {
 }
 
 export interface XEmbeddedPost {
-  /** Its ID, as x.post takes it. */
+  /** Its ID, as the X (Twitter) Post API takes it. */
   id: string | null;
   /** Its URL. Format: uri. */
   url: string | null;
@@ -1492,9 +1470,8 @@ export interface XCommentSpecific {
    */
   is_author_blue_verified: boolean | null;
   /**
-   * The kind of verified organization X says the author is (business: the gold check, government: the grey one);
-   * null when it is neither. New values may be added; treat unknown values as other. Known values: business,
-   * government.
+   * The author's verified organization kind (business: gold check; government: grey check); null when neither. New
+   * values may be added; treat unknown values as other. Known values: business, government.
    */
   author_verified_type: "business" | "government" | (string & {}) | null;
   /**
@@ -1562,7 +1539,7 @@ export interface CommentPlatformSpecific {
 export interface Comment {
   /** Platform ID (tiktok, youtube, …). */
   platform: string;
-  /** Platform-native comment ID (string; Reddit with its t1_ prefix). */
+  /** Platform-native comment ID (string), exactly as the platform writes it, its prefix included. */
   id: string;
   /** ID of the post commented on (equals post.id). */
   post_id: string;
@@ -1573,14 +1550,13 @@ export interface Comment {
   /** Comment body as plain text. */
   text: string;
   /**
-   * The commenting account. An account the platform no longer names (a deleted account) has a null id and username
-   * and the platform's label as display_name (Reddit: [deleted]).
+   * The commenting account. For a deleted account, id and username are null and display_name is the platform's
+   * label.
    */
   author: ProfileRef;
   /**
-   * When the comment was posted, RFC 3339 UTC. Where the platform shows only a relative time ("3 weeks ago"), the
-   * latest time that label allows (the fetch time minus the stated amount), listed in approximate_fields. Format:
-   * date-time.
+   * When the comment was posted, RFC 3339 UTC. From a relative time ("3 weeks ago"), the latest time it allows
+   * (the fetch time minus that amount), listed in approximate_fields. Format: date-time.
    */
   published_at: string | null;
   /**
@@ -1596,7 +1572,7 @@ export interface Comment {
   is_liked_by_author: boolean | null;
   /** Written by the post's author (the creator's own comment, marked as such by the platform). */
   is_by_post_author: boolean | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: CommentMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: CommentPlatformSpecific;
@@ -1606,8 +1582,8 @@ export interface Comment {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -1635,7 +1611,7 @@ export interface FacebookCommunitySpecific {
   admin_count: number | null;
   /**
    * The IDs of the administrators among moderators (the rest are its moderators), as far as Facebook shows them;
-   * [] when none are shown (listed in unknown_fields when the source cannot see them).
+   * [] when none are shown (or unknown: see unknown_fields).
    */
   admin_ids: string[];
   /** Moderators of the group (not counting its administrators). */
@@ -1681,10 +1657,7 @@ export interface XCommunitySpecific {
   creator: ProfileRef | null;
   /** People who run it, its admin included, as X counts them. */
   moderator_count: number | null;
-  /**
-   * Words its moderators chose for people to find it by; [] when none (listed in unknown_fields when the source
-   * cannot see them).
-   */
+  /** Words its moderators chose for people to find it by; [] when none (or unknown: see unknown_fields). */
   search_tags: string[];
   /** The few members X shows on the community's page: a sample chosen by X, not its member list. */
   sample_members: ProfileRef[];
@@ -1730,29 +1703,25 @@ export interface Community {
   /** Header or cover image URL; null when it has none. Format: uri. */
   banner_url: string | null;
   /**
-   * public: anyone can see its posts and any member can post; restricted: anyone can see its posts, only approved
-   * members can post; private: only members can see its posts (a private community answers private_or_unavailable
-   * unless its page shows these fields logged out). New values may be added; treat unknown values as restricted.
-   * Known values: public, restricted, private.
+   * public: anyone sees its posts, any member posts; restricted: anyone sees its posts, approved members post;
+   * private: only members see its posts (answered private_or_unavailable unless its page shows logged out). New
+   * values may be added; treat unknown values as restricted. Known values: public, restricted, private.
    */
   privacy: "public" | "restricted" | "private" | (string & {}) | null;
   /** Marked adult (NSFW) by the platform; null where the platform has no such mark. */
   is_nsfw: boolean | null;
   /** Topics or categories the platform files it under, as shown (not normalized); [] when none. */
   categories: string[];
-  /**
-   * Its published rules, in the platform's order; [] when it has none (listed in unknown_fields when the source
-   * cannot see them).
-   */
+  /** Its published rules, in the platform's order; [] when it has none (or unknown: see unknown_fields). */
   rules: CommunityRule[];
   /**
-   * Accounts that run it (admins and moderators) the platform shows; [] when none are shown (listed in
-   * unknown_fields when the source cannot see them).
+   * Accounts that run it (admins and moderators) the platform shows; [] when none are shown (or unknown: see
+   * unknown_fields).
    */
   moderators: ProfileRef[];
   /** When it was created, RFC 3339 UTC. Format: date-time. */
   created_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: CommunityMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: CommunityPlatformSpecific;
@@ -1762,8 +1731,8 @@ export interface Community {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -1826,10 +1795,7 @@ export interface ContributionCalendar {
   url: string;
   /** The account whose contributions these are; at least its username. */
   account: ProfileRef;
-  /**
-   * The calendar year the period is, when it is one (January 1 to December 31, cut at today for the current year);
-   * null when the period is the trailing twelve months.
-   */
+  /** The calendar year the period covers, cut at today for the current year; null for the trailing twelve months. */
   year: number | null;
   /** First day of the period, YYYY-MM-DD (days[0].date). Format: date. */
   start_date: string;
@@ -1852,7 +1818,7 @@ export interface ContributionCalendar {
    * today).
    */
   approximate_fields: string[];
-  /** JSON paths of lists whose [] means unknown rather than none; days always lists the period, so always []. */
+  /** JSON paths of lists whose [] means unknown, not none; days always lists the period, so always []. */
   unknown_fields: string[];
 }
 
@@ -1971,8 +1937,8 @@ export interface Download {
    */
   thumbnail_url: string | null;
   /**
-   * The post's files by item_index, the sound last; each item's best first (a url, the item's own kind before its
-   * separate audio, no watermark, with sound, not a manifest, then resolution). At least one has a url.
+   * Files by item_index, the sound last; each item's best first (has a url, its own kind before separate audio, no
+   * watermark, with sound, not a manifest, then resolution). At least one has a url.
    */
   files: DownloadFile[];
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
@@ -1982,7 +1948,7 @@ export interface Download {
    * when all exact.
    */
   approximate_fields: string[];
-  /** JSON paths of lists whose [] means unknown rather than none. [] when every list is known. */
+  /** JSON paths of lists whose [] means unknown, not none. [] when every list is known. */
   unknown_fields: string[];
 }
 
@@ -2034,18 +2000,18 @@ export interface Effect {
   media: Media[];
   /** When the effect was published, RFC 3339 UTC. Format: date-time. */
   published_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: EffectMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: EffectPlatformSpecific;
   /**
-   * JSON paths of values rounded by the platform or parsed from display text (e.g. metrics.post_count from "304.5M
-   * videos"). A list path (media) means the list may be incomplete. [] when all exact.
+   * JSON paths of values rounded by the platform or parsed from display text ("304.5M videos":
+   * metrics.post_count). A list path (media) means the list may be incomplete. [] when all exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -2066,17 +2032,15 @@ export interface Embed {
    */
   type: "post" | "profile" | "playlist" | (string & {});
   /**
-   * The ID the platform's embed is addressed by (as in embed_url): a post's ID (equals post.id), a playlist's ID,
-   * and for a profile the account's username on platforms whose profile embeds are addressed by it (Instagram,
-   * TikTok); the account's numeric ID, when known, is author.id.
+   * The ID in embed_url: a post's (equals post.id) or a playlist's; for a profile, the username where embeds
+   * address profiles by it (Instagram, TikTok), with the numeric ID in author.id.
    */
   id: string;
   /** Canonical public URL of what is embedded (post.url, profile.url): the link the embed opens. Format: uri. */
   url: string;
   /**
-   * The platform's embed code, ready to paste into an HTML page: its markup and, unless asked to leave it out, the
-   * script tag that turns it into the embedded post or profile. It loads the platform's script and content in the
-   * visitor's browser.
+   * The platform's embed code: its markup and, unless asked to leave it out, the script tag that renders it,
+   * loading the platform's content in the visitor's browser.
    */
   html: string;
   /**
@@ -2116,8 +2080,8 @@ export interface Embed {
 
 export interface YouTubeProfileSpecific {
   /**
-   * The channel's keywords as its owner wrote them, a quoted phrase as one keyword; [] when it has none (listed in
-   * unknown_fields when the source cannot see them).
+   * The channel's keywords as its owner wrote them, a quoted phrase as one keyword; [] when it has none (or
+   * unknown: see unknown_fields).
    */
   keywords: string[];
   /**
@@ -2126,9 +2090,8 @@ export interface YouTubeProfileSpecific {
    */
   is_official_artist_channel: boolean | null;
   /**
-   * True when the channel hides its subscriber count (metrics.follower_count is then null; neither its About panel
-   * nor its header shows one), false when YouTube shows it; null when that cannot be told (no About panel or
-   * header seen).
+   * True when the channel hides its subscriber count (metrics.follower_count is then null), false when YouTube
+   * shows it; null when neither its About panel nor its header was seen.
    */
   is_subscriber_count_hidden: boolean | null;
   /**
@@ -2157,48 +2120,39 @@ export interface InstagramProfileSpecific {
    */
   is_highlights_shown: boolean | null;
   /**
-   * The kind of account Instagram says it is: personal, or one of its professional kinds, business or creator (an
-   * account picks one; it says nothing of whether a person or an organization runs it). Null when the source does
-   * not show it. New values may be added; treat unknown values as unknown. Known values: personal, business,
+   * The account kind Instagram states (business and creator are professional kinds the owner picks, saying nothing
+   * of who runs it). New values may be added; treat unknown values as unknown. Known values: personal, business,
    * creator.
    */
   account_type: "personal" | "business" | "creator" | (string & {}) | null;
-  /**
-   * The pronouns the owner chose to show on the profile, as shown; [] when none (listed in unknown_fields when the
-   * source cannot see them).
-   */
+  /** The pronouns the owner chose to show on the profile, as shown; [] when none (or unknown: see unknown_fields). */
   pronouns: string[];
 }
 
 export interface RumbleProfileSpecific {
   /**
-   * channel for a Rumble channel (rumble.com/c/<name>), user for a Rumble user (rumble.com/user/<name>: the
-   * account that uploads, which can own channels). Null when unknown. New values may be added; treat unknown
-   * values as unknown. Known values: channel, user.
+   * channel: a Rumble channel (rumble.com/c/<name>); user: the uploading account (rumble.com/user/<name>), which
+   * can own channels. New values may be added; treat unknown values as unknown. Known values: channel, user.
    */
   account_type: "channel" | "user" | (string & {}) | null;
   /**
-   * Rumble's numeric ID of the channel or the user, in decimal (the channel's is the number in its
-   * rumble.com/c/c-<id> link). Channels and users are numbered separately, so the same number can name a channel
-   * and a user: id is the unambiguous reference. Null when unknown.
+   * Rumble's decimal number for the channel or user (a channel's is in its rumble.com/c/c-<id> link). Channels and
+   * users are numbered separately, so one number can name both: id is unambiguous.
    */
   numeric_id: string | null;
   /**
-   * The id of the Rumble user that owns the channel (_u…, the id this endpoint answers for that user); for a user,
-   * its own id. Channels of one owner share it. Null when the page does not show it.
+   * The id of the Rumble user that owns the channel (_u…, usable as input for that user), shared by the owner's
+   * channels; for a user, its own id.
    */
   user_id: string | null;
 }
 
 export interface ThreadsProfileSpecific {
-  /**
-   * Topic labels Threads shows on the profile, as shown; [] when it shows none (listed in unknown_fields when the
-   * source cannot see them).
-   */
+  /** Topic labels Threads shows on the profile, as shown; [] when it shows none (or unknown: see unknown_fields). */
   interest_tags: string[];
   /**
-   * The external_links URLs Threads marks as verified, in the same form; [] when none is marked (listed in
-   * unknown_fields when the source cannot see the links).
+   * The external_links URLs Threads marks as verified, in the same form; [] when none is marked (or unknown: see
+   * unknown_fields).
    */
   verified_link_urls: string[];
 }
@@ -2238,8 +2192,8 @@ export interface RedditTrophy {
 
 export interface RedditProfileSpecific {
   /**
-   * Total karma, as the profile shows it: post karma plus comment karma. Reddit's own score of the upvotes the
-   * account's posts and comments received, fuzzed and not a count of votes.
+   * Total karma as the profile shows it, post plus comment karma: Reddit's fuzzed score of the upvotes the
+   * account's posts and comments received, not a count of votes.
    */
   karma: number | null;
   /** Karma from the account's posts. */
@@ -2259,13 +2213,10 @@ export interface RedditProfileSpecific {
   is_nsfw: boolean | null;
   /**
    * Subreddits the account moderates, as its profile lists them; Reddit lists the first few only (the list is then
-   * in approximate_fields). [] when it moderates none (listed in unknown_fields when the source cannot see them).
+   * in approximate_fields). [] when it moderates none (or unknown: see unknown_fields).
    */
   moderated_subreddits: RedditSubredditRef[];
-  /**
-   * The account's Trophy Case, in Reddit's order; [] when it has none (listed in unknown_fields when the source
-   * cannot see them).
-   */
+  /** The account's Trophy Case, in Reddit's order; [] when it has none (or unknown: see unknown_fields). */
   trophies: RedditTrophy[];
 }
 
@@ -2296,15 +2247,15 @@ export interface GoogleElectionAdvertiser {
 
 export interface GoogleProfileSpecific {
   /**
-   * The ads the center shows for the advertiser, as Google's range (equal bounds when exact), in the region the
-   * request names where it takes one; metrics.post_count is its lower bound. Null when not shown.
+   * How many ads the center shows for the advertiser, as Google's range (equal bounds when exact), in the
+   * request's region where it takes one; metrics.post_count is its lower bound.
    */
   ads: Range | null;
   /** The advertiser's legal name, as Google verified it; null when the center shows none. */
   legal_name: string | null;
   /**
-   * The last time one of the advertiser's ads was shown, RFC 3339 UTC (among the ads counted in ads); null when it
-   * has none or the center does not show it. Format: date-time.
+   * When one of the advertiser's ads (those counted in ads) was last shown, RFC 3339 UTC; null when it has none or
+   * the center does not show it. Format: date-time.
    */
   last_shown_at: string | null;
   /**
@@ -2362,13 +2313,13 @@ export interface FacebookProfileSpecific {
   /** True for a memorialized account ("Remembering …"). */
   is_memorialized: boolean | null;
   /**
-   * How many people Facebook counts as talking about the account. It is shown only on the profile's own page,
-   * which most requests are answered without: null when this answer did not read it.
+   * People Facebook counts as talking about the account. Only the profile's own page shows it, and most answers
+   * don't read that page: null then.
    */
   talking_about_count: number | null;
   /**
-   * How many people have checked in at a place's Page. It is shown only on the profile's own page, which most
-   * requests are answered without: null when this answer did not read it, or for an account that is not a place.
+   * People who checked in at a place's Page; null for other accounts. Only the profile's own page shows it, and
+   * most answers don't read that page: null then too.
    */
   were_here_count: number | null;
   /** The public contact email the profile shows. */
@@ -2424,9 +2375,9 @@ export interface FacebookProfileSpecific {
    */
   is_deleted: boolean | null;
   /**
-   * Meta's own label for the advertiser in its Ad Library, as written there (PERSON_PROFILE, REGULAR_PAGE,
-   * IG_ADS_IDENTITY for an advertiser that exists only on Instagram). It labels brands PERSON_PROFILE too: it says
-   * how Meta files the advertiser, not what it is. New values may appear. Null for a profile read from elsewhere.
+   * Meta's Ad Library label for the advertiser (PERSON_PROFILE, REGULAR_PAGE, IG_ADS_IDENTITY for an
+   * Instagram-only advertiser): how Meta files it, not what it is (brands get PERSON_PROFILE too). Null when read
+   * elsewhere.
    */
   ad_library_entity_type: string | null;
 }
@@ -2616,8 +2567,8 @@ export interface LinkbioSocialLink {
 
 export interface LinkbioProfileSpecific {
   /**
-   * The @name the page shows under its picture, without the @: usually the account's Instagram username, which can
-   * differ from the page's own name (username). Null when the page shows none.
+   * The @name under the page's picture, without the @: usually the account's Instagram username, which can differ
+   * from username (the page's own). Null when none is shown.
    */
   linked_username: string | null;
   /** Email addresses the page lists as contact icons, links, contact cards or in its bio; [] if none. */
@@ -2627,8 +2578,8 @@ export interface LinkbioProfileSpecific {
   /** The page's row of social and contact icons, in order; [] if none. */
   social_links: LinkbioSocialLink[];
   /**
-   * How many links the page's link list holds, icons not included: what was read when that is all of it, else
-   * Lnk.Bio's own count, which can include embedded players. Null when neither is known.
+   * Links in the page's link list, icons not included: the count read when the list was read whole, else Lnk.Bio's
+   * own count, which can include embedded players.
    */
   link_count: number | null;
   /**
@@ -2700,8 +2651,8 @@ export interface LinkmeProfileSpecific {
   /** The page's row of social icons, in order; [] if none. */
   social_links: LinkmeSocialLink[];
   /**
-   * The page's list of link buttons and cards, in page order, with a carousel's cards in place of the carousel and
-   * without section headings, which each entry names instead; [] if none.
+   * The page's link buttons and cards in page order, a carousel's cards in its place, section headings left out
+   * (each entry names its section); [] if none.
    */
   featured_links: LinkmeFeaturedLink[];
   /** How many entries Linkme counts in the page's link list, section headings and carousels each counting as one. */
@@ -2712,14 +2663,13 @@ export interface LinkmeProfileSpecific {
    */
   profile_visit_count: number | null;
   /**
-   * The part of metrics.follower_count that comes from the networks the account connected to Linkme. Null when it
-   * has none (no network connected), when the account hid its total, or on a private page.
+   * The part of metrics.follower_count from the networks the account connected to Linkme; null when none is
+   * connected, the account hid its total, or the page is private.
    */
   network_follower_count: number | null;
   /**
-   * The part of metrics.follower_count Linkme counts itself, which the page's followers sheet lists as Links on
-   * the account's own Linkme row; not the links on the page (link_count is). Null when the account hid its total,
-   * or on a private page.
+   * The part of metrics.follower_count Linkme counts itself (the followers sheet's Links), not the page's links
+   * (link_count). Null when the total is hidden or the page private.
    */
   linkme_connection_count: number | null;
   /** True when the page opens behind an age gate: a notice to continue past, or a birth date to type. */
@@ -2741,9 +2691,8 @@ export interface XAffiliation {
 
 export interface XProfileSpecific {
   /**
-   * The kind of verified organization X says the account is (business: the gold check, government: the grey one);
-   * null when it is neither, or when the source does not show it. New values may be added; treat unknown values as
-   * other. Known values: business, government.
+   * The account's verified organization kind (business: gold check; government: grey check); null when neither or
+   * not shown. New values may be added; treat unknown values as other. Known values: business, government.
    */
   verified_type: "business" | "government" | (string & {}) | null;
   /**
@@ -2770,14 +2719,13 @@ export interface XProfileSpecific {
   /** Posts on the profile's Highlights tab; null when the source does not show it. */
   highlighted_post_count: number | null;
   /**
-   * IDs of the posts pinned to the top of the profile, as x.post takes them; [] when none (listed in
-   * unknown_fields when the source cannot see them).
+   * IDs of the posts pinned to the top of the profile, as the X (Twitter) Post API takes them; [] when none (or
+   * unknown: see unknown_fields).
    */
   pinned_post_ids: string[];
   /**
-   * The professional account kind the owner chose (business or creator); null for a personal account or when the
-   * source does not show it. New values may be added; treat unknown values as other. Known values: business,
-   * creator.
+   * The professional account kind the owner chose; null for a personal account or when not shown. New values may
+   * be added; treat unknown values as other. Known values: business, creator.
    */
   professional_type: "business" | "creator" | (string & {}) | null;
   /**
@@ -2789,7 +2737,7 @@ export interface XProfileSpecific {
   is_possibly_sensitive: boolean | null;
   /**
    * ISO 3166-1 alpha-2 codes of the countries where X withholds the account for legal reasons, upper case; [] when
-   * none (listed in unknown_fields when the source cannot see them).
+   * none (or unknown: see unknown_fields).
    */
   withheld_in_countries: string[];
 }
@@ -2852,8 +2800,8 @@ export interface LinkedInPosition {
   /** The member's description of it; null when none. */
   description: string | null;
   /**
-   * The skills the member ties to the position, in their order; [] when they tie none. LinkedIn's logged-out page
-   * doesn't show them (unknown_fields names them then); a data partner's copy does (meta.source vendor).
+   * Skills the member ties to the position, in their order; [] when none. Only a data partner's copy shows them
+   * (meta.source vendor); otherwise unknown_fields lists them.
    */
   skills: string[];
 }
@@ -2874,7 +2822,7 @@ export interface LinkedInVolunteering {
   role: string | null;
   /** The organization, with its Page's link when it has one; null when not shown. */
   organization: ProfileRef | null;
-  /** The cause, as LinkedIn names it (Economic Empowerment, Health, Education); null when not shown. */
+  /** The cause, as LinkedIn names it (Animal Welfare, Health, Education); null when not shown. */
   cause: string | null;
   /** When it started, a year (2015) or a month (2015-03); null when not shown. */
   started_on: string | null;
@@ -3029,16 +2977,14 @@ export interface LinkedInMemberRef {
 
 export interface LinkedInProfileSpecific {
   /**
-   * What the account is on LinkedIn: a company's Page (linkedin.com/company/…), a school's (/school/…), a showcase
-   * page, a company's page for one brand or product (/showcase/…), a member, a person (/in/…), or a newsletter
-   * members subscribe to (/newsletters/…). New values may be added; treat unknown values as other. Known values:
-   * company, school, showcase, member, newsletter.
+   * The account's kind on LinkedIn; member: a person (/in/…); showcase: a company's page for one brand or product
+   * (/showcase/…). New values may be added; treat unknown values as other. Known values: company, school,
+   * showcase, member, newsletter.
    */
   kind: "company" | "school" | "showcase" | "member" | "newsletter" | (string & {}) | null;
   /**
-   * How often a newsletter is published, as LinkedIn shows it under its name (daily, weekly, biweekly or monthly);
-   * null for any other account, and when LinkedIn shows none. New values may be added; treat unknown values as
-   * other. Known values: daily, weekly, biweekly, monthly.
+   * How often a newsletter is published, as LinkedIn shows under its name; null for other accounts or when not
+   * shown. New values may be added; treat unknown values as other. Known values: daily, weekly, biweekly, monthly.
    */
   publication_frequency: "daily" | "weekly" | "biweekly" | "monthly" | (string & {}) | null;
   /** The Page's tagline, the line under its name; null when it has none, and for a member. */
@@ -3085,9 +3031,8 @@ export interface LinkedInProfileSpecific {
   /** True when LinkedIn marks the member as an influencer (its Top Voice badge beside the name); null for a Page. */
   is_influencer: boolean | null;
   /**
-   * The member's positions, as their public profile lists them (current first, then past). Where LinkedIn hides
-   * the list from logged-out visitors, the current organization it still names, with title null; [] when it names
-   * none.
+   * The member's positions as their public profile lists them, current first. Where LinkedIn hides the list logged
+   * out, the current organization it still names, with title null; [] when none.
    */
   experience: LinkedInPosition[];
   /**
@@ -3098,8 +3043,8 @@ export interface LinkedInProfileSpecific {
   /** True when LinkedIn marks the member as a creator (creator mode); null for a Page. */
   is_creator: boolean | null;
   /**
-   * True when the member shows LinkedIn's Open to Work frame, false when they don't; null when unknown (LinkedIn's
-   * logged-out page doesn't show it, a data partner's copy does: meta.source vendor) and for a Page.
+   * True when the member shows LinkedIn's Open to Work frame, false when not; null for a Page and when unknown
+   * (only a data partner's copy shows it: meta.source vendor).
    */
   is_open_to_work: boolean | null;
   /**
@@ -3145,11 +3090,10 @@ export interface LinkedInProfileSpecific {
   /** Members LinkedIn shows as similar to this one (its People also viewed); [] when it shows none, and for a Page. */
   similar_profiles: LinkedInMemberRef[];
   /**
-   * On a list of the accounts that reacted to a post (the LinkedIn Post Reactions API): how this one reacted, by
-   * LinkedIn's own name: like, praise (Celebrate), empathy (Love), appreciation (Support), interest (Insightful)
-   * or entertainment (Funny). Null on every other answer, and when the reaction's type isn't known. New values may
-   * be added; treat any other value as null. Known values: like, praise, empathy, appreciation, interest,
-   * entertainment.
+   * How this account reacted, on a list of a post's reactions (the LinkedIn Post Reactions API): praise
+   * (Celebrate), empathy (Love), appreciation (Support), interest (Insightful), entertainment (Funny). Null
+   * elsewhere and when not said. New values may be added; treat unknown values as null. Known values: like,
+   * praise, empathy, appreciation, interest, entertainment.
    */
   reaction_type: "like" | "praise" | "empathy" | "appreciation" | "interest" | "entertainment" | (string & {}) | null;
 }
@@ -3181,9 +3125,9 @@ export interface KomiPageItem {
   /** Komi's ID of the item; null for items Komi reads from another service (a shop's or Bandsintown's). */
   id: string | null;
   /**
-   * Komi's name for the kind of module, lowercase: link, product, digital_product, youtube_video, youtube_short,
+   * The module's kind, as Komi names it. Known: link, product, digital_product, youtube_video, youtube_short,
    * tiktok_video, instagram_reel, music, podcast, events, bandsintown, seated, text, media_gallery, shop_my_shelf,
-   * mail_link, data_capture_signup, form_data, … New values may be added: treat an unknown one as a generic item.
+   * mail_link, data_capture_signup, form_data. New values may be added; treat unknown values as a generic item.
    */
   type: string;
   /** The name of the group the item sits in on the page; null when it is in none. */
@@ -3193,18 +3137,15 @@ export interface KomiPageItem {
   /** The item's label: a link's text, a product's name, a video's or a release's title. */
   title: string | null;
   /**
-   * Where the item leads: the link's target (a mailto: link for a mail_link), the product's page, the video, the
-   * release's or the digital product's page on Komi, an event's tickets. Null for a form or a text. Format: uri.
+   * Where the item leads: a link's target (mailto: for a mail_link), the product's page, the video, a release's or
+   * digital product's Komi page, an event's tickets. Null for a form or text. Format: uri.
    */
   url: string | null;
   /** The item's image; null when it has none. Format: uri. */
   thumbnail_url: string | null;
   /** The text of a text module, a gallery image's caption, or a product's description. */
   description: string | null;
-  /**
-   * A product's price as the page shows it, in major units of currency; 0 is a free digital download; null when
-   * the item has no price or the page shows none.
-   */
+  /** A product's price as shown, in major units of currency; 0 is a free digital download; null when none is shown. */
   price: number | null;
   /** ISO 4217 currency of price; null when the item has no price or Komi does not say. */
   currency: string | null;
@@ -3233,14 +3174,13 @@ export interface KomiProfileSpecific {
   /** The artwork the page shows as its name, when it has one; null otherwise. Format: uri. */
   display_name_image_url: string | null;
   /**
-   * The page's row of social and music profiles and contact links, in the page's order; [] when it has none
-   * (listed in unknown_fields when the source cannot see them).
+   * The page's row of social and music profiles and contact links, in the page's order; [] when it has none (or
+   * unknown: see unknown_fields).
    */
   social_links: KomiSocialLink[];
   /**
-   * What the page shows, flattened in the page's order: links, products, videos, music, podcasts, events, text and
-   * galleries. Modules the owner has hidden are not returned; [] when the page shows nothing (listed in
-   * unknown_fields when the source cannot see them).
+   * What the page shows, flattened in its order (links, products, videos, music, podcasts, events, text,
+   * galleries), hidden modules left out; [] when it shows nothing (or unknown: see unknown_fields).
    */
   items: KomiPageItem[];
 }
@@ -3275,19 +3215,16 @@ export interface BlueskyProfileSpecific {
    * page answered instead of the AppView.
    */
   is_trusted_verifier: boolean | null;
-  /**
-   * Who verified this account, each with when; [] when nobody did (listed in unknown_fields when the source cannot
-   * see them).
-   */
+  /** Who verified this account, each with when; [] when nobody did (or unknown: see unknown_fields). */
   verified_by: BlueskyVerification[];
   /**
-   * The at:// ID of the post the account pinned, which bluesky.post takes as url; null when it pinned none, or
-   * when the public page answered instead of the AppView.
+   * The at:// ID of the post the account pinned, which the Bluesky Post API takes as url; null when it pinned none
+   * or the source does not show it.
    */
   pinned_post_id: string | null;
   /**
-   * Moderation and self labels on the account (bot, porn, spam, …), as Bluesky names them; [] when none (listed in
-   * unknown_fields when the source cannot see them).
+   * Moderation and self labels on the account (bot, porn, spam, …), as Bluesky names them; [] when none (or
+   * unknown: see unknown_fields).
    */
   labels: string[];
   /** How many lists the account made; null when the public page answered instead of the AppView. */
@@ -3350,7 +3287,7 @@ export interface SoundcloudProfileSpecific {
   last_modified_at: string | null;
   /**
    * The links the account lists on its profile, in its order, with SoundCloud's name for each and the email
-   * addresses among them; [] when none (listed in unknown_fields when the source cannot see them).
+   * addresses among them; [] when none (or unknown: see unknown_fields).
    */
   social_links: SoundcloudSocialLink[];
 }
@@ -3430,7 +3367,7 @@ export interface SnapchatSpotlightSummary {
   width: number | null;
   /** Height in pixels. */
   height: number | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: SnapchatSpotlightMetrics;
 }
 
@@ -3447,8 +3384,8 @@ export interface SnapchatProfileSpecific {
   /** The subcategory the account chose, as the platform identifies it (public-profile-subcategory-v3-creator). */
   subcategory_id: string | null;
   /**
-   * True when the Story the profile page plays holds a Snap under 24 hours old, false when it plays none or only
-   * older ones; null when unknown (no public profile, or Snaps that state no time).
+   * True when the profile's Story holds a Snap under 24 hours old, false when it has none or only older ones; null
+   * without a public profile or Snap times.
    */
   is_story_live: boolean | null;
   /** The page says the account has public Spotlights. */
@@ -3501,8 +3438,8 @@ export interface KwaiProfileSpecific {
    */
   playlist_count: number | null;
   /**
-   * True when Kwai writes the account as banned, and it gives no reason. Kwai then blanks the account's name,
-   * picture, bio and badge, so is_verified is null, and lists no posts whatever metrics.post_count says.
+   * True when Kwai marks the account banned (it gives no reason). Kwai then blanks its name, picture, bio and
+   * badge (is_verified null) and lists no posts, whatever metrics.post_count says.
    */
   is_banned: boolean | null;
 }
@@ -3510,7 +3447,7 @@ export interface KwaiProfileSpecific {
 export interface TwitchCategory {
   /** Twitch's ID of the category. */
   id: string | null;
-  /** Its name (Just Chatting). */
+  /** Its name (Fortnite). */
   name: string | null;
   /** Its name in links (twitch.tv/directory/category/just-chatting). */
   slug: string | null;
@@ -3592,15 +3529,14 @@ export interface TelegramProfileSpecific {
    */
   account_type: "channel" | "group" | "user" | "bot" | (string & {}) | null;
   /**
-   * Telegram's numeric ID of the channel, which stays when its username changes. Null when the channel's preview
-   * shows none (its first message was deleted, or it serves no preview), and for a group, a user or a bot.
+   * Telegram's numeric ID of the channel, which survives username changes. Null when its preview shows none (first
+   * message deleted, or no preview), and for a group, user or bot.
    */
   channel_id: string | null;
   /**
-   * Whether t.me served this channel's public preview (t.me/s/<name>, where telegram.channel_posts reads its
-   * posts) from where this request left: it is off on some channels, and Telegram withholds some only in certain
-   * countries. False for a group, a user or a bot. Null when the request for the preview failed (a partial_data
-   * warning).
+   * Whether t.me served the channel's public preview (t.me/s/<name>, what the Telegram Channel Posts API reads) to
+   * this request's location: some channels turn it off, and Telegram withholds some by country. False for a group,
+   * user or bot; null when the request failed (partial_data).
    */
   is_preview_available: boolean | null;
   /** Members online now, on a group that shows it; null otherwise. */
@@ -3629,7 +3565,7 @@ export interface SpotifyTopCity {
 }
 
 export interface SpotifyArtistTrack {
-  /** The track's base62 ID, what spotify.track takes. */
+  /** The track's base62 ID, what the Spotify Track API takes. */
   id: string;
   /** The track's page. Format: uri. */
   url: string;
@@ -3645,7 +3581,7 @@ export interface SpotifyArtistTrack {
   is_explicit: boolean | null;
   /** The disc of its release it is on; null where the list states none. */
   disc_number: number | null;
-  /** The ID of the release it is on, what spotify.album takes. */
+  /** The ID of the release it is on, what the Spotify Album API takes. */
   album_id: string | null;
   /** The release's cover at its largest size. Format: uri. */
   cover_url: string | null;
@@ -3657,7 +3593,7 @@ export interface SpotifyArtistTrack {
 }
 
 export interface SpotifyRelease {
-  /** The release's base62 ID, what spotify.album takes. */
+  /** The release's base62 ID, what the Spotify Album API takes. */
   id: string;
   /** The release's page. Format: uri. */
   url: string;
@@ -3697,9 +3633,9 @@ export interface SpotifyReleases {
   /** The releases the artist's page shows; [] when it shows none. */
   items: SpotifyRelease[];
   /**
-   * Every release ID Spotify's metadata record lists for the section, those in items included, each what
-   * spotify.album takes. One release can have several, its editions for different countries, so this can list more
-   * than total_count. [] when it lists none, or when the record could not be read (then named in partial_data).
+   * Every release ID Spotify lists for the section, items' included, each one the Spotify Album API takes;
+   * editions for other countries have their own, so this can exceed total_count. [] when none or unreadable (see
+   * partial_data).
    */
   ids: string[];
 }
@@ -3722,7 +3658,7 @@ export interface SpotifyConcert {
 }
 
 export interface SpotifyPlaylistRef {
-  /** The playlist's base62 ID, what spotify.playlist takes. */
+  /** The playlist's base62 ID, what the Spotify Playlist API takes. */
   id: string;
   /** The playlist's page. Format: uri. */
   url: string;
@@ -3775,8 +3711,8 @@ export interface SpotifyProfileSpecific {
   /** The cities with the most monthly listeners, most first, as many as Spotify shows; [] when it shows none. */
   top_cities: SpotifyTopCity[];
   /**
-   * The tracks the artist's page lists as popular, in its order; [] when it lists none. spotify.track answers each
-   * in full.
+   * The tracks the artist's page lists as popular, in its order; [] when it lists none. The Spotify Track API
+   * answers each in full.
    */
   top_tracks: SpotifyArtistTrack[];
   /**
@@ -3820,8 +3756,8 @@ export interface SpotifyProfileSpecific {
   /** How many playlists Spotify counts as featuring the artist, which featured_in can hold fewer of. */
   featured_in_count: number | null;
   /**
-   * Playlists where listeners discovered the artist, as many as the page shows, which can be fewer than
-   * discovered_on_count says: Spotify answers some of them with an error, and they are left out. [] when none.
+   * Playlists where listeners discovered the artist, as the page shows them; Spotify fails on some, which are left
+   * out, so there can be fewer than discovered_on_count. [] when none.
    */
   discovered_on: SpotifyPlaylistRef[];
   /**
@@ -3874,15 +3810,13 @@ export interface PinterestProfileSpecific {
   /** Boards, as Pinterest counts them for the account. Its public list of boards can hold fewer. */
   playlist_count: number | null;
   /**
-   * The account's monthly views, as Pinterest counts them: how often its pins were seen over the last month. Above
-   * ten million Pinterest writes only that it is more, and this is 10000000, listed in approximate_fields; null
-   * when the account hides it.
+   * Pinterest's monthly views: how often the account's pins were seen in the last month. Above ten million it says
+   * only that, and this is 10000000 (in approximate_fields); null when hidden.
    */
   monthly_view_count: number | null;
   /**
-   * Everything the account follows, as Pinterest counts it: accounts, boards and interests.
-   * metrics.following_count counts the accounts alone. Its page's "N following" is this minus
-   * interest_following_count (accounts and boards), so it can be more than metrics.following_count.
+   * Everything the account follows: accounts, boards and interests (metrics.following_count counts accounts
+   * alone). Its page's "N following" is this minus interest_following_count.
    */
   all_following_count: number | null;
   /**
@@ -3929,8 +3863,8 @@ export interface AmazonSellerRatings {
 
 export interface AmazonSellerFeedback {
   /**
-   * Share of the last 12 months' ratings that are positive (4 or 5 stars), as Amazon rounds it to a whole percent;
-   * null when the page shows none (no ratings in the last 12 months).
+   * Share of the last 12 months' ratings that are positive (4 or 5 stars), a whole percent as Amazon rounds it;
+   * null when there are none in that period.
    */
   positive_percent: number | null;
   /** Ratings from the last 30 days (the page's 1 month); null when the page shows none. */
@@ -3987,7 +3921,7 @@ export interface AmazonCuration {
 }
 
 export interface AmazonTrendingPick {
-  /** The product's ASIN (what amazon.product takes). */
+  /** The product's ASIN (what the Amazon Product API takes). */
   asin: string;
   /** The product's page in the storefront's marketplace. Format: uri. */
   url: string;
@@ -4008,8 +3942,8 @@ export interface AmazonStorefront {
    */
   is_top_creator: boolean | null;
   /**
-   * Its curations, named collections of its posts, in the storefront's order; [] when it has none (listed in
-   * unknown_fields when the source cannot see them).
+   * Its curations, named collections of its posts, in the storefront's order; [] when it has none (or unknown: see
+   * unknown_fields).
    */
   curations: AmazonCuration[];
   /** The products Amazon shows as trending from this storefront, in its order; [] when it shows none. */
@@ -4018,15 +3952,13 @@ export interface AmazonStorefront {
 
 export interface AmazonProfileSpecific {
   /**
-   * A seller's feedback from its buyers: the share of positive ratings, and per period its star rating and its
-   * ratings per star. Null on an account that is not a seller, or a seller whose page shows no feedback (Amazon's
+   * A seller's feedback from buyers; null for an account that is not a seller or whose page shows none (Amazon's
    * own subsidiaries).
    */
   seller_feedback: AmazonSellerFeedback | null;
   /**
-   * A seller's business identity, as its page discloses it (by law in the US and the EU): legal name, registration
-   * and VAT numbers, phone, email and addresses. Null on an account that is not a seller, or a seller whose page
-   * discloses none.
+   * A seller's business identity as its page discloses it (required in the US and the EU); null for an account
+   * that is not a seller or whose page discloses none.
    */
   seller_business: AmazonSellerBusiness | null;
   /**
@@ -4100,7 +4032,7 @@ export interface GithubProfileSpecific {
   archived_at: string | null;
   /**
    * How many commits to the repository GitHub credits the account with, on a repository's list of contributors
-   * (github.repository_contributors); null on every other answer.
+   * (the GitHub Contributors API); null on every other answer.
    */
   contribution_count: number | null;
   /**
@@ -4117,8 +4049,8 @@ export interface HackernewsProfileSpecific {
    */
   karma: number | null;
   /**
-   * How many items the user has submitted, exact: stories, comments, jobs and polls together, including ones
-   * Hacker News has since killed, as its API lists them. null when it could not be read (see partial_data).
+   * Items the user has submitted, exact: stories, comments, jobs and polls, killed ones included. Null when it
+   * could not be read (see partial_data).
    */
   submission_count: number | null;
 }
@@ -4189,7 +4121,7 @@ export interface ProfilePlatformSpecific {
 export interface Profile {
   /** Platform ID (tiktok, youtube, …). */
   platform: string;
-  /** Platform-native account ID (string; YouTube UC…, Reddit t2_…). */
+  /** Platform-native account ID (string), exactly as the platform writes it, its prefix included. */
   id: string;
   /** Handle without the @; null when the account has none. */
   username: string | null;
@@ -4198,9 +4130,8 @@ export interface Profile {
   /** Canonical profile URL. Format: uri. */
   url: string;
   /**
-   * Coarse account kind, as the platform labels it; unknown when it does not (TikTok labels organizations only).
-   * New values may be added; treat unknown values as unknown. Known values: person, organization, community,
-   * unknown.
+   * Coarse account kind, as the platform labels it; unknown when it does not. New values may be added; treat
+   * unknown values as unknown. Known values: person, organization, community, unknown.
    */
   type: "person" | "organization" | "community" | "unknown" | (string & {});
   /** Profile bio, channel description or page about text; null when empty or not exposed. */
@@ -4229,18 +4160,18 @@ export interface Profile {
    * Format: date-time.
    */
   created_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: ProfileMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: ProfilePlatformSpecific;
   /**
-   * JSON paths of values rounded by the platform or parsed from display text (e.g. metrics.follower_count). A list
-   * path (external_links) means the list may be incomplete. [] when all exact.
+   * JSON paths of values rounded by the platform or parsed from display text (metrics.follower_count). A list path
+   * (external_links) means the list may be incomplete. [] when all exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -4311,7 +4242,7 @@ export interface TikTokPostSpecific {
   music: TikTokPostMusic | null;
   /** The author's exact follower count; null when the source does not state it. */
   author_follower_count: number | null;
-  /** The post on Creative Center's top videos board (tiktok.top_posts); null off a board. */
+  /** The post on Creative Center's top videos board (the TikTok Top Videos API); null off a board. */
   board: TikTokPostBoard | null;
 }
 
@@ -4500,8 +4431,8 @@ export interface FacebookPostListing {
   /** Marked sold. */
   is_sold: boolean | null;
   /**
-   * The item's Marketplace page (facebook.com/marketplace/item/<id>), which facebook.listing reads; null for an
-   * item listed only in the group. Format: uri.
+   * The item's Marketplace page (facebook.com/marketplace/item/<id>), which the Facebook Marketplace Listing API
+   * reads; null for an item listed only in the group. Format: uri.
    */
   url: string | null;
 }
@@ -4582,9 +4513,8 @@ export interface RedditPostSpecific {
    */
   subreddit: RedditSubredditRef | null;
   /**
-   * Net score as Reddit shows it: upvotes minus downvotes, fuzzed by Reddit. Reddit floors a post's shown score at
-   * 0, so this is null when it shows 0 for a post most votes are against (upvote_ratio below 0.5): its true score
-   * is negative and unknown.
+   * Upvotes minus downvotes as Reddit shows it, fuzzed. Reddit floors shown scores at 0, so this is null when it
+   * shows 0 with upvote_ratio below 0.5.
    */
   score: number | null;
   /** Share of votes that are upvotes, from 0 to 1. */
@@ -4703,7 +4633,7 @@ export interface TruthsocialPostSpecific {
 export interface KickCategory {
   /** Kick's category ID. */
   id: string | null;
-  /** Its name (Just Chatting). */
+  /** Its name (Fortnite). */
   name: string | null;
   /** Its name in links (kick.com/category/just-chatting). */
   slug: string | null;
@@ -4735,8 +4665,8 @@ export interface KickPostSpecific {
   /** What the channel was streaming when the clip was made. */
   category: KickCategory | null;
   /**
-   * The saved broadcast the clip comes from; null when Kick keeps none (the broadcast's video was deleted or never
-   * saved) or the answer came from a source that can't link to it.
+   * The saved broadcast the clip comes from; null when Kick keeps none (deleted or never saved) or the source
+   * can't link to it.
    */
   vod: KickVOD | null;
   /**
@@ -4768,8 +4698,8 @@ export interface XPostCommunity {
 
 export interface XPostSpecific {
   /**
-   * The author's counts at fetch time (followers, following, posts), which X answers with the post; null when the
-   * source does not show them. x.profile has the rest of the account.
+   * The author's counts at fetch time (followers, following, posts), which X answers with the post; null when not
+   * shown. The X (Twitter) Profile API has the rest.
    */
   author_metrics: ProfileMetrics | null;
   /**
@@ -4778,9 +4708,8 @@ export interface XPostSpecific {
    */
   is_author_blue_verified: boolean | null;
   /**
-   * The kind of verified organization X says the author is (business: the gold check, government: the grey one);
-   * null when it is neither. New values may be added; treat unknown values as other. Known values: business,
-   * government.
+   * The author's verified organization kind (business: gold check; government: grey check); null when neither. New
+   * values may be added; treat unknown values as other. Known values: business, government.
    */
   author_verified_type: "business" | "government" | (string & {}) | null;
   /**
@@ -5029,10 +4958,9 @@ export interface LinkedInArticleCard {
 
 export interface LinkedInReaction {
   /**
-   * The reaction, by LinkedIn's own name: like, praise (Celebrate), empathy (Love), appreciation (Support),
-   * interest (Insightful) or entertainment (Funny); null when LinkedIn shows only that the member reacted. New
-   * values may be added; treat any other value as null. Known values: like, praise, empathy, appreciation,
-   * interest, entertainment.
+   * The reaction by LinkedIn's name: praise (Celebrate), empathy (Love), appreciation (Support), interest
+   * (Insightful), entertainment (Funny); null when not said. New values may be added; treat unknown values as
+   * null. Known values: like, praise, empathy, appreciation, interest, entertainment.
    */
   type: "like" | "praise" | "empathy" | "appreciation" | "interest" | "entertainment" | (string & {}) | null;
   /** When the member reacted, RFC 3339 UTC. Format: date-time. */
@@ -5046,8 +4974,8 @@ export interface LinkedInReaction {
 
 export interface LinkedInPostSpecific {
   /**
-   * The URN of the post's content (urn:li:share:<id> or urn:li:ugcPost:<id>): another number for the same post,
-   * which links and LinkedIn's own APIs can name it by. On an article, the article's feed post.
+   * The URN of the post's content (urn:li:share:<id> or urn:li:ugcPost:<id>), another number links and LinkedIn's
+   * APIs name the same post by; on an article, its feed post's.
    */
   content_urn: string | null;
   /**
@@ -5062,8 +4990,8 @@ export interface LinkedInPostSpecific {
   /** LinkedIn marks the post as edited; null on an article. */
   is_edited: boolean | null;
   /**
-   * The activity the link named when it was a repost without commentary: the page shows the original post, which
-   * is what this answer describes (id, author, text, published_at are the original's). Null otherwise.
+   * The activity ID the link named when it was a repost without commentary; the answer then describes the original
+   * post (id, author, text, published_at). Null otherwise.
    */
   repost_activity_id: string | null;
   /** The link card the post shares (an article, an external video, a live event); null when none. */
@@ -5102,9 +5030,8 @@ export interface BlueskyPostSpecific {
    */
   indexed_at: string | null;
   /**
-   * The time the post's own record states, RFC 3339 UTC: the author's client writes it, so it can be earlier than
-   * the post went public (an imported archive) or later than it; null when it can't be read as a time. Format:
-   * date-time.
+   * The time the post's record states, written by the author's client, RFC 3339 UTC: it can be earlier than the
+   * post went public (an imported archive) or later. Format: date-time.
    */
   created_at: string | null;
   /** Every language the author tagged the post with, in the author's order; [] when none. */
@@ -5124,8 +5051,8 @@ export interface BlueskyPostSpecific {
    */
   quoted_post_id: string | null;
   /**
-   * The post this one quotes, as Bluesky embeds it; null when it quotes none, or when the quoted post was deleted,
-   * is blocked, was detached by its author, or its author shows it only to signed-in people.
+   * The post this one quotes, as Bluesky embeds it. Null when none, or the quoted post is deleted, blocked,
+   * detached by its author or shown only to signed-in people.
    */
   quoted_post: BlueskyEmbeddedPost | null;
   /** The at:// URI of a custom feed, list or starter pack the post embeds; null when it embeds none. */
@@ -5135,8 +5062,8 @@ export interface BlueskyPostSpecific {
   /** The at:// ID of the post that started the thread; null when this post is not a reply. */
   reply_root_post_id: string | null;
   /**
-   * The link Bridgy Fed records for a post it brought to Bluesky from the fediverse or the web, usually where the
-   * post was first published; null when it was written on Bluesky. Format: uri.
+   * The link Bridgy Fed records for a post it brought from the fediverse or the web, usually where it was first
+   * published; null when written on Bluesky. Format: uri.
    */
   bridged_from_url: string | null;
   /**
@@ -5222,9 +5149,8 @@ export interface SoundcloudPostSpecific {
   /** The uploader allows comments on the track. */
   is_commentable: boolean | null;
   /**
-   * What SoundCloud lets a logged-out listener in the United States do: ALLOW and MONETIZE play the whole track,
-   * SNIP a preview of it (see transcodings), BLOCK nothing. SoundCloud answers each country its own way: this is
-   * the US answer. New values may be added.
+   * What SoundCloud lets a logged-out US listener do (other countries can differ): ALLOW and MONETIZE play the
+   * whole track, SNIP a preview, BLOCK nothing. New values may be added.
    */
   policy: string | null;
   /**
@@ -5243,8 +5169,8 @@ export interface SoundcloudPostSpecific {
   /** The banner image the uploader set for the track's page; null when none. Format: uri. */
   visual_url: string | null;
   /**
-   * The encodings SoundCloud serves of the track to a logged-out listener in the United States, in its order; each
-   * country gets its own list. [] when none, as under policy BLOCK.
+   * The encodings SoundCloud serves a logged-out US listener, in its order (other countries can differ); [] when
+   * none, as under policy BLOCK.
    */
   transcodings: SoundcloudTranscoding[];
   /** The uploader's exact follower count. */
@@ -5257,8 +5183,8 @@ export interface SnapchatSound {
   /** The sound's title (Original Sound for a poster's own). */
   title: string | null;
   /**
-   * Who or what the sound credits: the artist of a track, the username of the account that made an original sound,
-   * or the track an original sound contains. Null when it names no account.
+   * Who or what the sound credits: a track's artist, the username behind an original sound, or the track an
+   * original sound contains. Null when it names no account.
    */
   subtitle: string | null;
   /** The sound's cover image. Format: uri. */
@@ -5441,15 +5367,14 @@ export interface TwitchPostSpecific {
   /** True for a past broadcast that is still being recorded because the stream is on air; null on a clip. */
   is_recording: boolean | null;
   /**
-   * True when Twitch keeps the video from logged-out viewers, usually for the channel's subscribers: its fields
-   * are still answered and media[].url is null. Null on a clip, and where the answer doesn't carry what says so
-   * (the video's page, when Twitch's API is down).
+   * True when Twitch keeps the video from logged-out viewers, usually for subscribers: its fields still come back,
+   * with media[].url null. Null on a clip and when the source can't tell.
    */
   is_restricted: boolean | null;
   /**
-   * Twitch's content classification labels, its own IDs in its order (MatureGame, Gambling,
-   * DebatedSocialIssuesAndPolitics): is_nsfw is true on any of them but politics. [] when it has none, and listed
-   * in unknown_fields where the answer doesn't have them.
+   * Twitch's content classification label IDs, in its order (MatureGame, Gambling,
+   * DebatedSocialIssuesAndPolitics); any but politics makes is_nsfw true. [] when none (or unknown: see
+   * unknown_fields).
    */
   content_labels: string[];
   /**
@@ -5458,13 +5383,13 @@ export interface TwitchPostSpecific {
    */
   deletes_at: string | null;
   /**
-   * An image holding frames of the video one above the other, which Twitch's site animates as its preview; null on
-   * a clip and while the video is still recording. On an old video the file itself can be gone. Format: uri.
+   * A tall image of the video's frames, which Twitch's site animates as a preview; null on a clip and while
+   * recording. On an old video the file can be gone. Format: uri.
    */
   animated_preview_url: string | null;
   /**
-   * The parts of a video by category, in order, as Twitch marks them; [] when it marks none and on a clip, and
-   * listed in unknown_fields where the answer doesn't have them.
+   * The video's parts by category, in order, as Twitch marks them; [] when it marks none and on a clip (or
+   * unknown: see unknown_fields).
    */
   chapters: TwitchChapter[];
   /** Twitch's number for a clip. Its links take the slug, which is id; null on a video. */
@@ -5485,13 +5410,13 @@ export interface TwitchPostSpecific {
   /** The channel's followers at fetch time, when the answer has them. */
   author_follower_count: number | null;
   /**
-   * The clip's files, one per quality, best first; media[0] is the first. [] on a video, and listed in
-   * unknown_fields where a source doesn't see them.
+   * The clip's files, one per quality, best first; media[0] is the first. [] on a video (or unknown: see
+   * unknown_fields).
    */
   renditions: TwitchRendition[];
   /**
-   * The files of the clip's vertical version, where it has one, best first; [] when it has none and on a video,
-   * and listed in unknown_fields where a source doesn't see them.
+   * Files of the clip's vertical version, best first; [] when it has none and on a video (or unknown: see
+   * unknown_fields).
    */
   vertical_renditions: TwitchRendition[];
 }
@@ -5503,14 +5428,14 @@ export interface SpotifyCredit {
   role: string | null;
   /** The heading Spotify lists it under (Composition & Lyrics, Production & Engineering, …). */
   group: string | null;
-  /** Their artist ID (spotify.artist takes it); null when they have no artist page. */
+  /** Their artist ID (the Spotify Artist API takes it); null when they have no artist page. */
   artist_id: string | null;
 }
 
 export interface SpotifyPostSpecific {
   /**
-   * The ID of the release it is on (spotify.album takes it); null when the source does not show it, as on the
-   * embed page.
+   * The ID of the release it is on (the Spotify Album API takes it); null when the source does not show it, as on
+   * the embed page.
    */
   album_id: string | null;
   /** The title of that release. */
@@ -5537,14 +5462,11 @@ export interface SpotifyPostSpecific {
   isrc: string | null;
   /** The record label of the release it is on; null when the source does not show it. */
   label: string | null;
-  /**
-   * The copyright lines of the release it is on; [] when none (listed in unknown_fields when the source cannot see
-   * them).
-   */
+  /** The copyright lines of the release it is on; [] when none (or unknown: see unknown_fields). */
   copyrights: AlbumCopyright[];
   /**
-   * Who wrote, performed and produced it, as Spotify's Credits panel lists them; [] when none (listed in
-   * unknown_fields when the source cannot see them).
+   * Who wrote, performed and produced it, as Spotify's Credits panel lists them; [] when none (or unknown: see
+   * unknown_fields).
    */
   credits: SpotifyCredit[];
   /** Spotify marks it explicit. */
@@ -5561,10 +5483,7 @@ export interface SpotifyPostSpecific {
    * apart (canonical_track_id).
    */
   popularity: number | null;
-  /**
-   * The languages it is performed in, as Spotify's tags; [] when none is stated (listed in unknown_fields when the
-   * source cannot see them).
-   */
+  /** The languages it is performed in, as Spotify's tags; [] when none is stated (or unknown: see unknown_fields). */
   languages: string[];
   /** How many music videos Spotify links to it; null when the source does not show it. */
   music_video_count: number | null;
@@ -5576,8 +5495,8 @@ export interface SpotifyPostSpecific {
   /** When it was added to the playlist listed, RFC 3339 UTC; null outside a playlist's list. Format: date-time. */
   added_at: string | null;
   /**
-   * The listener who added it to the playlist listed: their username and page, and their name and picture when the
-   * source shows them; null outside a playlist's list and on Spotify's own lists, which name nobody.
+   * The listener who added it to the listed playlist: username and page, plus name and picture when shown; null
+   * outside a playlist's list and on Spotify's own lists.
    */
   added_by: ProfileRef | null;
   /**
@@ -5595,7 +5514,7 @@ export interface SpotifyPostSpecific {
    * playlist's list.
    */
   camelot_key: string | null;
-  /** An episode's show (spotify.podcast takes it); null on a track. */
+  /** An episode's show (the Spotify Podcast API takes it); null on a track. */
   podcast_id: string | null;
   /** An episode only subscribers can hear in full; null on a track. */
   is_paywalled: boolean | null;
@@ -5614,7 +5533,10 @@ export interface ApplemusicPostSpecific {
    * author and coauthors link.
    */
   artist_name: string | null;
-  /** The ID of the album it is on (applemusic.album takes it); null for a music video or radio episode on none. */
+  /**
+   * The ID of the album it is on (the Apple Music Album API takes it); null for a music video or radio episode on
+   * none.
+   */
   album_id: string | null;
   /** The title of the album it is on; null when on none. */
   album_title: string | null;
@@ -5673,9 +5595,8 @@ export interface ApplemusicPostSpecific {
   /** Apple's ID of a radio episode's show, which is a curator and no artist; null on other posts. */
   curator_id: string | null;
   /**
-   * A radio episode's longer note, as Apple writes it: often the name of its show, or a shorter or older form of
-   * it, and sometimes something else, such as a date; so a hint, not an identity. Null when Apple has none, which
-   * depends on the store and language, and on other posts.
+   * A radio episode's longer note, often its show's name or a form of it, sometimes something else (a date): a
+   * hint, not an identity. Presence varies by store and language.
    */
   long_note: string | null;
   /** When a radio episode's broadcast ended, RFC 3339 UTC; null on other posts. Format: date-time. */
@@ -5701,8 +5622,8 @@ export interface PinterestPostSpecific {
   /** The board the pin is saved to. */
   board: PinterestBoardRef | null;
   /**
-   * The account that first saved this picture or video to Pinterest (its uploader, for a pin made on Pinterest);
-   * null when Pinterest names none. author is the account whose pin this is, which for a repin is another.
+   * The account that first saved this picture or video to Pinterest (its uploader, for a pin made there); null
+   * when Pinterest names none. On a repin it differs from author.
    */
   original_pinner: ProfileRef | null;
   /** The pinner's exact follower count; null when the source does not state it. */
@@ -5732,7 +5653,7 @@ export interface PinterestPostSpecific {
 }
 
 export interface AmazonProductRef {
-  /** The product's ASIN (what amazon.product takes). */
+  /** The product's ASIN (what the Amazon Product API takes). */
   asin: string;
   /** The product's page in the list's marketplace. Format: uri. */
   url: string;
@@ -5855,10 +5776,8 @@ export interface Post {
   /** When the post went public, RFC 3339 UTC. Format: date-time. */
   published_at: string | null;
   /**
-   * The posting account. An account the platform no longer names (a deleted account) has a null id and username
-   * and the platform's label as display_name (Reddit: [deleted]). A post credited to what is no account of the
-   * platform's (an Apple Music radio episode's show) has a null id and username, and every other field null too
-   * when the platform doesn't name it.
+   * The posting account. For a deleted account, or a credit that is no account (a radio show), id and username are
+   * null and display_name is the platform's label or name.
    */
   author: ProfileRef;
   /**
@@ -5882,7 +5801,7 @@ export interface Post {
   is_sponsored: boolean | null;
   /** Marked adult or sensitive by the platform. */
   is_nsfw: boolean | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: PostMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: PostPlatformSpecific;
@@ -5892,8 +5811,8 @@ export interface Post {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -5907,8 +5826,8 @@ export interface EngagementPost {
    */
   is_counted: boolean;
   /**
-   * Interactions (likes + comments) per follower, as a fraction (0.042 = 4.2%); can exceed 1. Null when a count is
-   * unknown, there are no followers, or the post is a repost.
+   * Likes plus comments per follower, a fraction (0.042 = 4.2%) that can exceed 1. Null when a count is unknown,
+   * there are no followers, or the post is a repost.
    */
   engagement_rate: number | null;
   /**
@@ -6022,14 +5941,11 @@ export interface Engagement {
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: EngagementPlatformSpecific;
   /**
-   * JSON paths of figures computed from an approximate input (a rounded follower or view count, a relative publish
-   * time); a posts[] path means at least one post's. [] when all exact.
+   * JSON paths of figures computed from an approximate input (a rounded count, a relative publish time); a posts[]
+   * path means at least one post's. [] when all exact.
    */
   approximate_fields: string[];
-  /**
-   * JSON paths of lists whose [] means unknown rather than none (posts, metrics.formats). [] when every list is
-   * known.
-   */
+  /** JSON paths of lists whose [] means unknown, not none (posts, metrics.formats). [] when every list is known. */
   unknown_fields: string[];
 }
 
@@ -6070,9 +5986,8 @@ export interface FacebookEventSpecific {
   /** The ticket price or range as Facebook shows it ("$25 – $40", "Free"); null when none is shown. */
   price_text: string | null;
   /**
-   * When it happens, as Facebook shows it, in the event's own time zone ("Sun, Nov 8 at 3:00 PM EST and 7 more",
-   * "Sat, Nov 21 - Nov 22", "Happening now"): on a recurring event its next date, where start_at is its first.
-   * Display text in the viewer's language; null when not shown.
+   * Facebook's text for when it happens ("Sun, Nov 8 at 3:00 PM EST"), in the event's time zone and the viewer's
+   * language. For a recurring event, the next date (start_at is the first).
    */
   date_text: string | null;
   /** How often it repeats, as Facebook names it, lowercased (single for a one-off event); null when not shown. */
@@ -6109,10 +6024,9 @@ export interface ScheduledEvent {
   /** Its description as plain text; null when it has none. */
   description: string | null;
   /**
-   * At fetch time: scheduled (not started), ongoing (started, not over), ended (over), canceled (called off by its
-   * hosts); unknown when the source that answered does not show it (a fallback whose results hold only a name and
-   * a picture). New values may be added; treat any other value as unknown. Known values: scheduled, ongoing,
-   * ended, canceled, unknown.
+   * The event's state at fetch time (canceled even after its date); unknown when the source does not show it. New
+   * values may be added; treat unknown values as unknown. Known values: scheduled, ongoing, ended, canceled,
+   * unknown.
    */
   status: "scheduled" | "ongoing" | "ended" | "canceled" | "unknown" | (string & {});
   /** When it starts, RFC 3339 UTC; null only when the platform shows no start. Format: date-time. */
@@ -6137,8 +6051,8 @@ export interface ScheduledEvent {
   /** Where it is held; null for an online event with no venue or when not shown. */
   place: PlaceRef | null;
   /**
-   * The accounts hosting it (pages and people), the main organizer first; [] when none are shown (listed in
-   * unknown_fields when the source cannot see them).
+   * The accounts hosting it (pages and people), the main organizer first; [] when none are shown (or unknown: see
+   * unknown_fields).
    */
   hosts: ProfileRef[];
   /**
@@ -6157,7 +6071,7 @@ export interface ScheduledEvent {
   parent_id: string | null;
   /** ID of the community it belongs to (the Facebook group it was created in; community.id); null when none. */
   community_id: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: EventMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: EventPlatformSpecific;
@@ -6167,8 +6081,8 @@ export interface ScheduledEvent {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -6272,7 +6186,7 @@ export interface Hashtag {
    * Format: uri.
    */
   thumbnail_url: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: HashtagMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: HashtagPlatformSpecific;
@@ -6282,8 +6196,8 @@ export interface Hashtag {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -6333,10 +6247,9 @@ export interface GitHubIssueSpecific {
    */
   node_id: string | null;
   /**
-   * The author's relation to the repository: owner, member (of its organization), collaborator, contributor (has a
-   * merged commit), first_time_contributor, first_timer (first contribution on GitHub), mannequin (an imported
-   * placeholder) or none. New values may be added. Known values: owner, member, collaborator, contributor,
-   * first_time_contributor, first_timer, mannequin, none.
+   * The author's relation to the repository. member: of its organization; contributor: has a merged commit;
+   * first_timer: first contribution on GitHub; mannequin: an imported placeholder. New values may be added. Known
+   * values: owner, member, collaborator, contributor, first_time_contributor, first_timer, mannequin, none.
    */
   author_association: "owner" | "member" | "collaborator" | "contributor" | "first_time_contributor" | "first_timer" | "mannequin" | "none" | (string & {}) | null;
   /** The issue type its organization assigned (Bug, Feature, Task); null when none, and on a pull request. */
@@ -6379,9 +6292,8 @@ export interface Issue {
   /** Platform ID (github, …). */
   platform: string;
   /**
-   * The item's full reference on its host (owner/repo#123; group/project!34 for a GitLab merge request), as the
-   * host writes it to link it from anywhere; the issue endpoint takes it as input. It follows the repository's
-   * current name.
+   * The item's full reference as its host writes it (owner/repo#123; group/project!34 for a merge request), under
+   * the repository's current name; the issue endpoint takes it as input.
    */
   id: string;
   /** The item's page (an issue's or a pull request's). Format: uri. */
@@ -6402,19 +6314,16 @@ export interface Issue {
    */
   state: "open" | "closed" | "merged" | (string & {});
   /**
-   * Why a closed item was closed: completed (done or fixed), not_planned (won't do, stale, invalid), duplicate
-   * (replaced by another item). Null on an open or merged item and where the host does not say. New values may be
-   * added; treat unknown values as null. Known values: completed, not_planned, duplicate.
+   * Why it was closed (not_planned: won't do, stale or invalid; duplicate: replaced by another item); null when
+   * open or merged. New values may be added; treat unknown values as null. Known values: completed, not_planned,
+   * duplicate.
    */
   state_reason: "completed" | "not_planned" | "duplicate" | (string & {}) | null;
-  /**
-   * Label names, in the host's order; [] when it has none (listed in unknown_fields when the source cannot see
-   * them).
-   */
+  /** Label names, in the host's order; [] when it has none (or unknown: see unknown_fields). */
   labels: string[];
   /** Who opened it. */
   author: ProfileRef;
-  /** Accounts it is assigned to; [] when none (listed in unknown_fields when the source cannot see them). */
+  /** Accounts it is assigned to; [] when none (or unknown: see unknown_fields). */
   assignees: ProfileRef[];
   /** The milestone it is planned for; null when none or not shown. */
   milestone: IssueMilestone | null;
@@ -6468,8 +6377,8 @@ export interface Issue {
   /** JSON paths of values rounded by the platform or parsed from display text. [] when all exact. */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -6499,9 +6408,8 @@ export interface JobPostingSalary {
   /** ISO 4217 code of both amounts (USD). */
   currency: string;
   /**
-   * What one amount pays for: an hour, day, week, month or year of work, or total (a fixed price for the whole
-   * job, as an Upwork fixed-price budget); null when the board does not say. New values may be added; treat
-   * unknown values as null. Known values: hour, day, week, month, year, total.
+   * The time one amount pays for; total: a fixed price for the whole job. Null when not stated. New values may be
+   * added; treat unknown values as null. Known values: hour, day, week, month, year, total.
    */
   period: "hour" | "day" | "week" | "month" | "year" | "total" | (string & {}) | null;
   /**
@@ -6526,14 +6434,13 @@ export interface LinkedInJobPostingSpecific {
    */
   title_id: string | null;
   /**
-   * IDs of the industries LinkedIn files the job under (43: Financial Services), as its job search's f_I filter
-   * takes them, in the order of industries; [] when none is shown (listed in unknown_fields when the source cannot
-   * see them).
+   * IDs of the industries LinkedIn files the job under (43: Financial Services), in industries' order, for its
+   * search's f_I filter. [] when none (or unknown: see unknown_fields).
    */
   industry_ids: string[];
   /**
-   * The members LinkedIn names as hiring for the job (the recruiter or hiring manager who posted it), the poster
-   * first; [] when none is shown (listed in unknown_fields when the source cannot see them).
+   * Members LinkedIn names as hiring for the job (the recruiter or hiring manager), the poster first; [] when none
+   * is shown (or unknown: see unknown_fields).
    */
   hiring_team: ProfileRef[];
 }
@@ -6553,9 +6460,8 @@ export interface HackernewsJobPostingSpecific {
   /** The monthly Who is hiring thread the job was posted in. */
   thread: HackernewsJobThread | null;
   /**
-   * The job's first line as the poster wrote it (Company | Role | Location | REMOTE | Full-time | salary, by the
-   * thread's convention), from which title, employer, locations, workplace_type, employment_types and salary are
-   * read.
+   * The job's first line as the poster wrote it (Company | Role | Location | …), which title, employer, locations,
+   * workplace_type, employment_types and salary are read from.
    */
   header: string | null;
   /**
@@ -6586,8 +6492,8 @@ export interface JobPosting {
   /** The job's title as the employer wrote it. */
   title: string;
   /**
-   * The company (or person) hiring, as the board names it: its account on the platform when it has one; null when
-   * the board does not say who is hiring (a confidential posting, an Upwork client).
+   * The company or person hiring, as the board names it (its account where it has one); null when unnamed (a
+   * confidential posting, an Upwork client).
    */
   employer: ProfileRef | null;
   /**
@@ -6596,8 +6502,8 @@ export interface JobPosting {
    */
   description: string | null;
   /**
-   * Where the job is based, the main location first, as the board shows them; [] when none is shown (a remote job
-   * with no location), listed in unknown_fields when the source cannot see them.
+   * Where the job is based, as the board shows it, main location first; [] when none is shown, as for a remote job
+   * (or unknown: see unknown_fields).
    */
   locations: JobPostingLocation[];
   /**
@@ -6606,11 +6512,10 @@ export interface JobPosting {
    */
   workplace_type: "on_site" | "hybrid" | "remote" | (string & {}) | null;
   /**
-   * The terms of employment, in the order the board gives them (a posting may name several: full_time and
-   * part_time): full_time, part_time, contract (freelance and contractor roles), temporary (seasonal too),
-   * internship, volunteer, other; [] when the board does not say (listed in unknown_fields when the source cannot
-   * see them). New values may be added; treat unknown values as other. Known values: full_time, part_time,
-   * contract, temporary, internship, volunteer, other.
+   * The terms of employment in the board's order (a posting can name several); contract includes freelance,
+   * temporary includes seasonal. [] when not stated (or unknown: see unknown_fields). New values may be added;
+   * treat unknown values as other. Known values: full_time, part_time, contract, temporary, internship, volunteer,
+   * other.
    */
   employment_types: ("full_time" | "part_time" | "contract" | "temporary" | "internship" | "volunteer" | "other" | (string & {}))[];
   /**
@@ -6630,14 +6535,11 @@ export interface JobPosting {
    * is shown.
    */
   job_functions: string[];
-  /**
-   * Skills the posting asks for, as the board tags them; [] when none (listed in unknown_fields when the source
-   * cannot see them).
-   */
+  /** Skills the posting asks for, as the board tags them; [] when none (or unknown: see unknown_fields). */
   skills: string[];
   /**
-   * Benefits the posting lists (Health insurance, 401(k)), as shown; [] when none (listed in unknown_fields when
-   * the source cannot see them).
+   * Benefits the posting lists (Health insurance, 401(k)), as shown; [] when none (or unknown: see
+   * unknown_fields).
    */
   benefits: string[];
   /**
@@ -6658,11 +6560,11 @@ export interface JobPosting {
    */
   is_easy_apply: boolean | null;
   /**
-   * The employer's application page, for a job applied for off the platform (is_easy_apply false); null for one
-   * applied for on the platform, or when the board does not show the link. Format: uri.
+   * The employer's application page for a job applied for off the platform (is_easy_apply false); null otherwise
+   * or when the board does not show it. Format: uri.
    */
   apply_url: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: JobPostingMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: JobPostingPlatformSpecific;
@@ -6672,8 +6574,8 @@ export interface JobPosting {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -6790,8 +6692,8 @@ export interface XLiveSpecific {
   /** The accounts with the right to speak: those on stage now while live, everyone who spoke once ended. */
   speakers: ProfileRef[];
   /**
-   * The listeners in the room now that X names, at most 50, while the Space is live
-   * (metrics.concurrent_viewer_count counts them all); [] once it ends, since X names no past listeners.
+   * Listeners in the room that X names, at most 50, while the Space is live (metrics.concurrent_viewer_count
+   * counts all); [] once it ends.
    */
   listeners: ProfileRef[];
   /** IDs of the accounts X lists the Space as mentioning (the host tags them); [] when none. */
@@ -6845,8 +6747,8 @@ export interface Live {
   /** Cover or preview image URL. Platform CDN URLs can expire within hours. Format: uri. */
   thumbnail_url: string | null;
   /**
-   * ID of the post the platform keeps the broadcast as (equals post.id: a YouTube or Rumble video; on X, the post
-   * the Space was shared in); null when it keeps none (TikTok LIVE) or none yet.
+   * ID of the post the platform keeps the broadcast as (equals post.id; on X, the post the Space was shared in);
+   * null when it keeps none or none yet.
    */
   post_id: string | null;
   /**
@@ -6854,7 +6756,7 @@ export interface Live {
    * the platform's links only work from SocialTap's network (YouTube).
    */
   streams: LiveStream[];
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: LiveMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: LivePlatformSpecific;
@@ -6864,8 +6766,8 @@ export interface Live {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -6874,8 +6776,8 @@ export interface OfferShipping {
   /** The seller ships this offer (false: local pickup only); null when not shown. */
   is_offered: boolean | null;
   /**
-   * Standard shipping fee of this item alone, in major units of the offer's currency; 0 = free shipping; null when
-   * it depends on the order (free over a threshold) or is not shown.
+   * Standard shipping fee for this item alone, in major units of the offer's currency; 0 = free; null when it
+   * depends on the order (free over a threshold).
    */
   fee: number | null;
   /**
@@ -6904,9 +6806,8 @@ export interface AmazonOfferSpecific {
    */
   is_fulfilled_by_amazon: boolean | null;
   /**
-   * Share of the seller's ratings in the last 12 months that were positive, a whole percent (77); over the
-   * seller's lifetime for a seller Amazon shows that for (a new one); null when not shown (Amazon's own retail
-   * shows none).
+   * Share of the seller's ratings that were positive over the last 12 months (lifetime for a new seller), a whole
+   * percent; null when not shown (Amazon's own retail).
    */
   seller_positive_percent: number | null;
   /**
@@ -6929,10 +6830,9 @@ export interface Offer {
   /** Platform ID (amazon, …). */
   platform: string;
   /**
-   * The offer's ID: the platform's own where it is stable across fetches, else derived from the product, the
-   * seller and the condition (B0FQFB8FMG:ALAQLAKJ574UN:new), with ~2, ~3 for a seller's further offers in one
-   * condition, counted across the list's pages in the platform's order. A derived ID is stable while the seller's
-   * offers in that condition keep their order; two of them can swap IDs when their order changes.
+   * The platform's offer ID where stable across fetches, else product:seller:condition
+   * (B0FQFB8FMG:ALAQLAKJ574UN:new), with ~2, ~3 for a seller's further offers in one condition, in the platform's
+   * order across pages. Two derived IDs swap when those offers swap places.
    */
   id: string;
   /** ID of the product offered (equals product.id of the platform's product endpoints). */
@@ -6965,9 +6865,8 @@ export interface Offer {
   /** ISO 4217 code of every amount of this offer (USD); null when no amount is shown. */
   currency: string | null;
   /**
-   * Item condition, coarse: new, used (any grade) or refurbished; null when the platform does not say. The
-   * platform's own grade is condition_label. New values may be added; treat unknown values as used. Known values:
-   * new, used, refurbished.
+   * Item condition, coarse: used is any grade, the platform's own grade being condition_label. Null when not
+   * stated. New values may be added; treat unknown values as used. Known values: new, used, refurbished.
    */
   condition: "new" | "used" | "refurbished" | (string & {}) | null;
   /** The condition as the platform labels it (Used - Like New, Pre-Owned: Good, Renewed). */
@@ -6984,8 +6883,8 @@ export interface Offer {
    */
   is_featured: boolean | null;
   /**
-   * The seller's average rating out of 5 (metrics.seller_rating_count ratings behind it), as the platform shows it
-   * (rounded ones in approximate_fields); null when the seller is unrated or the platform does not show it.
+   * The seller's average rating out of 5, over metrics.seller_rating_count ratings, as the platform shows it
+   * (rounded ones in approximate_fields); null when unrated or not shown.
    */
   seller_rating: number | null;
   /** Delivery terms of this offer; each null when not shown. */
@@ -7001,10 +6900,7 @@ export interface Offer {
    * date-only delivery estimate). [] when all exact.
    */
   approximate_fields: string[];
-  /**
-   * JSON paths of lists whose [] means unknown rather than none; null already means unknown for every other field.
-   * [] when every list is known.
-   */
+  /** JSON paths of lists whose [] means unknown, not none. [] when every list is known. */
   unknown_fields: string[];
 }
 
@@ -7023,8 +6919,7 @@ export interface PlaceMetrics {
 export interface TikTokPlaceSpecific {
   /**
    * TikTok's category from broadest to most specific (Food and Drink, Fast Food, Pizza Fast Food), repeats
-   * dropped; category is the last. [] when TikTok shows none (listed in unknown_fields when the source cannot see
-   * it).
+   * dropped; category is the last. [] when none (or unknown: see unknown_fields).
    */
   category_path: string[];
   /**
@@ -7039,8 +6934,8 @@ export interface TikTokPlaceSpecific {
   /** True when a business has claimed the place on TikTok, false when none has; null when unknown. */
   is_claimed: boolean | null;
   /**
-   * The highlight tags TikTok shows from reviews (Excellent service, Pleasant atmosphere); [] when none (listed in
-   * unknown_fields when the source cannot see them).
+   * The highlight tags TikTok shows from reviews (Excellent service, Pleasant atmosphere); [] when none (or
+   * unknown: see unknown_fields).
    */
   highlights: string[];
 }
@@ -7081,9 +6976,9 @@ export interface Place {
   /** Canonical place page URL. Format: uri. */
   url: string;
   /**
-   * Coarse kind: venue for one spot (a business, landmark or address), area for a region (a neighborhood, city,
-   * state or country); unknown when the platform does not say. New values may be added; treat unknown values as
-   * unknown. Known values: venue, area, unknown.
+   * venue: one spot (a business, landmark or address); area: a region (a neighborhood, city, state or country);
+   * unknown: not stated. New values may be added; treat unknown values as unknown. Known values: venue, area,
+   * unknown.
    */
   type: "venue" | "area" | "unknown" | (string & {});
   /** The platform's category label (Cafe, City, Pizza Fast Food), as shown; not normalized across platforms. */
@@ -7112,24 +7007,24 @@ export interface Place {
   /** The business's price range, 1 (inexpensive, $) to 4 (expensive, $$$$); null when the platform shows none. */
   price_range: number | null;
   /**
-   * Pictures of the place the platform shows, in its order; each of type image. [] when none (listed in
-   * unknown_fields when the source cannot see them). Platform CDN URLs can expire within hours: see expires_at.
+   * Pictures of the place the platform shows, in its order, each of type image; [] when none (or unknown: see
+   * unknown_fields). Platform CDN URLs can expire within hours: see expires_at.
    */
   images: Media[];
   /** The platform account that represents the place (its business account or Page); null when none is linked. */
   account: ProfileRef | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: PlaceMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: PlacePlatformSpecific;
   /**
-   * JSON paths of values rounded by the platform or parsed from display text (e.g. metrics.post_count). [] when
-   * all exact.
+   * JSON paths of values rounded by the platform or parsed from display text (metrics.post_count). [] when all
+   * exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -7192,8 +7087,8 @@ export interface ApplemusicPlaylistSpecific {
    */
   playlist_type: string | null;
   /**
-   * What Apple says an editorial playlist is built around: artist-franchise (one artist, such as their Essentials
-   * or a set list); null when it says nothing, and on a station. New values may be added.
+   * What Apple says an editorial playlist is built around (artist-franchise: one artist's Essentials or set list);
+   * null when unsaid and on a station. New values may be added.
    */
   editorial_kind: string | null;
   /**
@@ -7222,9 +7117,8 @@ export interface ApplemusicPlaylistSpecific {
    */
   band: string | null;
   /**
-   * A broadcast station's frequency as Apple states it, in its band's usual unit (90.1 on FM, 1026 on AM); a
-   * station on several frequencies lists them separated by / (105.1/105.3/105.7); null when it states none, and on
-   * a playlist.
+   * A broadcast station's frequency in its band's usual unit (90.1 on FM, 1026 on AM), several joined by /
+   * (105.1/105.3); null when none is stated, and on a playlist.
    */
   frequency: string | null;
   /** A station that streams live rather than picking songs; null on a playlist. */
@@ -7242,8 +7136,8 @@ export interface PinterestPlaylistSpecific {
    */
   created_at: string | null;
   /**
-   * public, or protected: a board Pinterest keeps off its owner's profile and out of search engines but shows
-   * anyone with its link (a shop's catalog of products). New values may be added.
+   * public, or protected: a board Pinterest keeps off its owner's profile and search engines but shows anyone with
+   * its link (a shop's product catalog). New values may be added.
    */
   privacy: string | null;
   /** Accounts other than its owner that can save pins to the board, exact; 0 on a board only its owner saves to. */
@@ -7309,9 +7203,9 @@ export interface Playlist {
   /** Canonical playlist URL. Format: uri. */
   url: string;
   /**
-   * playlist: a list its owner curates and orders (TikTok playlists, YouTube playlists, Facebook playlists and
-   * series); collection: posts an account saved from any creator into a named public folder (TikTok collections).
-   * New values may be added; treat unknown values as playlist. Known values: playlist, collection.
+   * playlist: a list its owner curates and orders; collection: posts an account saved into a named public folder
+   * (TikTok's collections). New values may be added; treat unknown values as playlist. Known values: playlist,
+   * collection.
    */
   type: "playlist" | "collection" | (string & {});
   /** The platform's own label, lowercase (mix, collection, playlist, series, podcast, …). */
@@ -7321,9 +7215,8 @@ export interface Playlist {
   /** Description as plain text; null when it has none or the platform shows none (TikTok). */
   description: string | null;
   /**
-   * The account that curates it (for a collection, the account that saved the posts, not their authors). Where a
-   * platform's curators are not accounts (Apple Music), what it states of them: a name, perhaps a page and a
-   * picture, with id and username null, and every field null when it names no one.
+   * The curating account (for a collection, the one that saved the posts). Where curators are not accounts (Apple
+   * Music), only what the platform names, with id and username null.
    */
   owner: ProfileRef;
   /**
@@ -7338,15 +7231,15 @@ export interface Playlist {
   is_collaborative: boolean | null;
   /** When its owner created it, RFC 3339 UTC; null where the platform doesn't state it. Format: date-time. */
   created_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: PlaylistMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: PlaylistPlatformSpecific;
   /** JSON paths of values rounded by the platform, date-only or parsed from display text. [] when all exact. */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -7403,7 +7296,7 @@ export interface Podcast {
   show_type: "episodic" | "serial" | (string & {}) | null;
   /**
    * Categories or topics the platform files it under, as shown (not normalized), the main one first; [] when none
-   * (listed in unknown_fields when the source cannot see them).
+   * (or unknown: see unknown_fields).
    */
   categories: string[];
   /** Marked as holding explicit content by the platform; null when it does not say. */
@@ -7418,7 +7311,7 @@ export interface Podcast {
    * date alone. Null when the source does not show it. Format: date-time.
    */
   latest_episode_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: PodcastMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: PodcastPlatformSpecific;
@@ -7428,8 +7321,8 @@ export interface Podcast {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -7530,9 +7423,8 @@ export interface AmazonDeal {
   /** Amazon's ID of the deal; null for a product listed for its coupon alone. */
   id: string | null;
   /**
-   * The kind of deal, as Amazon names it, lowercased: lightning_deal (a limited number of units for a few hours),
-   * best_deal (a limited time deal), others as Amazon adds them; coupon when the product is listed for its coupon
-   * alone.
+   * Amazon's deal kind, lowercased: lightning_deal (limited units for a few hours), best_deal (a limited time
+   * deal), others as Amazon adds them; coupon for a product listed for its coupon alone.
    */
   type: string;
   /**
@@ -7558,15 +7450,14 @@ export interface AmazonDeal {
    */
   claimed_percent: number | null;
   /**
-   * What original_price is: list (the list price), typical (the typical price of the last 90 days), rrp (the
-   * recommended retail price) or was (the price before the deal); null when no earlier price is shown or Amazon
-   * labels it otherwise. New values may be added; treat unknown values as null. Known values: list, typical, rrp,
-   * was.
+   * What original_price is (rrp: recommended retail price; typical: the last 90 days' typical price; was: before
+   * the deal); null when none is shown or labeled otherwise. New values may be added; treat unknown values as
+   * null. Known values: list, typical, rrp, was.
    */
   original_price_label: "list" | "typical" | "rrp" | "was" | (string & {}) | null;
   /**
-   * The browse nodes Amazon's deals list files the deal under, in no particular order (one to several, from a
-   * department down to a sub-category): each is a category the Amazon Deals API takes. Empty when it names none.
+   * Browse nodes Amazon's deals list files the deal under, unordered, from a department down to a sub-category;
+   * each is a category the Amazon Deals API takes. [] when none.
    */
   department_ids: string[];
   /**
@@ -7618,8 +7509,8 @@ export interface AmazonProductSpecific {
    */
   parent_asin: string | null;
   /**
-   * Every variation of the product (its colors, sizes, styles), each an ASIN with its options, in Amazon's order;
-   * prices and stock are this product's only, so they are null on variants. [] for a product without variations.
+   * Every variation (colors, sizes, styles) in Amazon's order: its ASIN, title and options only. Send a variant's
+   * ASIN for its price and stock. [] for a product without variations.
    */
   variants: ProductVariant[];
   /**
@@ -7725,14 +7616,14 @@ export interface TikTokShopProductSpecific {
   rating: number | null;
   /**
    * The purchasable variants (SKUs: a color, a size, a bundle), in TikTok Shop's order; [] for a product without
-   * variants (listed in unknown_fields when the source cannot see them).
+   * variants (or unknown: see unknown_fields).
    */
   variants: ProductVariant[];
   /** Fewest days TikTok Shop estimates delivery takes in the product's market. */
   delivery_min_days: number | null;
   /** Most days TikTok Shop estimates delivery takes in the product's market. */
   delivery_max_days: number | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: TikTokShopProductMetrics;
   /** The selling shop's rating and counts (seller names the shop); null when the page shows none. */
   shop: TikTokShopShop | null;
@@ -7759,9 +7650,8 @@ export interface Product {
   /** Canonical product page URL. Format: uri. */
   url: string;
   /**
-   * product: a catalog product a shop sells in many units, often in variants (TikTok Shop, Instagram and YouTube
-   * shopping); listing: a single item a person or business lists for sale (Facebook Marketplace). New values may
-   * be added; treat unknown values as product. Known values: product, listing.
+   * product: a catalog product a shop sells in many units; listing: one item a person or business lists for sale.
+   * New values may be added; treat unknown values as product. Known values: product, listing.
    */
   type: "product" | "listing" | (string & {});
   /** Product name or listing title, as the seller wrote it. */
@@ -7781,9 +7671,8 @@ export interface Product {
   /** The shop or account selling it; null only when the source does not show it. */
   seller: ProfileRef | null;
   /**
-   * Current price in major units of currency (58.47), discounts applied; for a product whose variants cost
-   * different amounts, the lowest (the platform's "from" price). Coupons and shipping excluded. 0 = free; null
-   * when not shown.
+   * Current price in major units of currency (58.47), discounts applied, coupons and shipping excluded; for
+   * variants at different prices, the lowest (the platform's "from" price). 0 = free.
    */
   price: number | null;
   /**
@@ -7799,16 +7688,14 @@ export interface Product {
   /** ISO 4217 code of every amount of this product (USD); null when no amount is shown. */
   currency: string | null;
   /**
-   * in_stock: can be bought now; out_of_stock: sold out for now (a product can be restocked); pre_order: ships
-   * later; pending: a listing with a sale pending; sold: a listing marked sold. Null when the platform does not
-   * say. New values may be added; treat unknown values as null. Known values: in_stock, out_of_stock, pre_order,
-   * pending, sold.
+   * out_of_stock: sold out for now; pre_order: ships later; pending, sold: a one-off listing with a sale pending
+   * or made. New values may be added; treat unknown values as null. Known values: in_stock, out_of_stock,
+   * pre_order, pending, sold.
    */
   availability: "in_stock" | "out_of_stock" | "pre_order" | "pending" | "sold" | (string & {}) | null;
   /**
-   * Item condition, coarse: new, used (any grade) or refurbished; null when the platform does not say. The
-   * platform's own grade is condition_label. New values may be added; treat unknown values as used. Known values:
-   * new, used, refurbished.
+   * Item condition, coarse: used is any grade, the platform's own grade being condition_label. Null when not
+   * stated. New values may be added; treat unknown values as used. Known values: new, used, refurbished.
    */
   condition: "new" | "used" | "refurbished" | (string & {}) | null;
   /** The condition as the platform labels it (Used - Like New, Used - Good, Pre-owned). */
@@ -7829,13 +7716,13 @@ export interface Product {
    */
   platform_specific: ProductPlatformSpecific;
   /**
-   * JSON paths of values rounded by the platform or parsed from display text ("10K+ sold"), and of Facebook's
-   * coarse listing coordinates. [] when all exact.
+   * JSON paths of values rounded by the platform, parsed from display text ("10K+ sold") or placing an area rather
+   * than a point (coordinates). [] when all exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a list or search result that does not show
-   * attributes or variants); null already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a list or search result that does not show attributes or
+   * variants). [] when every list is known.
    */
   unknown_fields: string[];
 }
@@ -7870,9 +7757,9 @@ export interface Readme {
    */
   ref: string | null;
   /**
-   * The markup the text is written in, which decides how to render it: markdown, rst (reStructuredText), asciidoc,
-   * org, text (plain), other. Null when the platform does not say. New values may be added. Known values:
-   * markdown, rst, asciidoc, org, text, other.
+   * The markup the text is written in, which decides how to render it (rst: reStructuredText; text: plain). Null
+   * when the platform does not say. New values may be added. Known values: markdown, rst, asciidoc, org, text,
+   * other.
    */
   format: "markdown" | "rst" | "asciidoc" | "org" | "text" | "other" | (string & {}) | null;
   /**
@@ -7884,7 +7771,7 @@ export interface Readme {
   platform_specific: ReadmePlatformSpecific;
   /** JSON paths of values the platform rounds; a README has none, so always []. */
   approximate_fields: string[];
-  /** JSON paths of lists whose [] means unknown rather than none; a README has no lists, so always []. */
+  /** JSON paths of lists whose [] means unknown, not none; a README has no lists, so always []. */
   unknown_fields: string[];
 }
 
@@ -7949,8 +7836,8 @@ export interface ReleaseAsset {
 
 export interface ReleaseMetrics {
   /**
-   * Downloads of the release's files: the sum of its assets' download counts. Source archives are not counted.
-   * Null when no asset's downloads are counted (a release with no files, a platform that counts none).
+   * Downloads of the release's files, the sum of its assets' counts, source archives excluded; null when no
+   * asset's downloads are counted (no files, or a platform that counts none).
    */
   download_count: number | null;
 }
@@ -8028,10 +7915,7 @@ export interface Release {
    * when the platform does not show it. Format: date-time.
    */
   published_at: string | null;
-  /**
-   * Files published with the release, in the platform's order; [] when none (listed in unknown_fields when the
-   * source cannot see them).
-   */
+  /** Files published with the release, in the platform's order; [] when none (or unknown: see unknown_fields). */
   assets: ReleaseAsset[];
   /**
    * The source code at the release's tag as a .tar.gz archive, built by the platform; null when it serves none (a
@@ -8043,15 +7927,15 @@ export interface Release {
    * Format: uri.
    */
   zipball_url: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: ReleaseMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: ReleasePlatformSpecific;
   /** JSON paths of values rounded by the platform or parsed from display text. [] when all exact. */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see a release's assets);
-   * null already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see a release's assets). [] when
+   * every list is known.
    */
   unknown_fields: string[];
 }
@@ -8074,8 +7958,8 @@ export interface RepositoryMetrics {
   /** Accounts watching it for notifications (not its stars); null when the platform does not state a count. */
   watcher_count: number | null;
   /**
-   * Open issues, pull requests not counted (0 when its issue tracker is off); null when the platform does not
-   * state it apart from them. Listed in approximate_fields when read from display text ("1.1k").
+   * Open issues, pull requests not counted (0 when the issue tracker is off); null when the platform does not
+   * count them apart. In approximate_fields when rounded ("1.1k").
    */
   open_issue_count: number | null;
   /** Open pull requests (merge requests on GitLab); null when the platform does not state a count. */
@@ -8176,9 +8060,8 @@ export interface Repository {
   /** The account that owns it: a person or an organization (owner_type). */
   owner: ProfileRef;
   /**
-   * Whether the owner is a person's account or an organization's (a GitHub organization, a GitLab group, a
-   * Bitbucket team); null when the platform does not say. New values may be added. Known values: person,
-   * organization.
+   * Whether the owner is a person or an organization (GitLab groups and Bitbucket teams included); null when the
+   * platform does not say. New values may be added. Known values: person, organization.
    */
   owner_type: "person" | "organization" | (string & {}) | null;
   /**
@@ -8223,13 +8106,13 @@ export interface Repository {
    */
   created_at: string | null;
   /**
-   * When anything about the repository last changed as the platform counts it (on GitHub a new star counts), RFC
-   * 3339 UTC; pushed_at says when its code did. Null when the platform does not say. Format: date-time.
+   * When anything about the repository last changed, as the platform counts it (a new star counts on GitHub), RFC
+   * 3339 UTC; pushed_at says when its code did. Format: date-time.
    */
   updated_at: string | null;
   /** When code was last pushed to it, RFC 3339 UTC; null when the platform does not say. Format: date-time. */
   pushed_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: RepositoryMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: RepositoryPlatformSpecific;
@@ -8239,8 +8122,8 @@ export interface Repository {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see the topics); null
-   * already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see the topics). [] when every list
+   * is known.
    */
   unknown_fields: string[];
 }
@@ -8296,7 +8179,7 @@ export interface Review {
   is_incentivized: boolean | null;
   /** When the review was posted, RFC 3339 UTC. Format: date-time. */
   published_at: string | null;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: ReviewMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: ReviewPlatformSpecific;
@@ -8306,8 +8189,8 @@ export interface Review {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see a review's photos); null
-   * already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see a review's photos). [] when
+   * every list is known.
    */
   unknown_fields: string[];
 }
@@ -8332,9 +8215,8 @@ export interface SoundMetrics {
 
 export interface TikTokMatchedSong {
   /**
-   * TikTok's ID of the song (not a sound ID: a sound endpoint does not take it). An official clip of a song and
-   * the original sounds matched to it share it, so grouping on it counts every use of the song; null when not
-   * stated.
+   * TikTok's song ID, not a sound ID (sound endpoints don't take it). A song's official clip and its matched
+   * original sounds share it, so grouping on it counts every use.
    */
   id: string | null;
   /** The matched song on music streaming services, as TikTok links it; [] when none. */
@@ -8345,9 +8227,8 @@ export interface TikTokSoundSpecific {
   /** Album of a catalogue track; null for original sounds and when not stated. */
   album: string | null;
   /**
-   * TikTok's own is_commerce_music flag, as served. Not a licence check: TikTok sets it on original sounds and
-   * leaves it false on many licensed catalogue tracks, so it does not say a sound is cleared for business accounts
-   * or ads.
+   * TikTok's is_commerce_music flag, not a license check. TikTok sets it on original sounds and leaves it false on
+   * many licensed tracks, so it doesn't clear a sound for business use.
    */
   is_commercial_music: boolean | null;
   /**
@@ -8358,7 +8239,7 @@ export interface TikTokSoundSpecific {
 }
 
 export interface InstagramSoundSourcePost {
-  /** The reel's shortcode: its post ID (equals post.id of instagram.post). */
+  /** The reel's shortcode: its post ID (equals the Instagram Post API's post.id). */
   id: string | null;
   /** The reel's link (instagram.com/reel/<id>/). Format: uri. */
   url: string | null;
@@ -8434,18 +8315,18 @@ export interface Sound {
    * sounds).
    */
   streaming_links: StreamingLink[];
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: SoundMetrics;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: SoundPlatformSpecific;
   /**
-   * JSON paths of values rounded by the platform or parsed from display text (e.g. metrics.post_count from "80K
-   * reels"). A list path means the list may be incomplete. [] when all exact.
+   * JSON paths of values rounded by the platform or parsed from display text ("80K reels": metrics.post_count). A
+   * list path means the list may be incomplete. [] when all exact.
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -8460,7 +8341,7 @@ export interface HashtagRef {
   name: string;
   /** Canonical hashtag page URL. Format: uri. */
   url: string;
-  /** Counts at fetch time; null = hidden or not exposed, 0 = zero. */
+  /** Counts at fetch time; null = not shown, 0 = zero. */
   metrics: HashtagMetrics;
 }
 
@@ -8486,8 +8367,8 @@ export interface GoogleSuggestionSpecific {
    */
   country_code: string | null;
   /**
-   * The ads the center shows for an advertiser suggestion's advertiser, as Google's range (equal bounds when
-   * exact), in the region the request names where it takes one; null for a website suggestion, or when not shown.
+   * How many ads the center shows for a suggested advertiser, as Google's range (equal bounds when exact), in the
+   * request's region where it takes one; null for a website suggestion.
    */
   ads: Range | null;
 }
@@ -8547,10 +8428,9 @@ export interface Suggestion {
    */
   text: string;
   /**
-   * query = a completed search to run; profile = an account (or community) the platform proposes, described in
-   * profile; hashtag = a hashtag, described in hashtag; website = a website the platform proposes: text is its
-   * domain (nike.com), as the platform's searches by website take it. New values may be added. Known values:
-   * query, profile, hashtag, website.
+   * query: a completed search to run. profile, hashtag: described in the field of that name (a profile can be a
+   * community). website: text is its domain (nike.com), as searches by website take it. New values may be added.
+   * Known values: query, profile, hashtag, website.
    */
   type: "query" | "profile" | "hashtag" | "website" | (string & {});
   /**
@@ -8559,8 +8439,8 @@ export interface Suggestion {
    */
   position: number;
   /**
-   * Where the suggestion leads on the platform: the search results page for a query, the account's page for a
-   * profile, the hashtag's page for a hashtag, the platform's page for the website for a website. Format: uri.
+   * Where the suggestion leads on the platform: the results page for a query, or the platform's page for the
+   * profile, hashtag or website. Format: uri.
    */
   url: string;
   /** The account a profile suggestion names; null for every other type. */
@@ -8577,10 +8457,7 @@ export interface Suggestion {
    * when all exact.
    */
   approximate_fields: string[];
-  /**
-   * JSON paths of lists whose [] means unknown rather than none; [] when every list is known (a suggestion has
-   * none yet).
-   */
+  /** JSON paths of lists whose [] means unknown, not none; [] when every list is known (a suggestion has none yet). */
   unknown_fields: string[];
 }
 
@@ -8703,8 +8580,8 @@ export interface Topic {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them); null already
-   * means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them). [] when every list is
+   * known.
    */
   unknown_fields: string[];
 }
@@ -8736,13 +8613,13 @@ export interface RumbleTranscriptSpecific {
 
 export interface XTranscriptSpecific {
   /**
-   * ID of the post the transcribed video is attached to: the post itself, the reposted post for a repost, or the
-   * quoted post for a quote without a video of its own; null when unknown.
+   * ID of the post the transcribed video is attached to: this post, the reposted one, or the quoted one for a
+   * quote without its own video.
    */
   video_post_id: string | null;
   /**
-   * Index of the transcribed video in the media of the post video_post_id names (0 for the first attachment, as
-   * x.post's media); null when unknown.
+   * Index of the transcribed video in the media of the post video_post_id names (0 for the first attachment, as in
+   * the post's media).
    */
   media_index: number | null;
   /** The WebVTT file of X's caption track used (public, unsigned); null for speech-to-text. Format: uri. */
@@ -8811,8 +8688,8 @@ export interface GoogleTrendSpecific {
   /** ISO 3166-1 alpha-2 country whose searches the trend counts; null for a worldwide board. */
   country_code: string | null;
   /**
-   * How much the term's searches rose since it started trending, a fraction (1 = +100 %), in Google's steps;
-   * Google caps it at 10 (+1,000 %), a lower bound then (listed in approximate_fields).
+   * How much the term's searches rose since it started trending, a fraction in Google's steps (1 = +100 %); capped
+   * at 10 (+1,000 %), a lower bound then (in approximate_fields).
    */
   growth: number | null;
   /** When the term started trending, RFC 3339 UTC. Format: date-time. */
@@ -8832,8 +8709,8 @@ export interface GoogleTrendSpecific {
   /** Google's counts for the trend; null = not shown. */
   metrics: GoogleTrendMetrics;
   /**
-   * How much the term was searched over time, oldest first, each interval relative to the series' peak (1); [] on
-   * a board, which does not read the series (listed in unknown_fields): a trend's own endpoint fills it.
+   * The term's search interest over time, oldest first, each interval relative to the series' peak (1); [] on a
+   * board (listed in unknown_fields); a trend's own endpoint fills it.
    */
   history: TrendPoint[];
 }
@@ -8845,17 +8722,15 @@ export interface PinterestTrendSpecific {
    */
   country_code: string | null;
   /**
-   * Every country whose searches the figures count together, as ISO 3166-1 alpha-2 codes: ["US"] for a country
-   * Pinterest publishes a board for on its own, its group's (["GB", "IE"] for IE) for one Pinterest counts with
-   * others. [] when unknown.
+   * Countries whose searches the figures count together, ISO 3166-1 alpha-2: ["US"] for a country with its own
+   * Pinterest board, else its group's (["GB", "IE"] for IE). [] when unknown.
    */
   market_country_codes: string[];
   /** How much the term is searched in the table's period, relative to the table's most searched term (100). */
   search_index: number | null;
   /**
-   * Change in the term's searches over the past week, a fraction (0.3 = +30 %, -0.5 = -50 %), rounded by Pinterest
-   * to one or two significant digits (always listed in approximate_fields); capped at 100 (+10,000 %), a lower
-   * bound then.
+   * Past week's change in the term's searches, a fraction (0.3 = +30 %). Pinterest rounds it to one or two
+   * significant digits (always in approximate_fields) and caps it at 100 (+10,000 %), a lower bound then.
    */
   weekly_change: number | null;
   /**
@@ -8889,9 +8764,9 @@ export interface InstagramTrendMetrics {
 
 export interface InstagramTrendSpecific {
   /**
-   * The section of Instagram's popular page the term sits on, as Instagram names it internally, in lower case:
-   * trending_now, entertainment, get_inspired, learn_something_new, shop_the_trends, trending_month or
-   * browse_categories (new ones may appear). rank counts within it.
+   * The section of Instagram's popular page the term is on, by Instagram's internal name (trending_now,
+   * entertainment, get_inspired, learn_something_new, shop_the_trends, trending_month, browse_categories; others
+   * may appear); rank counts within it.
    */
   section: string | null;
   /**
@@ -8925,27 +8800,25 @@ export interface Trend {
   /** Platform ID (pinterest, google, bluesky, …). */
   platform: string;
   /**
-   * The trend's words as the platform shows them, whitespace-trimmed: a search term (Pinterest, Google and
-   * Instagram, usually lowercase: pass it as query to the platform's search endpoints) or a topic's headline
-   * (Bluesky).
+   * The trend's words as the platform shows them, trimmed: a search term, usually lowercase, to pass as query to
+   * the platform's search endpoints, or a topic's headline (Bluesky).
    */
   term: string;
   /**
-   * The trend's public page on the platform: its trend page where one answers logged out (Google Trends' explore
-   * page, Instagram's page for the term, Bluesky's feed of the topic's posts), else the platform's search results
-   * for it (Pinterest). Format: uri.
+   * The trend's page on the platform where one opens logged out, else the platform's search results for it
+   * (Pinterest). Format: uri.
    */
   url: string;
   /** Position on the requested board, 1 = top; null when the answer is not a board. */
   rank: number | null;
   /**
-   * Categories the platform files the trend under, as shown (not normalized), the main one first; [] when none
-   * (listed in unknown_fields when the source cannot see them).
+   * Categories the platform files the trend under, as shown (not normalized), the main one first; [] when none (or
+   * unknown: see unknown_fields).
    */
   categories: string[];
   /**
-   * A picture the platform shows beside the trend (a Pin's on Pinterest, a news article's on Google, a post's on
-   * Instagram); null when none or not read. Platform CDN URLs can expire. Format: uri.
+   * A picture the platform shows beside the trend (a Pin's, a news article's, a post's); null when none or not
+   * read. Platform CDN URLs can expire. Format: uri.
    */
   thumbnail_url: string | null;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
@@ -8956,8 +8829,8 @@ export interface Trend {
    */
   approximate_fields: string[];
   /**
-   * JSON paths of lists whose [] means unknown rather than none (a source that cannot see them, such as a board's
-   * history); null already means unknown for every other field. [] when every list is known.
+   * JSON paths of lists whose [] means unknown, not none (a source that cannot see them, such as a board's
+   * history). [] when every list is known.
    */
   unknown_fields: string[];
 }
@@ -8983,20 +8856,19 @@ export interface Username {
    */
   username: string;
   /**
-   * The profile page at this username: the account's page when it is taken, the page it would have once registered
-   * (until then the platform answers it as not found); null when that address is one of the platform's own pages
-   * (instagram.com/explore/), not an account's. Format: uri.
+   * The profile page at this username: the account's when taken, else the page it would have (not found until
+   * registered); null when the address is the platform's own page (instagram.com/explore/). Format: uri.
    */
   url: string | null;
   /**
    * True when the platform would let someone register the username now; false when it is taken, reserved or breaks
-   * the platform's username rules (reason and message say which); null when the platform did not say.
+   * its rules (see reason and message).
    */
   is_available: boolean | null;
   /**
-   * Why the username is not available: taken = registered to an account or reserved by the platform (platforms
-   * don't tell the two apart); invalid = breaks the platform's username rules (length, characters). Null when it
-   * is available or the platform gave no reason. New values may be added. Known values: taken, invalid.
+   * Why it is unavailable. taken: registered or reserved (platforms don't tell them apart); invalid: breaks the
+   * platform's rules (length, characters). Null when available or unexplained. New values may be added. Known
+   * values: taken, invalid.
    */
   reason: "taken" | "invalid" | (string & {}) | null;
   /**
@@ -9005,9 +8877,8 @@ export interface Username {
    */
   message: string | null;
   /**
-   * Free usernames the platform's sign-up form proposes for this one, in its order; [] when it proposes none
-   * (platforms suggest nothing for short, protected or brand names). Free when proposed: someone can take one at
-   * any time.
+   * Usernames the platform's sign-up form proposes instead, in its order, free when proposed (anyone can take one
+   * later); [] when none, as for short, protected or brand names.
    */
   suggestions: string[];
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
@@ -9016,10 +8887,8 @@ export interface Username {
 
 export interface WebPageMetrics {
   /**
-   * How many times the platform's users shared this link to it, as its own share or save button counts them
-   * (Pinterest: saves, each a Pin of the page). 0 when none did, which is also the answer for a page that doesn't
-   * exist: platforms count links without opening them. Rounded where the platform shows it rounded (Facebook; see
-   * approximate_fields). Null when the platform gave no count.
+   * Shares of this link on the platform, as its own share or save button counts them. 0 when none, even for a page
+   * that doesn't exist. In approximate_fields when rounded.
    */
   share_count: number | null;
 }
@@ -9042,7 +8911,7 @@ export interface WebPage {
   platform_specific: WebPagePlatformSpecific;
   /** JSON paths of values rounded by the platform (Facebook's "57K": metrics.share_count). [] when all exact. */
   approximate_fields: string[];
-  /** JSON paths of lists whose [] means unknown rather than none; a web page has no lists, so always []. */
+  /** JSON paths of lists whose [] means unknown, not none; a web page has no lists, so always []. */
   unknown_fields: string[];
 }
 
@@ -9099,7 +8968,7 @@ export interface PostSummary {
   published_at: string | null;
   /**
    * The posting account as the link and the index's text name it (a /@<username>/video/ link's username, the
-   * title's display name); its id, avatar_url and is_verified null until the result is filled.
+   * title's display name); id, avatar_url and is_verified null until filled.
    */
   author: ProfileRef;
   /**
@@ -9108,8 +8977,8 @@ export interface PostSummary {
    */
   thumbnail_url: string | null;
   /**
-   * Counts as the index's snippet states them ("1,234 likes, 56 comments"; rounded, as old as the index's copy:
-   * see approximate_fields), or the platform's current ones once filled; null = not stated.
+   * Counts as the index's snippet states them ("1,234 likes"; rounded and as old as the index's copy: see
+   * approximate_fields), or current ones once filled.
    */
   metrics: PostMetrics;
 }
@@ -9259,9 +9128,8 @@ export interface WebResultDetails {
 
 export interface FacebookWebResultSpecific {
   /**
-   * What the index's text says the account is: page (Facebook describes it with counts, as it does a Page, and a
-   * person in professional mode) or person (Facebook's "is on Facebook" text). Null when the text doesn't say. New
-   * values may be added. Known values: page, person.
+   * The account kind the index's text implies. page: described with counts (a Page, or a person in professional
+   * mode); person: "is on Facebook". New values may be added. Known values: page, person.
    */
   account_type: "page" | "person" | (string & {}) | null;
   /**
@@ -9285,16 +9153,15 @@ export interface FacebookWebResultSpecific {
 
 export interface LinkedInWebResultSpecific {
   /**
-   * What the account is on LinkedIn, as its link says: a company's Page, a school's, a showcase page, or a member.
-   * Null when unknown. New values may be added; treat unknown values as unknown. Known values: company, school,
-   * showcase, member.
+   * What the account is on LinkedIn, as its link says; showcase: a company's page for one brand or product. New
+   * values may be added; treat unknown values as unknown. Known values: company, school, showcase, member.
    */
   kind: "company" | "school" | "showcase" | "member" | (string & {}) | null;
   /** A Page's tagline as the index's snippet quotes it; null when it quotes none, and for a member. */
   tagline: string | null;
   /**
-   * What the index's title says of a member after their name: their headline, or where LinkedIn hides it their
-   * current employer, school or place (often cut short); null when it says none, and for a Page.
+   * What the index's title says of a member after their name: their headline, or where LinkedIn hides it, current
+   * employer, school or place (often cut short); null for a Page.
    */
   headline: string | null;
   /** Where a member is, as the index's snippet or title says it; null when it does not, and for a Page. */
@@ -9328,11 +9195,9 @@ export interface WebResult {
   /** Platform the item is on. */
   platform: string;
   /**
-   * The kind of item the result names, as the resource that describes it: profile (an account), post, hashtag,
-   * sound, place or community. The item's summary is the field of that name, and a filled result's record is
-   * details.<type>. A search that finds several kinds (a platform's top search) mixes them in one list. New values
-   * may be added as more kinds are searchable; treat unknown values as other. Known values: profile, post,
-   * hashtag, sound, place, community.
+   * The kind of item the result names, by the resource that describes it; its summary is the field of that name,
+   * and a filled result's record is details.<type>. A platform's top search mixes kinds. New values may be added;
+   * treat unknown values as other. Known values: profile, post, hashtag, sound, place, community.
    */
   type: "profile" | "post" | "hashtag" | "sound" | "place" | "community" | (string & {});
   /**
@@ -9356,8 +9221,8 @@ export interface WebResult {
    */
   title: string | null;
   /**
-   * The index's excerpt of the page: often the item's description and counts as the page stated them when it was
-   * indexed, days or weeks ago. Null when the index shows none.
+   * The index's excerpt of the page, often the item's description and counts as of indexing, days or weeks ago;
+   * null when none.
    */
   snippet: string | null;
   /**
@@ -9386,29 +9251,24 @@ export interface WebResult {
    */
   place: PlaceSummary | null;
   /**
-   * The community the result names (type community: a group, a subreddit): what its link and the index's text say
-   * of it, completed from details when the result is filled. Null for every other type.
+   * The community the result names (type community: a group, a subreddit), from its link and the index's text,
+   * completed from details once filled. Null for other types.
    */
   community: CommunitySummary | null;
   /**
-   * The item's own record from the platform, fetched when the request asked for it (fill=true): what the
-   * platform's endpoint for the kind returns, under the result's type (details.profile). Null when not asked for,
-   * when the platform has no endpoint for the kind, or when it did not serve the item (meta.warnings says how
-   * many).
+   * The item's record as the platform's endpoint for its kind returns it, under the result's type
+   * (details.profile), when the request sets fill=true. Null otherwise, when no endpoint serves the kind, or when
+   * the item was not served (meta.warnings has partial_data).
    */
   details: WebResultDetails | null;
   /** Fields only this platform has, under its ID (platform_specific.<platform>); each null when unknown. */
   platform_specific: WebResultPlatformSpecific;
   /**
-   * JSON paths of values parsed from the index's display text or rounded there (profile.metrics.follower_count
-   * from "13K followers", a profile.bio or post.text the snippet cut short). Filled values are exact and leave the
-   * list. [] when all exact.
+   * JSON paths of values read from the index's display text (a rounded follower count, a bio or text the snippet
+   * cut). Filled values leave the list. [] when all exact.
    */
   approximate_fields: string[];
-  /**
-   * JSON paths of lists whose [] means unknown rather than none; [] when every list is known (a result has none
-   * yet).
-   */
+  /** JSON paths of lists whose [] means unknown, not none; [] when every list is known (a result has none yet). */
   unknown_fields: string[];
 }
 
@@ -9429,9 +9289,8 @@ export interface Warning {
   /** Where to read more (the changelog entry, the endpoint's docs). */
   doc_url: string;
   /**
-   * partial_data and fields_unavailable: the output fields (catalog paths such as metrics.view_count) that are
-   * null or [] because part of the data could not be fetched (partial_data) or the platform doesn't show what they
-   * are made from (fields_unavailable); absent for other codes.
+   * For partial_data and fields_unavailable: the fields (paths such as metrics.view_count) left null or [] because
+   * part of the data couldn't be fetched or the platform doesn't show it. Absent for other codes.
    */
   fields?: string[];
 }
@@ -9442,7 +9301,10 @@ export interface ResponseMeta {
   request_id: string;
   /** Platform ID of the endpoint (youtube, tiktok, …). */
   platform: string;
-  /** Which upstream strategy produced the data. */
+  /**
+   * The kind of source that answered (api, page, captions, …; the credits guide lists them); a price that varies
+   * by source follows it.
+   */
   source: string;
   /** True when served from the cache (free); see max_age. */
   is_cached: boolean;
@@ -9456,14 +9318,13 @@ export interface ResponseMeta {
    */
   fetched_at: string;
   /**
-   * What the request's url or handle resolved to: kind, platform ID and canonical URL, so you can confirm what was
-   * fetched; null for searches.
+   * What the request's url or handle resolved to (kind, platform ID, canonical URL), to confirm what was fetched;
+   * null for searches.
    */
   input: InputRef | null;
   /**
-   * Account balance after this request (the x-credits-remaining header); for a busy account an estimate that may
-   * not yet subtract concurrent requests (about a second of usage), never below the real balance; null when
-   * SocialTap could not read it.
+   * Account balance after this request, as in the x-credits-remaining header. With requests in parallel it can lag
+   * about a second, never below the real balance; null when unavailable.
    */
   credits_remaining: number | null;
   /** Your x-client-request-id, echoed; null when you sent none. */
@@ -9481,13 +9342,12 @@ export interface PageInfo {
   has_more: boolean;
   /** Pass as cursor, with the same other parameters, to get the next page; null at the end. */
   next_cursor: string | null;
-  /** When next_cursor stops working, RFC 3339 UTC; null at the end. Don't store cursors. Format: date-time. */
+  /** When next_cursor stops working, RFC 3339 UTC; null at the end. Format: date-time. */
   next_cursor_expires_at: string | null;
   /**
-   * Why there are no more pages; null while has_more is true. end: the list ended, or reached since/until.
-   * platform_limit: the platform stops serving further pages although the list goes on. max_pages: SocialTap's cap
-   * on pages in one walk. New values may be added. A short or empty page is not the end: only has_more false is.
-   * Known values: end, platform_limit, max_pages.
+   * Why the walk ended; null while has_more is true. end: the list ended or reached since/until. platform_limit:
+   * the platform serves no more pages though the list goes on. max_pages: SocialTap's cap per walk. New values may
+   * be added. Known values: end, platform_limit, max_pages.
    */
   end_reason: "end" | "platform_limit" | "max_pages" | (string & {}) | null;
 }
@@ -9549,11 +9409,9 @@ export interface APIKey {
   /** When the key was revoked; null while it is not. Format: date-time. */
   revoked_at: string | null;
   /**
-   * true for the account's built-in dashboard key: the dashboard's playground runs as it (so its requests are
-   * logged, counted and billed like any key's). Nobody holds its secret, so it works only from the signed-in
-   * dashboard. Only its spend_limit can be changed (to cap what the playground spends live); renaming, rescoping,
-   * restricting, rotating or revoking it is forbidden (details.reason dashboard_key). It is made on first use and
-   * revoked with the account.
+   * true for the account's built-in dashboard key, which the playground runs as: logged and billed like any key,
+   * usable only from the dashboard, made on first use. Only its spend_limit changes; anything else is forbidden,
+   * reason dashboard_key.
    */
   dashboard: boolean;
   /**
@@ -9562,8 +9420,8 @@ export interface APIKey {
    */
   previous_secret_expires_at: string | null;
   /**
-   * The API key (key_…) that last created this key, gave it the admin scope or rotated it: revoking that key also
-   * revokes this one if this one has admin. Null when none did, or a person has rotated it in the dashboard since.
+   * The key (key_…) that last created, gave admin to or rotated this key: revoking it revokes this one too, when
+   * this one has admin. Null when none did, or after a dashboard rotation.
    */
   created_by_key: string | null;
   /**
@@ -9597,11 +9455,9 @@ export interface Account {
    */
   low_balance_threshold: number | null;
   /**
-   * The account's runaway-protection ceiling, in requests per second: a safety limit that stops a runaway client,
-   * not a plan limit (plans have no rate limit). Requests above it fail with rate_limited (free) and Retry-After;
-   * short bursts above it are admitted (the RateLimit-Policy header states the burst). GET /v1/usage/rate shows
-   * how close the account runs to it; ask support to raise it. An account that has never paid has a lower ceiling,
-   * which its first payment removes within a minute.
+   * Runaway-protection ceiling, in requests per second: a safety limit, not a plan limit. Above it, past a short
+   * burst (RateLimit-Policy), requests fail with rate_limited (free). GET /v1/usage/rate shows how close you run;
+   * support raises it. Lower until the account's first payment, then lifted within a minute.
    */
   max_rps: number;
   /** Whether each request's answer body is kept, for 7 days (GET /v1/requests/{id}/response); off by default. */
@@ -9713,9 +9569,8 @@ export interface UsageRateBucket {
   /** Bucket end, exclusive. Format: date-time. */
   ending_at: string;
   /**
-   * Requests the ceiling counted, refused ones included: endpoint requests (Prefer: respond-async ones too) and
-   * the gateway's own routes, from every key and the dashboard's playground. Loading the dashboard's pages doesn't
-   * count. Not counted: a job's items (the job paces them).
+   * Requests the ceiling counted, refused ones included: endpoint requests (Prefer: respond-async too) and the
+   * gateway's own routes, from every key and the playground. Not counted: dashboard page loads and a job's items.
    */
   requests: number;
   /** Of requests, those refused with rate_limited (free) because the account was above its ceiling. */
@@ -10109,11 +9964,9 @@ export interface APIKeyCreated {
   /** When the key was revoked; null while it is not. Format: date-time. */
   revoked_at: string | null;
   /**
-   * true for the account's built-in dashboard key: the dashboard's playground runs as it (so its requests are
-   * logged, counted and billed like any key's). Nobody holds its secret, so it works only from the signed-in
-   * dashboard. Only its spend_limit can be changed (to cap what the playground spends live); renaming, rescoping,
-   * restricting, rotating or revoking it is forbidden (details.reason dashboard_key). It is made on first use and
-   * revoked with the account.
+   * true for the account's built-in dashboard key, which the playground runs as: logged and billed like any key,
+   * usable only from the dashboard, made on first use. Only its spend_limit changes; anything else is forbidden,
+   * reason dashboard_key.
    */
   dashboard: boolean;
   /**
@@ -10122,8 +9975,8 @@ export interface APIKeyCreated {
    */
   previous_secret_expires_at: string | null;
   /**
-   * The API key (key_…) that last created this key, gave it the admin scope or rotated it: revoking that key also
-   * revokes this one if this one has admin. Null when none did, or a person has rotated it in the dashboard since.
+   * The key (key_…) that last created, gave admin to or rotated this key: revoking it revokes this one too, when
+   * this one has admin. Null when none did, or after a dashboard rotation.
    */
   created_by_key: string | null;
   /**
@@ -10176,11 +10029,9 @@ export interface APIKeyRevoked {
   /** When the key was revoked; null while it is not. Format: date-time. */
   revoked_at: string | null;
   /**
-   * true for the account's built-in dashboard key: the dashboard's playground runs as it (so its requests are
-   * logged, counted and billed like any key's). Nobody holds its secret, so it works only from the signed-in
-   * dashboard. Only its spend_limit can be changed (to cap what the playground spends live); renaming, rescoping,
-   * restricting, rotating or revoking it is forbidden (details.reason dashboard_key). It is made on first use and
-   * revoked with the account.
+   * true for the account's built-in dashboard key, which the playground runs as: logged and billed like any key,
+   * usable only from the dashboard, made on first use. Only its spend_limit changes; anything else is forbidden,
+   * reason dashboard_key.
    */
   dashboard: boolean;
   /**
@@ -10189,8 +10040,8 @@ export interface APIKeyRevoked {
    */
   previous_secret_expires_at: string | null;
   /**
-   * The API key (key_…) that last created this key, gave it the admin scope or rotated it: revoking that key also
-   * revokes this one if this one has admin. Null when none did, or a person has rotated it in the dashboard since.
+   * The key (key_…) that last created, gave admin to or rotated this key: revoking it revokes this one too, when
+   * this one has admin. Null when none did, or after a dashboard rotation.
    */
   created_by_key: string | null;
   /**
@@ -10521,14 +10372,13 @@ export interface WebhookTestData {
 /** A request's params or body (gateway routes). */
 export interface AccountUpdate {
   /**
-   * Credits; null turns credits.low off. Setting it never fires the event by itself: only a request that crosses
-   * it does.
+   * Credits: credits.low fires, and the owner is emailed, each time a request takes the balance from above this to
+   * at or below it. null turns it off.
    */
   low_balance_threshold?: number | null;
   /**
-   * true keeps the answer body of every request made from now on up to 1 MB each (a longer one is cut), for 7
-   * days: GET /v1/requests/{id}/response returns it. false stops keeping them; bodies already kept are deleted
-   * when their time is up. Takes effect within a minute.
+   * true keeps each later request's answer body for 7 days, cut at 1 MB (GET /v1/requests/{id}/response). false
+   * stops; kept bodies expire on schedule. Takes effect within a minute.
    */
   keep_response_bodies?: boolean | null;
 }
@@ -10539,7 +10389,7 @@ export interface UsageQuery {
   since?: string;
   /** End, exclusive: RFC 3339 or a date (UTC). Default: now. */
   until?: string;
-  /** Bucket size. Default 1d. At most 168 hourly or 31 daily buckets per page. Known values: 1h, 1d. */
+  /** Bucket size. Default 1d. Known values: 1h, 1d. */
   bucket_width?: "1h" | "1d";
   /**
    * Comma-separated subset of endpoint, api_key_id, status, surface: each bucket has one result per combination.
@@ -10561,7 +10411,7 @@ export interface UsageQuery {
    * with the fewest groups you need: it adds up to 26 entries per result. Known values: latency_histogram.
    */
   include?: "latency_histogram";
-  /** Buckets per page (default and maximum: 31 daily or 168 hourly). */
+  /** Buckets per page: at most 31 daily or 168 hourly, and that by default. */
   limit?: number;
   /** page.next_cursor of the previous page. */
   cursor?: string;
@@ -10576,12 +10426,9 @@ export interface UsageRateQuery {
   since?: string;
   /** End, exclusive: RFC 3339 or a date (UTC). Default: now. */
   until?: string;
-  /**
-   * Bucket size. Default 10m. At most 144 ten-minute, 168 hourly or 31 daily buckets per page. Known values: 10m,
-   * 1h, 1d.
-   */
+  /** Bucket size. Default 10m. Known values: 10m, 1h, 1d. */
   bucket_width?: "10m" | "1h" | "1d";
-  /** Buckets per page (default and maximum: 144 ten-minute, 168 hourly or 31 daily). */
+  /** Buckets per page: at most 144 ten-minute, 168 hourly or 31 daily, and that by default. */
   limit?: number;
   /** page.next_cursor of the previous page. */
   cursor?: string;
@@ -10595,7 +10442,7 @@ export interface CreditTransactionsQuery {
   since?: string;
   /** Created before: RFC 3339 or a date (UTC). */
   until?: string;
-  /** Transactions per page (default 25, at most 100). */
+  /** Transactions per page. Default 25. */
   limit?: number;
   /** page.next_cursor of the previous page. */
   cursor?: string;
@@ -10603,7 +10450,7 @@ export interface CreditTransactionsQuery {
 
 /** A request's params or body (gateway routes). */
 export interface PurchasesQuery {
-  /** Purchases per page (default 25, at most 100). */
+  /** Purchases per page. Default 25. */
   limit?: number;
   /** page.next_cursor of the previous page. */
   cursor?: string;
@@ -10627,12 +10474,11 @@ export interface RequestsQuery {
   /** Made before: RFC 3339 or a date (UTC). */
   until?: string;
   /**
-   * Only requests whose params contain every word of q (words split on spaces, each at least 3 characters):
-   * anywhere in a param's value, ignoring case, so a handle, part of a link or a video ID finds the requests that
-   * sent it. Param names are not searched; control characters are refused.
+   * Only requests with every word of q in a param's value, ignoring case: a handle, part of a link or a video ID.
+   * Words split on spaces, each 3+ characters; names aren't searched.
    */
   q?: string;
-  /** Requests per page (default 25, at most 100). */
+  /** Requests per page. Default 25. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the newest. */
   cursor?: string;
@@ -10656,8 +10502,8 @@ export interface APIKeyCreate {
    */
   mode?: "live";
   /**
-   * Default: endpoints, jobs and account:read. Only an admin credential creates keys, and a key never gets a scope
-   * its creator lacks. Known values: endpoints, jobs, jobs:read, account:read, admin.
+   * Default: endpoints, jobs and account:read. Never a scope the creator lacks. Known values: endpoints, jobs,
+   * jobs:read, account:read, admin.
    */
   scopes?: ("endpoints" | "jobs" | "jobs:read" | "account:read" | "admin")[];
   /** Default: none; made with an API key, that key's own (a key never creates a looser one). */
@@ -10676,7 +10522,7 @@ export interface APIKeyCreate {
 
 /** A request's params or body (gateway routes). */
 export interface APIKeysQuery {
-  /** Keys per page (default and maximum 100). */
+  /** Keys per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page. */
   cursor?: string;
@@ -10708,8 +10554,8 @@ export interface APIKeyRotateSecret {
 /** A request's params or body (gateway routes). */
 export interface JobsCreateQuery {
   /**
-   * Seconds to wait for the job to end before answering. If it ends in time the answer is 200 with the first page
-   * of results (a synchronous batch); otherwise 202 with the job as it is.
+   * Seconds to wait for the job to end: 200 with the first page of results if it does, else 202 with the job as it
+   * is.
    */
   wait?: number;
 }
@@ -10745,9 +10591,8 @@ export interface CreateJobRequest {
    */
   max_age?: number | null;
   /**
-   * Most the job may spend: a cap, never held up front (each page reserves as a synchronous request does).
-   * Default: the sum of every item's maximum price (times its max_pages). Items that would go over it are
-   * canceled.
+   * The most the job may spend, never held up front. Default: the sum of every item's maximum price, times its
+   * max_pages. Items that would pass it are canceled.
    */
   max_credits?: number | null;
   /**
@@ -10763,7 +10608,7 @@ export interface CreateJobRequest {
 export interface JobsQuery {
   /** Only jobs in this status. Known values: queued, running, canceling, completed, canceled, expired. */
   status?: "queued" | "running" | "canceling" | "completed" | "canceled" | "expired";
-  /** Jobs per page (default and maximum 100). */
+  /** Jobs per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the newest. */
   cursor?: string;
@@ -10782,7 +10627,7 @@ export interface JobResultsQuery {
    * expired.
    */
   status?: "succeeded" | "failed" | "canceled" | "expired";
-  /** Results per page (default and maximum 100). */
+  /** Results per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the first result. */
   cursor?: string;
@@ -10802,7 +10647,7 @@ export interface CreateWebhookEndpointRequest {
 
 /** A request's params or body (gateway routes). */
 export interface WebhookEndpointsQuery {
-  /** Endpoints per page (default and maximum 100). */
+  /** Endpoints per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the newest. */
   cursor?: string;
@@ -10827,7 +10672,7 @@ export interface RotateSecretRequest {
 export interface WebhookDeliveriesQuery {
   /** Only deliveries in this status. Known values: pending, succeeded, failed. */
   status?: "pending" | "succeeded" | "failed";
-  /** Deliveries per page (default and maximum 100). */
+  /** Deliveries per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the newest. */
   cursor?: string;
@@ -10837,7 +10682,7 @@ export interface WebhookDeliveriesQuery {
 export interface EventsQuery {
   /** Only events of this type (an event type, or a prefix wildcard such as job.*). */
   type?: string;
-  /** Events per page (default and maximum 100). */
+  /** Events per page. Default: the maximum. */
   limit?: number;
   /** page.next_cursor of the previous page; omit to start from the newest. */
   cursor?: string;

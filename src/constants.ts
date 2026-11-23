@@ -42,7 +42,7 @@ export const ERROR_CODES = {
   request_too_large: { status: 413, retryable: false, remediation: "Send a smaller body, or split a large job into several." },
   method_not_allowed: { status: 405, retryable: false, remediation: "Use the method in the allow header (GET for every data endpoint)." },
   endpoint_retired: { status: 410, retryable: false, remediation: "Call the endpoint in details.replacement. The changelog describes the migration." },
-  idempotency_key_reused: { status: 422, retryable: false, remediation: "Use a new Idempotency-Key for a different request, and reuse a key only to retry the identical request. With reason answer_expired, check what the first request created (GET /v1/api_keys, GET /v1/webhook_endpoints) before sending it again under a new key." },
+  idempotency_key_reused: { status: 422, retryable: false, remediation: "Use a new key for a different request; reuse a key only to retry the identical one. For answer_expired, check what the first request created (GET /v1/api_keys, GET /v1/webhook_endpoints) before retrying under a new key." },
   idempotency_key_in_progress: { status: 409, retryable: true, remediation: "Retry after the seconds in the retry-after header to get that request's result." },
   job_not_found: { status: 404, retryable: false, remediation: "Check the job ID. Finished jobs are kept for a limited time." },
   unknown_endpoint: { status: 404, retryable: false, remediation: "Call details.suggestion when it is set (the path you most likely meant); otherwise pick one from details.endpoints. Do not retry the same path." },
