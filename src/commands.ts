@@ -14,6 +14,137 @@ export const SKILLS_INDEX_PATH: string | null = "/.well-known/agent-skills/index
 /** The docs page for agents (MCP setup by hand); null when the site has none. */
 export const AGENTS_DOCS_URL: string | null = "https://socialtap.dev/docs/agents/";
 
+/** A free request only a valid API key answers: `init` checks a key with it before an agent stores it (null: none). */
+export const checkKey: ((c: SocialTap) => Promise<unknown>) | null = (c) => c.account.get();
+
+/** Other names people give params, and the params they mean, in preference order (catalog param_aliases): the API's unknown-param suggestions. */
+export const PARAM_ALIASES: Readonly<Record<string, readonly string[]>> = {
+  "account": ["handle"],
+  "active": ["status"],
+  "active_status": ["status"],
+  "ad_active_status": ["status"],
+  "after": ["since"],
+  "ai_fallback": ["transcribe_audio"],
+  "asr": ["transcribe_audio"],
+  "aweme_id": ["url"],
+  "before": ["until"],
+  "cache": ["max_age"],
+  "cache_max_age": ["max_age"],
+  "cache_ttl": ["max_age"],
+  "challenge_id": ["url"],
+  "challenge_name": ["url"],
+  "channel": ["handle"],
+  "channel_id": ["handle"],
+  "continuation": ["cursor"],
+  "count": ["limit"],
+  "country_code": ["country"],
+  "date_from": ["since"],
+  "date_range": ["period"],
+  "date_to": ["until"],
+  "days": ["period"],
+  "details": ["fill"],
+  "end": ["until"],
+  "end_date": ["until"],
+  "end_time": ["until"],
+  "enrich": ["fill"],
+  "expand": ["fill"],
+  "field": ["fields"],
+  "from": ["since"],
+  "from_date": ["since"],
+  "geo": ["country"],
+  "gl": ["country"],
+  "handle": ["url"],
+  "hashtag": ["url", "query"],
+  "hashtag_id": ["url"],
+  "hl": ["lang"],
+  "hydrate": ["fill"],
+  "id": ["url", "handle"],
+  "include": ["fields"],
+  "item_id": ["url"],
+  "keyword": ["query"],
+  "keywords": ["query"],
+  "lang_code": ["lang"],
+  "language": ["lang"],
+  "language_code": ["lang"],
+  "link": ["url"],
+  "locale": ["lang"],
+  "lookup": ["fill"],
+  "market": ["country"],
+  "max_date": ["until"],
+  "max_results": ["limit"],
+  "maxage": ["max_age"],
+  "media_id": ["url"],
+  "min_date": ["since"],
+  "next": ["cursor"],
+  "next_cursor": ["cursor"],
+  "num": ["limit"],
+  "offset": ["cursor"],
+  "only": ["fields"],
+  "order": ["sort"],
+  "order_by": ["sort"],
+  "orderby": ["sort"],
+  "page": ["cursor"],
+  "page_size": ["limit"],
+  "page_token": ["cursor"],
+  "pagination_token": ["cursor"],
+  "per_page": ["limit"],
+  "permalink": ["url"],
+  "post_id": ["url"],
+  "post_url": ["url"],
+  "profile": ["handle"],
+  "profile_url": ["handle"],
+  "projection": ["fields"],
+  "q": ["query"],
+  "region": ["country"],
+  "screen_name": ["handle"],
+  "screenname": ["handle"],
+  "search": ["query"],
+  "search_query": ["query"],
+  "sec_uid": ["handle"],
+  "secuid": ["handle"],
+  "select": ["fields"],
+  "shortcode": ["url"],
+  "size": ["limit"],
+  "sort_by": ["sort"],
+  "sortby": ["sort"],
+  "source_handle": ["handle"],
+  "source_id": ["handle"],
+  "source_screen_name": ["handle"],
+  "source_username": ["handle"],
+  "speech_to_text": ["transcribe_audio"],
+  "start": ["since"],
+  "start_date": ["since"],
+  "start_time": ["since"],
+  "state": ["status"],
+  "target_handle": ["target"],
+  "target_id": ["target"],
+  "target_screen_name": ["target"],
+  "target_user": ["target"],
+  "target_username": ["target"],
+  "term": ["query"],
+  "time_range": ["period"],
+  "timerange": ["period"],
+  "to": ["until"],
+  "to_date": ["until"],
+  "transcribe": ["transcribe_audio"],
+  "ttl": ["max_age"],
+  "unique_id": ["handle"],
+  "uri": ["url"],
+  "url": ["handle"],
+  "use_ai_as_fallback": ["transcribe_audio"],
+  "user": ["handle"],
+  "user_id": ["handle"],
+  "user_name": ["handle"],
+  "userid": ["handle"],
+  "username": ["handle"],
+  "v": ["url"],
+  "video": ["url"],
+  "video_id": ["url"],
+  "video_url": ["url"],
+  "whisper": ["transcribe_audio"],
+  "window": ["period"],
+};
+
 export type ParamType = "string" | "integer" | "number" | "boolean";
 
 export interface CommandParam {
@@ -31,6 +162,8 @@ interface CommandBase {
   name: string;
   /** The catalog endpoint ID. */
   endpoint: string;
+  /** The param that names what to fetch (url, handle, query: catalog identity), which a lone argument fills; null for none. */
+  identity: string | null;
   summary: string;
   /** What one call (one page of a list) costs. */
   price: string;
@@ -59,6 +192,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "deal_products",
     endpoint: "amazon.deal_products",
+    identity: null,
     summary: "Today's Deals with deal price, badge and end time",
     price: "1 credit",
     params: [
@@ -77,6 +211,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "offers",
     endpoint: "amazon.offers",
+    identity: "url",
     summary: "Every seller's price, condition and delivery for an ASIN",
     price: "1 credit",
     params: [
@@ -95,6 +230,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "product",
     endpoint: "amazon.product",
+    identity: "url",
     summary: "Price, rating, monthly sales and specs by ASIN",
     price: "1 credit",
     params: [
@@ -110,6 +246,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "reviews",
     endpoint: "amazon.reviews",
+    identity: "url",
     summary: "Top customer reviews of a product, by marketplace",
     price: "1 credit",
     params: [
@@ -130,6 +267,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "search_products",
     endpoint: "amazon.search_products",
+    identity: "query",
     summary: "Products by keyword with price, rating and sales",
     price: "1 credit",
     params: [
@@ -149,6 +287,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "seller",
     endpoint: "amazon.seller",
+    identity: "handle",
     summary: "Seller ratings, feedback counts and business details",
     price: "1 credit",
     params: [
@@ -164,6 +303,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "shop",
     endpoint: "amazon.shop",
+    identity: "handle",
     summary: "Influencer storefront profiles, curations and picks",
     price: "1 credit",
     params: [
@@ -179,6 +319,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "shop_lists",
     endpoint: "amazon.shop_lists",
+    identity: "handle",
     summary: "Influencer idea lists with product counts and products",
     price: "1 credit",
     params: [
@@ -197,6 +338,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "shop_posts",
     endpoint: "amazon.shop_posts",
+    identity: "handle",
     summary: "Storefront videos and photos with tagged products",
     price: "1 credit",
     params: [
@@ -216,6 +358,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "amazon",
     name: "top_products",
     endpoint: "amazon.top_products",
+    identity: null,
     summary: "Top 100 products of any category, ranked",
     price: "1 credit",
     params: [
@@ -235,6 +378,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "album",
     endpoint: "applemusic.album",
+    identity: "url",
     summary: "Tracklist with ISRCs, label and UPC",
     price: "1 credit",
     params: [
@@ -251,6 +395,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "artist",
     endpoint: "applemusic.artist",
+    identity: "handle",
     summary: "Bio, origin, genres, top songs and albums",
     price: "1 credit",
     params: [
@@ -267,6 +412,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "search_albums",
     endpoint: "applemusic.search_albums",
+    identity: "query",
     summary: "Albums, singles and EPs by keyword",
     price: "1 credit",
     params: [
@@ -286,6 +432,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "search_artists",
     endpoint: "applemusic.search_artists",
+    identity: "query",
     summary: "Artists by name, with bio and origin",
     price: "1 credit",
     params: [
@@ -305,6 +452,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "search_playlists",
     endpoint: "applemusic.search_playlists",
+    identity: "query",
     summary: "Playlists and radio stations by keyword",
     price: "1 credit",
     params: [
@@ -325,6 +473,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "search_tracks",
     endpoint: "applemusic.search_tracks",
+    identity: "query",
     summary: "Songs, music videos and radio episodes by keyword",
     price: "1 credit",
     params: [
@@ -345,6 +494,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "top_albums",
     endpoint: "applemusic.top_albums",
+    identity: null,
     summary: "Most played albums chart by country",
     price: "1 credit",
     params: [
@@ -365,6 +515,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "top_playlists",
     endpoint: "applemusic.top_playlists",
+    identity: null,
     summary: "Most played playlists chart by country",
     price: "1 credit",
     params: [
@@ -383,6 +534,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "top_tracks",
     endpoint: "applemusic.top_tracks",
+    identity: null,
     summary: "Most played songs and music videos by country",
     price: "1 credit",
     params: [
@@ -404,6 +556,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "applemusic",
     name: "track",
     endpoint: "applemusic.track",
+    identity: "url",
     summary: "Song with ISRC, composer and audio formats",
     price: "1 credit",
     params: [
@@ -420,6 +573,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "bluesky",
     name: "comments",
     endpoint: "bluesky.comments",
+    identity: "url",
     summary: "Replies to a post, nested ones included",
     price: "1 credit",
     params: [
@@ -440,6 +594,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "bluesky",
     name: "post",
     endpoint: "bluesky.post",
+    identity: "url",
     summary: "Exact likes, replies, reposts and quotes",
     price: "1 credit",
     params: [
@@ -454,6 +609,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "bluesky",
     name: "posts",
     endpoint: "bluesky.posts",
+    identity: "handle",
     summary: "Posts and reposts with exact counts",
     price: "1 credit",
     params: [
@@ -474,6 +630,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "bluesky",
     name: "profile",
     endpoint: "bluesky.profile",
+    identity: "handle",
     summary: "Exact follower counts, bio, links and DID",
     price: "1 credit",
     params: [
@@ -488,6 +645,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "bluesky",
     name: "search_posts",
     endpoint: "bluesky.search_posts",
+    identity: "query",
     summary: "Posts by keyword, hashtag, author or link",
     price: "1 credit",
     params: [
@@ -514,6 +672,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "ad",
     endpoint: "facebook.ad",
+    identity: "url",
     summary: "Creatives, run dates, placements and EU reach",
     price: "1 credit",
     params: [
@@ -528,6 +687,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "ad_transcript",
     endpoint: "facebook.ad_transcript",
+    identity: "url",
     summary: "Timed transcript of what a video ad says",
     price: "2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -544,6 +704,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "ads",
     endpoint: "facebook.ads",
+    identity: "handle",
     summary: "Active and past ads of one Page",
     price: "1 credit",
     params: [
@@ -568,6 +729,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "advertiser",
     endpoint: "facebook.advertiser",
+    identity: "handle",
     summary: "Advertiser profile and linked Instagram",
     price: "1 credit",
     params: [
@@ -582,6 +744,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "comments",
     endpoint: "facebook.comments",
+    identity: "url",
     summary: "Top-level, with exact reactions and reply counts",
     price: "1 credit",
     params: [
@@ -602,6 +765,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "engagement",
     endpoint: "facebook.engagement",
+    identity: "handle",
     summary: "Engagement rate, cadence and top posts",
     price: "1 credit",
     params: [
@@ -616,6 +780,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "event",
     endpoint: "facebook.event",
+    identity: "url",
     summary: "Date, venue, hosts and exact RSVP counts",
     price: "1 credit",
     params: [
@@ -630,6 +795,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "events",
     endpoint: "facebook.events",
+    identity: "handle",
     summary: "Upcoming and past events a Page or person hosts",
     price: "1 credit",
     params: [
@@ -650,6 +816,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "group",
     endpoint: "facebook.group",
+    identity: "url",
     summary: "Member count, rules, admins and activity",
     price: "1 credit",
     params: [
@@ -664,6 +831,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "group_posts",
     endpoint: "facebook.group_posts",
+    identity: "url",
     summary: "Public group posts with exact counts",
     price: "1 credit",
     params: [
@@ -682,6 +850,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "listing",
     endpoint: "facebook.listing",
+    identity: "url",
     summary: "Item for sale with price, photos and seller",
     price: "1 credit",
     params: [
@@ -696,6 +865,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "photos",
     endpoint: "facebook.photos",
+    identity: "handle",
     summary: "Full-size photos, uploaded or tagged",
     price: "1 credit",
     params: [
@@ -716,6 +886,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "place_events",
     endpoint: "facebook.place_events",
+    identity: "url",
     summary: "By date window, with going and interested counts",
     price: "1 credit",
     params: [
@@ -736,6 +907,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "post",
     endpoint: "facebook.post",
+    identity: "url",
     summary: "Post, photo, video or reel with exact counts",
     price: "1 credit",
     params: [
@@ -750,6 +922,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "posts",
     endpoint: "facebook.posts",
+    identity: "handle",
     summary: "Newest first, with exact reactions and shares",
     price: "1 credit",
     params: [
@@ -769,6 +942,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "profile",
     endpoint: "facebook.profile",
+    identity: "handle",
     summary: "Exact follower count, contact info and hours",
     price: "1 credit",
     params: [
@@ -783,6 +957,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "reels",
     endpoint: "facebook.reels",
+    identity: "handle",
     summary: "Newest first, with views and video files",
     price: "1 credit",
     params: [
@@ -802,6 +977,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "replies",
     endpoint: "facebook.replies",
+    identity: "url",
     summary: "Thread under a comment, both levels",
     price: "1 credit",
     params: [
@@ -822,6 +998,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_ads",
     endpoint: "facebook.search_ads",
+    identity: "query",
     summary: "Ads by keyword, with creatives and run dates",
     price: "1 credit",
     params: [
@@ -844,6 +1021,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_advertisers",
     endpoint: "facebook.search_advertisers",
+    identity: "query",
     summary: "Advertisers by name, with Page IDs",
     price: "1 credit",
     params: [
@@ -862,6 +1040,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_events",
     endpoint: "facebook.search_events",
+    identity: "query",
     summary: "Events by keyword, anywhere or in one city",
     price: "1 credit",
     params: [
@@ -882,6 +1061,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_groups",
     endpoint: "facebook.search_groups",
+    identity: "query",
     summary: "Groups by topic, place or name",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -901,6 +1081,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_listings",
     endpoint: "facebook.search_listings",
+    identity: "query",
     summary: "Listings by keyword and location, with prices",
     price: "1 credit",
     params: [
@@ -930,6 +1111,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_places",
     endpoint: "facebook.search_places",
+    identity: "query",
     summary: "Location IDs for a city or postal code",
     price: "1 credit",
     params: [
@@ -950,6 +1132,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_posts",
     endpoint: "facebook.search_posts",
+    identity: "query",
     summary: "Public posts and videos by keyword",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -972,6 +1155,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "search_profiles",
     endpoint: "facebook.search_profiles",
+    identity: "query",
     summary: "Pages and people by name, niche or place",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -992,6 +1176,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "facebook",
     name: "transcript",
     endpoint: "facebook.transcript",
+    identity: "url",
     summary: "Timed transcript of a video or reel",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -1007,6 +1192,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "activity",
     endpoint: "github.activity",
+    identity: "handle",
     summary: "Pushes, pull requests, issues, reviews, releases and stars",
     price: "1 credit",
     params: [
@@ -1026,6 +1212,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "contributions",
     endpoint: "github.contributions",
+    identity: "handle",
     summary: "A user's daily contribution counts for a year",
     price: "1 credit",
     params: [
@@ -1041,6 +1228,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "followers",
     endpoint: "github.followers",
+    identity: "handle",
     summary: "Followers of any user or organization, with IDs",
     price: "1 credit",
     params: [
@@ -1058,6 +1246,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "following",
     endpoint: "github.following",
+    identity: "handle",
     summary: "Accounts a user follows, with permanent IDs",
     price: "1 credit",
     params: [
@@ -1075,6 +1264,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "issue",
     endpoint: "github.issue",
+    identity: "url",
     summary: "Issue or pull request with state, branches and changes",
     price: "1 credit",
     params: [
@@ -1089,6 +1279,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "issue_comments",
     endpoint: "github.issue_comments",
+    identity: "url",
     summary: "Issue and PR comments with reactions and roles",
     price: "1 credit",
     params: [
@@ -1108,6 +1299,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "issues",
     endpoint: "github.issues",
+    identity: "url",
     summary: "A repository's issues and pull requests",
     price: "1 credit",
     params: [
@@ -1131,6 +1323,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "pinned_repositories",
     endpoint: "github.pinned_repositories",
+    identity: "handle",
     summary: "Repos a user or organization pinned, in order",
     price: "1 credit",
     params: [
@@ -1148,6 +1341,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "profile",
     endpoint: "github.profile",
+    identity: "handle",
     summary: "Bio, company, links and exact follower counts",
     price: "1 credit",
     params: [
@@ -1162,6 +1356,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "profile_pull_requests",
     endpoint: "github.profile_pull_requests",
+    identity: "handle",
     summary: "Pull requests a user opened, with merge state",
     price: "1 credit",
     params: [
@@ -1183,6 +1378,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "readme",
     endpoint: "github.readme",
+    identity: "url",
     summary: "A repository's README text, format and branch",
     price: "1 credit",
     params: [
@@ -1197,6 +1393,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "releases",
     endpoint: "github.releases",
+    identity: "url",
     summary: "Release notes, files and exact download counts",
     price: "1 credit",
     params: [
@@ -1216,6 +1413,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "repositories",
     endpoint: "github.repositories",
+    identity: "handle",
     summary: "Every public repo of a user or org, with stars",
     price: "1 credit",
     params: [
@@ -1237,6 +1435,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "repository",
     endpoint: "github.repository",
+    identity: "url",
     summary: "Stars, forks, watchers, open issues and license",
     price: "1 credit",
     params: [
@@ -1251,6 +1450,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "repository_contributors",
     endpoint: "github.repository_contributors",
+    identity: "url",
     summary: "Repository contributors with commit counts",
     price: "1 credit",
     params: [
@@ -1268,6 +1468,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "search_issues",
     endpoint: "github.search_issues",
+    identity: "query",
     summary: "Issues and pull requests across GitHub by keyword",
     price: "1 credit",
     params: [
@@ -1290,6 +1491,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "search_profiles",
     endpoint: "github.search_profiles",
+    identity: "query",
     summary: "Developers and organizations by keyword or location",
     price: "1 credit",
     params: [
@@ -1308,6 +1510,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "search_repositories",
     endpoint: "github.search_repositories",
+    identity: "query",
     summary: "Repos by keyword, with exact star and fork counts",
     price: "1 credit",
     params: [
@@ -1328,6 +1531,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "trending_profiles",
     endpoint: "github.trending_profiles",
+    identity: null,
     summary: "Top developers by language, day, week or month",
     price: "1 credit",
     params: [
@@ -1346,6 +1550,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "github",
     name: "trending_repositories",
     endpoint: "github.trending_repositories",
+    identity: null,
     summary: "Repos ranked by stars gained, by language",
     price: "1 credit",
     params: [
@@ -1365,6 +1570,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "ad",
     endpoint: "google.ad",
+    identity: "url",
     summary: "Creative, advertiser, regions and dates",
     price: "1 credit",
     params: [
@@ -1379,6 +1585,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "ads",
     endpoint: "google.ads",
+    identity: "handle",
     summary: "Ads by format and date range",
     price: "1 credit",
     params: [
@@ -1403,6 +1610,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "advertiser",
     endpoint: "google.advertiser",
+    identity: "handle",
     summary: "Name, verification and ad count",
     price: "1 credit",
     params: [
@@ -1418,6 +1626,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "search_ads",
     endpoint: "google.search_ads",
+    identity: "query",
     summary: "Ads that link to a website",
     price: "1 credit",
     params: [
@@ -1442,6 +1651,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "search_advertisers",
     endpoint: "google.search_advertisers",
+    identity: "query",
     summary: "Advertisers by name",
     price: "1 credit",
     params: [
@@ -1461,6 +1671,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "google",
     name: "search_suggestions",
     endpoint: "google.search_suggestions",
+    identity: "query",
     summary: "Advertiser autocomplete",
     price: "1 credit",
     params: [
@@ -1479,6 +1690,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "comment",
     endpoint: "hackernews.comment",
+    identity: "url",
     summary: "One comment with its story, parent and thread depth",
     price: "1 credit",
     params: [
@@ -1493,6 +1705,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "comments",
     endpoint: "hackernews.comments",
+    identity: "url",
     summary: "Comments and replies on a story, in thread order",
     price: "1 credit",
     params: [
@@ -1513,6 +1726,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "feed_stories",
     endpoint: "hackernews.feed_stories",
+    identity: null,
     summary: "Front page, new, best, Ask HN, Show HN and jobs",
     price: "1 credit",
     params: [
@@ -1532,6 +1746,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "search_comments",
     endpoint: "hackernews.search_comments",
+    identity: "query",
     summary: "Comments by keyword, ranked or newest first",
     price: "1 credit",
     params: [
@@ -1555,6 +1770,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "search_stories",
     endpoint: "hackernews.search_stories",
+    identity: "query",
     summary: "Stories by keyword, ranked or newest first",
     price: "1 credit",
     params: [
@@ -1581,6 +1797,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "story",
     endpoint: "hackernews.story",
+    identity: "url",
     summary: "Story, job or poll with exact points and comment count",
     price: "1 credit",
     params: [
@@ -1595,6 +1812,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "user",
     endpoint: "hackernews.user",
+    identity: "handle",
     summary: "Exact karma, about text and submission count",
     price: "1 credit",
     params: [
@@ -1609,6 +1827,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "user_comments",
     endpoint: "hackernews.user_comments",
+    identity: "handle",
     summary: "Every comment a user wrote, newest first",
     price: "1 credit",
     params: [
@@ -1628,6 +1847,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "user_favorites",
     endpoint: "hackernews.user_favorites",
+    identity: "handle",
     summary: "Stories a user saved, with points and comments",
     price: "1 credit",
     params: [
@@ -1645,6 +1865,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "user_stories",
     endpoint: "hackernews.user_stories",
+    identity: "handle",
     summary: "Every story a user posted, newest first",
     price: "1 credit",
     params: [
@@ -1665,6 +1886,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "hackernews",
     name: "whoishiring_jobs",
     endpoint: "hackernews.whoishiring_jobs",
+    identity: null,
     summary: "Jobs from a month's Who is hiring thread",
     price: "1 credit",
     params: [
@@ -1684,6 +1906,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "comment",
     endpoint: "instagram.comment",
+    identity: "url",
     summary: "Text, exact likes and author, from its link",
     price: "1 credit",
     params: [
@@ -1699,6 +1922,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "comments",
     endpoint: "instagram.comments",
+    identity: "url",
     summary: "On a post or reel, newest first, with likes",
     price: "1 credit",
     params: [
@@ -1718,6 +1942,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "embed",
     endpoint: "instagram.embed",
+    identity: "url",
     summary: "Embed code for a post, reel or profile",
     price: "1 credit",
     params: [
@@ -1735,6 +1960,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "engagement",
     endpoint: "instagram.engagement",
+    identity: "handle",
     summary: "Engagement rate over an account's latest posts",
     price: "1 credit",
     params: [
@@ -1749,6 +1975,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "hashtag",
     endpoint: "instagram.hashtag",
+    identity: "url",
     summary: "Exact post count, tag ID and restricted status",
     price: "1 credit",
     params: [
@@ -1763,6 +1990,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "hashtag_posts",
     endpoint: "instagram.hashtag_posts",
+    identity: "url",
     summary: "Top reels that carry a hashtag",
     price: "1 credit",
     params: [
@@ -1782,6 +2010,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "highlights",
     endpoint: "instagram.highlights",
+    identity: "handle",
     summary: "Story highlights on a profile, with covers",
     price: "1 credit",
     params: [
@@ -1799,6 +2028,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "place",
     endpoint: "instagram.place",
+    identity: "url",
     summary: "Address, coordinates and exact post count",
     price: "1 credit",
     params: [
@@ -1813,6 +2043,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "place_posts",
     endpoint: "instagram.place_posts",
+    identity: "url",
     summary: "Recent or top posts tagged at a location",
     price: "1 credit",
     params: [
@@ -1833,6 +2064,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "playlist_stories",
     endpoint: "instagram.playlist_stories",
+    identity: "url",
     summary: "Stories saved to a highlight, with media links",
     price: "1 credit",
     params: [
@@ -1852,6 +2084,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "popular_trends",
     endpoint: "instagram.popular_trends",
+    identity: null,
     summary: "Promoted searches with exact post counts",
     price: "1 credit",
     params: [
@@ -1869,6 +2102,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "post",
     endpoint: "instagram.post",
+    identity: "url",
     summary: "Post, reel or carousel with media, likes and views",
     price: "1 credit",
     params: [
@@ -1883,6 +2117,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "posts",
     endpoint: "instagram.posts",
+    identity: "handle",
     summary: "Posts, reels and carousels from a profile",
     price: "1 credit",
     params: [
@@ -1902,6 +2137,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "profile",
     endpoint: "instagram.profile",
+    identity: "handle",
     summary: "Exact follower counts, bio and bio links",
     price: "1 credit",
     params: [
@@ -1916,6 +2152,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "reels",
     endpoint: "instagram.reels",
+    identity: "handle",
     summary: "Pinned then newest, with play counts",
     price: "1 credit",
     params: [
@@ -1935,6 +2172,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_hashtags",
     endpoint: "instagram.search_hashtags",
+    identity: "query",
     summary: "Hashtags matching a word, with exact post counts",
     price: "1 credit",
     params: [
@@ -1952,6 +2190,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_places",
     endpoint: "instagram.search_places",
+    identity: "query",
     summary: "Locations by name, kind of place or city",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -1971,6 +2210,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_posts",
     endpoint: "instagram.search_posts",
+    identity: "query",
     summary: "Reels matching a keyword, with plays and likes",
     price: "1 credit",
     params: [
@@ -1990,6 +2230,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_profiles",
     endpoint: "instagram.search_profiles",
+    identity: "query",
     summary: "Accounts by keyword, niche or place",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -2009,6 +2250,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_sounds",
     endpoint: "instagram.search_sounds",
+    identity: "query",
     summary: "Songs and original audio by name or artist",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -2028,6 +2270,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "search_suggestions",
     endpoint: "instagram.search_suggestions",
+    identity: "query",
     summary: "Accounts and hashtags matching a query",
     price: "1 credit",
     params: [
@@ -2045,6 +2288,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "similar_profiles",
     endpoint: "instagram.similar_profiles",
+    identity: "handle",
     summary: "Lookalike accounts suggested for a profile",
     price: "1 credit",
     params: [
@@ -2062,6 +2306,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "sound",
     endpoint: "instagram.sound",
+    identity: "url",
     summary: "Song or original audio with its reel count",
     price: "1 credit",
     params: [
@@ -2076,6 +2321,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "sound_posts",
     endpoint: "instagram.sound_posts",
+    identity: "url",
     summary: "Reels that use a song or original audio",
     price: "1 credit",
     params: [
@@ -2095,6 +2341,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "story",
     endpoint: "instagram.story",
+    identity: "url",
     summary: "Image or video file, from the story's link",
     price: "1 credit",
     params: [
@@ -2109,6 +2356,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "topic",
     endpoint: "instagram.topic",
+    identity: "url",
     summary: "Generated summary, related searches and reel count",
     price: "1 credit",
     params: [
@@ -2123,6 +2371,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "transcript",
     endpoint: "instagram.transcript",
+    identity: "url",
     summary: "Timed transcript of a public reel or video",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -2138,6 +2387,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "trending_posts",
     endpoint: "instagram.trending_posts",
+    identity: null,
     summary: "Recommended reels, a fresh batch each time",
     price: "1 credit",
     params: [
@@ -2156,6 +2406,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "instagram",
     name: "username",
     endpoint: "instagram.username",
+    identity: "handle",
     summary: "Free or taken, with suggested alternatives",
     price: "1 credit",
     params: [
@@ -2170,6 +2421,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "kick",
     name: "post",
     endpoint: "kick.post",
+    identity: "url",
     summary: "Exact views, channel and playback link",
     price: "1 credit",
     params: [
@@ -2184,6 +2436,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "kick",
     name: "transcript",
     endpoint: "kick.transcript",
+    identity: "url",
     summary: "Timed transcript of a clip, from its audio",
     price: "2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -2200,6 +2453,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "komi",
     name: "page",
     endpoint: "komi.page",
+    identity: "handle",
     summary: "Products, discount codes, music, events and links",
     price: "1 credit",
     params: [
@@ -2214,6 +2468,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "kwai",
     name: "post",
     endpoint: "kwai.post",
+    identity: "url",
     summary: "Short video file with exact views and likes",
     price: "1 credit",
     params: [
@@ -2228,6 +2483,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "kwai",
     name: "posts",
     endpoint: "kwai.posts",
+    identity: "handle",
     summary: "User videos with exact views, likes and shares",
     price: "1 credit",
     params: [
@@ -2247,6 +2503,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "kwai",
     name: "profile",
     endpoint: "kwai.profile",
+    identity: "handle",
     summary: "Exact follower, like and post counts, and bio",
     price: "1 credit",
     params: [
@@ -2261,6 +2518,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkbio",
     name: "profile",
     endpoint: "linkbio.profile",
+    identity: "handle",
     summary: "Link list, social icons, emails and phone numbers",
     price: "1 credit",
     params: [
@@ -2275,6 +2533,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "ad",
     endpoint: "linkedin.ad",
+    identity: "url",
     summary: "Creative, payer and EU targeting, in any format",
     price: "1 credit",
     params: [
@@ -2289,6 +2548,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "comments",
     endpoint: "linkedin.comments",
+    identity: "url",
     summary: "Comments and replies on a post or article",
     price: "1 credit (public page) or 5 credits (data partner)",
     params: [
@@ -2306,6 +2566,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "employees",
     endpoint: "linkedin.employees",
+    identity: "handle",
     summary: "People who work at a company, with their headlines",
     price: "5 credits",
     params: [
@@ -2324,6 +2585,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "engagement",
     endpoint: "linkedin.engagement",
+    identity: "handle",
     summary: "Engagement rate, cadence and top posts",
     price: "1 credit (public page) or 15 credits (data partner)",
     params: [
@@ -2338,6 +2600,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "following",
     endpoint: "linkedin.following",
+    identity: "handle",
     summary: "Companies, schools, Top Voices a member follows",
     price: "5 credits",
     params: [
@@ -2356,6 +2619,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "job",
     endpoint: "linkedin.job",
+    identity: "url",
     summary: "Job posting with pay, applicants and hiring team",
     price: "1 credit",
     params: [
@@ -2370,6 +2634,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "job_related_jobs",
     endpoint: "linkedin.job_related_jobs",
+    identity: "url",
     summary: "Similar and also-viewed jobs for any job posting",
     price: "1 credit",
     params: [
@@ -2388,6 +2653,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "jobs",
     endpoint: "linkedin.jobs",
+    identity: "handle",
     summary: "A company's open jobs on LinkedIn",
     price: "1 credit",
     params: [
@@ -2409,6 +2675,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "liked_posts",
     endpoint: "linkedin.liked_posts",
+    identity: "handle",
     summary: "Posts a member liked or reacted to, latest first",
     price: "1 credit (public page) or 10 credits (data partner)",
     params: [
@@ -2428,6 +2695,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "post",
     endpoint: "linkedin.post",
+    identity: "url",
     summary: "Post or article with exact reactions and comments",
     price: "1 credit",
     params: [
@@ -2442,6 +2710,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "post_reactions",
     endpoint: "linkedin.post_reactions",
+    identity: "url",
     summary: "Who reacted to a post, and how",
     price: "1 credit (public page) or 5 credits (data partner)",
     params: [
@@ -2460,6 +2729,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "post_reposts",
     endpoint: "linkedin.post_reposts",
+    identity: "url",
     summary: "Who reposted a post, with their commentary",
     price: "1 credit (public page) or 5 credits (data partner)",
     params: [
@@ -2479,6 +2749,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "posts",
     endpoint: "linkedin.posts",
+    identity: "handle",
     summary: "A company's or a person's posts, newest first",
     price: "1 credit (public page) or 10 credits (data partner)",
     params: [
@@ -2499,6 +2770,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "profile",
     endpoint: "linkedin.profile",
+    identity: "handle",
     summary: "Company size and industry, or a member's career",
     price: "1 credit (public page or web search) or 5 credits (data partner)",
     params: [
@@ -2513,6 +2785,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "profile_comments",
     endpoint: "linkedin.profile_comments",
+    identity: "handle",
     summary: "Comments a member wrote, with the post each is on",
     price: "10 credits",
     params: [
@@ -2532,6 +2805,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "profile_groups",
     endpoint: "linkedin.profile_groups",
+    identity: "handle",
     summary: "Groups a member joined, with exact member counts",
     price: "5 credits",
     params: [
@@ -2549,6 +2823,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "search_ads",
     endpoint: "linkedin.search_ads",
+    identity: "query",
     summary: "Ads by keyword, advertiser or payer",
     price: "1 credit",
     params: [
@@ -2574,6 +2849,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "search_jobs",
     endpoint: "linkedin.search_jobs",
+    identity: "query",
     summary: "Job listings by keyword, place, company and date",
     price: "1 credit",
     params: [
@@ -2596,6 +2872,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "search_posts",
     endpoint: "linkedin.search_posts",
+    identity: "query",
     summary: "Public posts by keyword or hashtag",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -2615,6 +2892,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "search_profiles",
     endpoint: "linkedin.search_profiles",
+    identity: "query",
     summary: "Companies, schools and people by keyword",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -2635,6 +2913,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkedin",
     name: "transcript",
     endpoint: "linkedin.transcript",
+    identity: "url",
     summary: "Timed transcript of any public video post",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -2650,6 +2929,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linkme",
     name: "profile",
     endpoint: "linkme.profile",
+    identity: "handle",
     summary: "Total followers, social handles and every link",
     price: "1 credit",
     params: [
@@ -2664,6 +2944,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "linktree",
     name: "profile",
     endpoint: "linktree.profile",
+    identity: "handle",
     summary: "Every link on a page, with social icons and email",
     price: "1 credit",
     params: [
@@ -2678,6 +2959,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pillar",
     name: "page",
     endpoint: "pillar.page",
+    identity: "handle",
     summary: "Links with click counts, products and audience",
     price: "1 credit",
     params: [
@@ -2692,6 +2974,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "board",
     endpoint: "pinterest.board",
+    identity: "url",
     summary: "Board with exact pins, followers and collaborators",
     price: "1 credit",
     params: [
@@ -2706,6 +2989,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "board_pins",
     endpoint: "pinterest.board_pins",
+    identity: "url",
     summary: "Pins saved to a board, page by page",
     price: "1 credit",
     params: [
@@ -2723,6 +3007,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "boards",
     endpoint: "pinterest.boards",
+    identity: "handle",
     summary: "Account's boards with pin counts, covers and links",
     price: "1 credit",
     params: [
@@ -2740,6 +3025,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "pin",
     endpoint: "pinterest.pin",
+    identity: "url",
     summary: "Pin with saves, reactions, media and its link",
     price: "1 credit",
     params: [
@@ -2754,6 +3040,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "pins",
     endpoint: "pinterest.pins",
+    identity: "handle",
     summary: "Every pin an account saved or created, page by page",
     price: "1 credit",
     params: [
@@ -2774,6 +3061,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "profile",
     endpoint: "pinterest.profile",
+    identity: "handle",
     summary: "Exact followers, pins, boards and monthly views",
     price: "1 credit",
     params: [
@@ -2788,6 +3076,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "search_pins",
     endpoint: "pinterest.search_pins",
+    identity: "query",
     summary: "Pins matching a keyword, with pictures and pinners",
     price: "1 credit",
     params: [
@@ -2805,6 +3094,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "top_trends",
     endpoint: "pinterest.top_trends",
+    identity: null,
     summary: "Top, rising and seasonal searches by country",
     price: "1 credit",
     params: [
@@ -2828,6 +3118,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "topic",
     endpoint: "pinterest.topic",
+    identity: "url",
     summary: "Ideas page with related topics and search count",
     price: "1 credit",
     params: [
@@ -2842,6 +3133,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "pinterest",
     name: "web_page",
     endpoint: "pinterest.web_page",
+    identity: "url",
     summary: "Exact Pinterest saves of any web page's link",
     price: "1 credit",
     params: [
@@ -2856,6 +3148,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "comments",
     endpoint: "reddit.comments",
+    identity: "url",
     summary: "Post comments and replies, in thread order",
     price: "1 credit",
     params: [
@@ -2877,6 +3170,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "engagement",
     endpoint: "reddit.engagement",
+    identity: "handle",
     summary: "Upvotes per post, posting cadence and top posts",
     price: "1 credit",
     params: [
@@ -2891,6 +3185,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "post",
     endpoint: "reddit.post",
+    identity: "url",
     summary: "Upvotes, comment count, media and flair",
     price: "1 credit",
     params: [
@@ -2905,6 +3200,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "posts",
     endpoint: "reddit.posts",
+    identity: "handle",
     summary: "Submissions sorted New, Top or Hot, with scores",
     price: "1 credit",
     params: [
@@ -2925,6 +3221,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "profile",
     endpoint: "reddit.profile",
+    identity: "handle",
     summary: "Karma, cake day, trophies and moderated subreddits",
     price: "1 credit",
     params: [
@@ -2939,6 +3236,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "profile_comments",
     endpoint: "reddit.profile_comments",
+    identity: "handle",
     summary: "Comment history of a user, sorted New or Top",
     price: "1 credit",
     params: [
@@ -2959,6 +3257,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "search_comments",
     endpoint: "reddit.search_comments",
+    identity: "query",
     summary: "Comments by keyword, sitewide or in a subreddit",
     price: "1 credit",
     params: [
@@ -2980,6 +3279,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "search_posts",
     endpoint: "reddit.search_posts",
+    identity: "query",
     summary: "Posts by keyword, with Reddit's search operators",
     price: "1 credit",
     params: [
@@ -3003,6 +3303,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "search_profiles",
     endpoint: "reddit.search_profiles",
+    identity: "query",
     summary: "Users by name, with karma and avatar",
     price: "1 credit",
     params: [
@@ -3020,6 +3321,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "search_subreddits",
     endpoint: "reddit.search_subreddits",
+    identity: "query",
     summary: "Subreddits by keyword, with weekly visitors",
     price: "1 credit",
     params: [
@@ -3037,6 +3339,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "subreddit",
     endpoint: "reddit.subreddit",
+    identity: "url",
     summary: "Rules, description and weekly visitors",
     price: "1 credit",
     params: [
@@ -3051,6 +3354,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "subreddit_posts",
     endpoint: "reddit.subreddit_posts",
+    identity: "url",
     summary: "Hot, New, Top or Rising, with exact scores",
     price: "1 credit",
     params: [
@@ -3071,6 +3375,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "reddit",
     name: "transcript",
     endpoint: "reddit.transcript",
+    identity: "url",
     summary: "Video post transcript, from captions or audio",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -3087,6 +3392,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "comments",
     endpoint: "rumble.comments",
+    identity: "url",
     summary: "Comments and replies on a video or live stream",
     price: "1 credit",
     params: [
@@ -3107,6 +3413,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "engagement",
     endpoint: "rumble.engagement",
+    identity: "handle",
     summary: "Engagement rate from a channel's latest videos",
     price: "1 credit",
     params: [
@@ -3122,6 +3429,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "post",
     endpoint: "rumble.post",
+    identity: "url",
     summary: "Video, short or stream with views, likes and dislikes",
     price: "1 credit",
     params: [
@@ -3136,6 +3444,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "posts",
     endpoint: "rumble.posts",
+    identity: "handle",
     summary: "Videos, shorts and live streams of any channel",
     price: "1 credit",
     params: [
@@ -3158,6 +3467,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "profile",
     endpoint: "rumble.profile",
+    identity: "handle",
     summary: "Follower, video and view counts of channels and users",
     price: "1 credit",
     params: [
@@ -3172,6 +3482,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "search_posts",
     endpoint: "rumble.search_posts",
+    identity: "query",
     summary: "Videos, shorts and live streams for any keyword",
     price: "1 credit",
     params: [
@@ -3194,6 +3505,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "rumble",
     name: "transcript",
     endpoint: "rumble.transcript",
+    identity: "url",
     summary: "Timed transcript of any video or past stream",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -3210,6 +3522,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "snapchat",
     name: "comments",
     endpoint: "snapchat.comments",
+    identity: "url",
     summary: "Spotlight comments and replies with like counts",
     price: "1 credit",
     params: [
@@ -3230,6 +3543,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "snapchat",
     name: "profile",
     endpoint: "snapchat.profile",
+    identity: "handle",
     summary: "Subscribers, bio, Story and Spotlights",
     price: "1 credit",
     params: [
@@ -3244,6 +3558,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "snapchat",
     name: "spotlight",
     endpoint: "snapchat.spotlight",
+    identity: "url",
     summary: "Video or image with exact views and likes",
     price: "1 credit",
     params: [
@@ -3258,6 +3573,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "soundcloud",
     name: "artist",
     endpoint: "soundcloud.artist",
+    identity: "handle",
     summary: "Exact followers, bio and social links",
     price: "1 credit",
     params: [
@@ -3272,6 +3588,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "soundcloud",
     name: "track",
     endpoint: "soundcloud.track",
+    identity: "url",
     summary: "Exact plays, likes, reposts and ISRC",
     price: "1 credit",
     params: [
@@ -3286,6 +3603,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "soundcloud",
     name: "tracks",
     endpoint: "soundcloud.tracks",
+    identity: "handle",
     summary: "Newest first, with exact plays and ISRC",
     price: "1 credit",
     params: [
@@ -3305,6 +3623,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "album",
     endpoint: "spotify.album",
+    identity: "url",
     summary: "Full tracklist with plays, label and UPC",
     price: "1 credit",
     params: [
@@ -3319,6 +3638,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "artist",
     endpoint: "spotify.artist",
+    identity: "handle",
     summary: "Monthly listeners, top cities and releases",
     price: "1 credit",
     params: [
@@ -3333,6 +3653,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "playlist",
     endpoint: "spotify.playlist",
+    identity: "url",
     summary: "Exact followers, owner and last update",
     price: "1 credit",
     params: [
@@ -3347,6 +3668,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "playlist_tracks",
     endpoint: "spotify.playlist_tracks",
+    identity: "url",
     summary: "Plays, BPM, Camelot key and date added",
     price: "1 credit",
     params: [
@@ -3364,6 +3686,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "podcast",
     endpoint: "spotify.podcast",
+    identity: "url",
     summary: "Exact rating, episode count and topics",
     price: "1 credit",
     params: [
@@ -3378,6 +3701,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "podcast_episodes",
     endpoint: "spotify.podcast_episodes",
+    identity: "url",
     summary: "Full descriptions and exact release times",
     price: "1 credit",
     params: [
@@ -3397,6 +3721,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "search_albums",
     endpoint: "spotify.search_albums",
+    identity: "query",
     summary: "Albums by keyword, artist or UPC",
     price: "1 credit",
     params: [
@@ -3415,6 +3740,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "search_artists",
     endpoint: "spotify.search_artists",
+    identity: "query",
     summary: "Artists and listener accounts by name",
     price: "1 credit",
     params: [
@@ -3434,6 +3760,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "search_playlists",
     endpoint: "spotify.search_playlists",
+    identity: "query",
     summary: "Playlists and their curators by keyword",
     price: "1 credit",
     params: [
@@ -3452,6 +3779,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "search_podcasts",
     endpoint: "spotify.search_podcasts",
+    identity: "query",
     summary: "Podcasts by keyword, publisher or topic",
     price: "1 credit",
     params: [
@@ -3470,6 +3798,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "search_tracks",
     endpoint: "spotify.search_tracks",
+    identity: "query",
     summary: "Tracks by keyword, artist or ISRC",
     price: "1 credit",
     params: [
@@ -3489,6 +3818,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "spotify",
     name: "track",
     endpoint: "spotify.track",
+    identity: "url",
     summary: "Song with exact plays, ISRC and songwriter credits",
     price: "1 credit",
     params: [
@@ -3503,6 +3833,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "telegram",
     name: "channel",
     endpoint: "telegram.channel",
+    identity: "handle",
     summary: "Subscribers, bio and links of channels and groups",
     price: "1 credit",
     params: [
@@ -3517,6 +3848,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "telegram",
     name: "channel_posts",
     endpoint: "telegram.channel_posts",
+    identity: "handle",
     summary: "Full history with views and reactions",
     price: "1 credit",
     params: [
@@ -3537,6 +3869,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "telegram",
     name: "post",
     endpoint: "telegram.post",
+    identity: "url",
     summary: "Views, reactions, media and forwards",
     price: "1 credit",
     params: [
@@ -3551,6 +3884,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "telegram",
     name: "search_channels",
     endpoint: "telegram.search_channels",
+    identity: "query",
     summary: "Channels for any topic, niche or name",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -3572,6 +3906,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "comments",
     endpoint: "threads.comments",
+    identity: "url",
     summary: "Replies to a public post, newest first",
     price: "1 credit",
     params: [
@@ -3591,6 +3926,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "post",
     endpoint: "threads.post",
+    identity: "url",
     summary: "Post or reply with exact likes and reposts",
     price: "1 credit",
     params: [
@@ -3605,6 +3941,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "posts",
     endpoint: "threads.posts",
+    identity: "handle",
     summary: "Pinned first, with exact likes, replies and reposts",
     price: "1 credit",
     params: [
@@ -3624,6 +3961,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "profile",
     endpoint: "threads.profile",
+    identity: "handle",
     summary: "Exact follower count, bio and bio links",
     price: "1 credit",
     params: [
@@ -3638,6 +3976,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "search_posts",
     endpoint: "threads.search_posts",
+    identity: "query",
     summary: "Public posts by keyword, best match or newest",
     price: "1 credit",
     params: [
@@ -3658,6 +3997,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "threads",
     name: "search_profiles",
     endpoint: "threads.search_profiles",
+    identity: "query",
     summary: "Accounts by name or username, with bios",
     price: "1 credit",
     params: [
@@ -3675,6 +4015,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "ad",
     endpoint: "tiktok.ad",
+    identity: "url",
     summary: "Targeting, reach by country and takedowns",
     price: "1 credit",
     params: [
@@ -3689,6 +4030,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "comment",
     endpoint: "tiktok.comment",
+    identity: "url",
     summary: "Comment or reply with its likes and author",
     price: "1 credit",
     params: [
@@ -3704,6 +4046,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "comments",
     endpoint: "tiktok.comments",
+    identity: "url",
     summary: "Top-level comments with exact like and reply counts",
     price: "1 credit",
     params: [
@@ -3723,6 +4066,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "download",
     endpoint: "tiktok.download",
+    identity: "url",
     summary: "Watermark-free video files and slideshow photos",
     price: "1 credit",
     params: [
@@ -3737,6 +4081,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "effect",
     endpoint: "tiktok.effect",
+    identity: "url",
     summary: "Effect or filter with exact post and view counts",
     price: "1 credit",
     params: [
@@ -3751,6 +4096,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "effect_posts",
     endpoint: "tiktok.effect_posts",
+    identity: "url",
     summary: "Videos and photo posts made with an effect",
     price: "1 credit",
     params: [
@@ -3770,6 +4116,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "engagement",
     endpoint: "tiktok.engagement",
+    identity: "handle",
     summary: "Engagement rate, views per post and posting cadence",
     price: "1 credit",
     params: [
@@ -3784,6 +4131,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "followers",
     endpoint: "tiktok.followers",
+    identity: "handle",
     summary: "Followers of an account with exact counts, newest first",
     price: "1 credit",
     params: [
@@ -3801,6 +4149,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "following",
     endpoint: "tiktok.following",
+    identity: "handle",
     summary: "Accounts an account follows, with exact counts",
     price: "1 credit",
     params: [
@@ -3818,6 +4167,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "hashtag",
     endpoint: "tiktok.hashtag",
+    identity: "url",
     summary: "Exact post and view counts",
     price: "1 credit",
     params: [
@@ -3832,6 +4182,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "hashtag_posts",
     endpoint: "tiktok.hashtag_posts",
+    identity: "url",
     summary: "Top videos and photo posts under a hashtag",
     price: "1 credit",
     params: [
@@ -3851,6 +4202,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "liked_posts",
     endpoint: "tiktok.liked_posts",
+    identity: "handle",
     summary: "What an account liked, most recent like first",
     price: "1 credit",
     params: [
@@ -3870,6 +4222,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "live",
     endpoint: "tiktok.live",
+    identity: "handle",
     summary: "On-air status, viewer count and stream links",
     price: "1 credit",
     params: [
@@ -3884,6 +4237,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "place_posts",
     endpoint: "tiktok.place_posts",
+    identity: "url",
     summary: "Videos and photo posts tagged at a place",
     price: "1 credit",
     params: [
@@ -3903,6 +4257,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "playlist_posts",
     endpoint: "tiktok.playlist_posts",
+    identity: "url",
     summary: "Videos in a playlist or collection, in its order",
     price: "1 credit",
     params: [
@@ -3922,6 +4277,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "playlists",
     endpoint: "tiktok.playlists",
+    identity: "handle",
     summary: "Account playlists and public collections",
     price: "1 credit",
     params: [
@@ -3939,6 +4295,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "post",
     endpoint: "tiktok.post",
+    identity: "url",
     summary: "Video or photo post with views, likes and media",
     price: "1 credit",
     params: [
@@ -3953,6 +4310,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "posts",
     endpoint: "tiktok.posts",
+    identity: "handle",
     summary: "Account videos and photo posts, newest first",
     price: "1 credit",
     params: [
@@ -3972,6 +4330,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "profile",
     endpoint: "tiktok.profile",
+    identity: "handle",
     summary: "Exact follower and like counts, bio and country",
     price: "1 credit",
     params: [
@@ -3986,6 +4345,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "replies",
     endpoint: "tiktok.replies",
+    identity: "url",
     summary: "Thread under a comment, with likes and authors",
     price: "1 credit",
     params: [
@@ -4004,6 +4364,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_ads",
     endpoint: "tiktok.search_ads",
+    identity: "query",
     summary: "Ads by keyword or advertiser, with reach",
     price: "1 credit",
     params: [
@@ -4028,6 +4389,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_hashtags",
     endpoint: "tiktok.search_hashtags",
+    identity: "query",
     summary: "Hashtags for a keyword, topic or niche",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4047,6 +4409,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_posts",
     endpoint: "tiktok.search_posts",
+    identity: "query",
     summary: "Videos for a keyword, by country",
     price: "1 credit",
     params: [
@@ -4067,6 +4430,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_profiles",
     endpoint: "tiktok.search_profiles",
+    identity: "query",
     summary: "Accounts by keyword, niche or place",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4086,6 +4450,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_sounds",
     endpoint: "tiktok.search_sounds",
+    identity: "query",
     summary: "Sounds and songs by title, artist or keyword",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4105,6 +4470,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_suggestions",
     endpoint: "tiktok.search_suggestions",
+    identity: "query",
     summary: "Search box autocomplete for a partial query",
     price: "1 credit",
     params: [
@@ -4123,6 +4489,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "search_top",
     endpoint: "tiktok.search_top",
+    identity: "query",
     summary: "Accounts, videos, hashtags and sounds in one search",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4142,6 +4509,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "sound",
     endpoint: "tiktok.sound",
+    identity: "url",
     summary: "Sound or song with its artists and post count",
     price: "1 credit",
     params: [
@@ -4156,6 +4524,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "sound_posts",
     endpoint: "tiktok.sound_posts",
+    identity: "url",
     summary: "Videos and photo posts that use a sound",
     price: "1 credit",
     params: [
@@ -4175,6 +4544,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "top_ads",
     endpoint: "tiktok.top_ads",
+    identity: null,
     summary: "Best-performing ads by country, period and industry",
     price: "1 credit",
     params: [
@@ -4197,6 +4567,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "top_posts",
     endpoint: "tiktok.top_posts",
+    identity: null,
     summary: "Ranked by country, period and metric",
     price: "1 credit",
     params: [
@@ -4219,6 +4590,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "transcript",
     endpoint: "tiktok.transcript",
+    identity: "url",
     summary: "Timed transcript from captions or the audio",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -4235,6 +4607,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "trending_hashtags",
     endpoint: "tiktok.trending_hashtags",
+    identity: null,
     summary: "Ranked by country, period and industry",
     price: "1 credit",
     params: [
@@ -4254,6 +4627,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktok",
     name: "trending_posts",
     endpoint: "tiktok.trending_posts",
+    identity: null,
     summary: "What the explore page shows now, by topic",
     price: "1 credit",
     params: [
@@ -4273,6 +4647,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktokshop",
     name: "product",
     endpoint: "tiktokshop.product",
+    identity: "url",
     summary: "Price, variants, stock and units sold",
     price: "1 credit",
     params: [
@@ -4287,6 +4662,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktokshop",
     name: "products",
     endpoint: "tiktokshop.products",
+    identity: "handle",
     summary: "Products a store sells, best sellers first",
     price: "1 credit",
     params: [
@@ -4304,6 +4680,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktokshop",
     name: "reviews",
     endpoint: "tiktokshop.reviews",
+    identity: "url",
     summary: "Star ratings, text and photos for a product",
     price: "1 credit",
     params: [
@@ -4321,6 +4698,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "tiktokshop",
     name: "search_products",
     endpoint: "tiktokshop.search_products",
+    identity: "query",
     summary: "Products by keyword, with price and units sold",
     price: "1 credit",
     params: [
@@ -4338,6 +4716,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "truthsocial",
     name: "post",
     endpoint: "truthsocial.post",
+    identity: "url",
     summary: "Truth or ReTruth with exact reply and like counts",
     price: "1 credit",
     params: [
@@ -4352,6 +4731,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "truthsocial",
     name: "posts",
     endpoint: "truthsocial.posts",
+    identity: "handle",
     summary: "Truths and ReTruths of any account, newest first",
     price: "1 credit",
     params: [
@@ -4371,6 +4751,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "truthsocial",
     name: "profile",
     endpoint: "truthsocial.profile",
+    identity: "handle",
     summary: "Exact follower counts, bio, links and join date",
     price: "1 credit",
     params: [
@@ -4385,6 +4766,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "twitch",
     name: "profile",
     endpoint: "twitch.profile",
+    identity: "handle",
     summary: "Channel with exact followers and live status",
     price: "1 credit",
     params: [
@@ -4399,6 +4781,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "twitch",
     name: "schedule",
     endpoint: "twitch.schedule",
+    identity: "handle",
     summary: "Upcoming streams a channel has announced",
     price: "1 credit",
     params: [
@@ -4416,6 +4799,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "twitch",
     name: "transcript",
     endpoint: "twitch.transcript",
+    identity: "url",
     summary: "Clip transcript with timestamps, from its audio",
     price: "2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -4432,6 +4816,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "twitch",
     name: "video",
     endpoint: "twitch.video",
+    identity: "url",
     summary: "Video or clip with exact views and its video files",
     price: "1 credit",
     params: [
@@ -4446,6 +4831,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "twitch",
     name: "videos",
     endpoint: "twitch.videos",
+    identity: "handle",
     summary: "Past broadcasts, highlights and uploads of a channel",
     price: "1 credit",
     params: [
@@ -4467,6 +4853,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "comments",
     endpoint: "x.comments",
+    identity: "url",
     summary: "Top replies to a post, with exact counts",
     price: "1 credit",
     params: [
@@ -4486,6 +4873,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "community",
     endpoint: "x.community",
+    identity: "url",
     summary: "Rules, admin and exact member count",
     price: "1 credit",
     params: [
@@ -4500,6 +4888,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "community_posts",
     endpoint: "x.community_posts",
+    identity: "url",
     summary: "Top posts and media with exact counts",
     price: "1 credit",
     params: [
@@ -4520,6 +4909,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "engagement",
     endpoint: "x.engagement",
+    identity: "handle",
     summary: "Engagement rate, views per post and posting cadence",
     price: "1 credit",
     params: [
@@ -4534,6 +4924,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "friendship",
     endpoint: "x.friendship",
+    identity: "handle",
     summary: "Does one account follow another, and back",
     price: "1 credit",
     params: [
@@ -4549,6 +4940,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "list",
     endpoint: "x.list",
+    identity: "url",
     summary: "List name, owner, exact member and follower counts",
     price: "1 credit",
     params: [
@@ -4563,6 +4955,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "list_followers",
     endpoint: "x.list_followers",
+    identity: "url",
     summary: "Accounts that follow an X List, as full profiles",
     price: "1 credit",
     params: [
@@ -4580,6 +4973,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "post",
     endpoint: "x.post",
+    identity: "url",
     summary: "Full text, media and exact view counts",
     price: "1 credit",
     params: [
@@ -4594,6 +4988,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "posts",
     endpoint: "x.posts",
+    identity: "handle",
     summary: "Latest or most liked posts with exact counts",
     price: "1 credit",
     params: [
@@ -4615,6 +5010,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "profile",
     endpoint: "x.profile",
+    identity: "handle",
     summary: "Exact follower counts, bio and verification",
     price: "1 credit",
     params: [
@@ -4629,6 +5025,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "profile_mentions",
     endpoint: "x.profile_mentions",
+    identity: "handle",
     summary: "Posts by others that @mention an account",
     price: "1 credit",
     params: [
@@ -4648,6 +5045,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "search_communities",
     endpoint: "x.search_communities",
+    identity: "query",
     summary: "Communities by topic, niche or name",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4667,6 +5065,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "search_hashtags",
     endpoint: "x.search_hashtags",
+    identity: "query",
     summary: "Hashtags related to a keyword or topic",
     price: "1 credit",
     params: [
@@ -4685,6 +5084,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "search_posts",
     endpoint: "x.search_posts",
+    identity: "query",
     summary: "Posts by keyword, hashtag or @mention",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4706,6 +5106,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "search_profiles",
     endpoint: "x.search_profiles",
+    identity: "query",
     summary: "Accounts by name, keyword, niche or place",
     price: "1 credit + 1 per result filled in (with fill=true)",
     params: [
@@ -4725,6 +5126,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "space",
     endpoint: "x.space",
+    identity: "url",
     summary: "Live audio room with host, listeners and replay",
     price: "1 credit",
     params: [
@@ -4740,6 +5142,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "x",
     name: "transcript",
     endpoint: "x.transcript",
+    identity: "url",
     summary: "Video post transcript, from captions or audio",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [
@@ -4756,6 +5159,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "comments",
     endpoint: "youtube.comments",
+    identity: "url",
     summary: "Newest or top first, with likes and reply counts",
     price: "1 credit",
     params: [
@@ -4776,6 +5180,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "engagement",
     endpoint: "youtube.engagement",
+    identity: "handle",
     summary: "Views per upload, cadence and outlier videos",
     price: "1 credit",
     params: [
@@ -4791,6 +5196,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "hashtag_posts",
     endpoint: "youtube.hashtag_posts",
+    identity: "url",
     summary: "Videos and shorts under a hashtag with exact views",
     price: "1 credit",
     params: [
@@ -4811,6 +5217,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "post",
     endpoint: "youtube.post",
+    identity: "url",
     summary: "Video or short with exact view, like and comment counts",
     price: "1 credit",
     params: [
@@ -4825,6 +5232,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "posts",
     endpoint: "youtube.posts",
+    identity: "handle",
     summary: "Videos, shorts and live streams of a channel",
     price: "1 credit",
     params: [
@@ -4846,6 +5254,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "profile",
     endpoint: "youtube.profile",
+    identity: "handle",
     summary: "Subscribers, exact view counts and social links",
     price: "1 credit",
     params: [
@@ -4860,6 +5269,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "search_posts",
     endpoint: "youtube.search_posts",
+    identity: "query",
     summary: "Videos, shorts and live streams by keyword",
     price: "1 credit",
     params: [
@@ -4883,6 +5293,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "search_profiles",
     endpoint: "youtube.search_profiles",
+    identity: "query",
     summary: "Channels by keyword, with subscribers and handles",
     price: "1 credit",
     params: [
@@ -4900,6 +5311,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "search_suggestions",
     endpoint: "youtube.search_suggestions",
+    identity: "query",
     summary: "Search box autocomplete for a partial query",
     price: "1 credit",
     params: [
@@ -4919,6 +5331,7 @@ export const COMMANDS: readonly Command[] = [
     platform: "youtube",
     name: "transcript",
     endpoint: "youtube.transcript",
+    identity: "url",
     summary: "Timed transcript from captions or audio",
     price: "1 credit (captions) or 2 credits + 2 per started minute of media (speech-to-text, automatic up to 3 minutes, longer with transcribe_audio=true)",
     params: [

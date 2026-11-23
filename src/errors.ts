@@ -52,8 +52,9 @@ export class ForbiddenError extends APIError {
 /**
  * `insufficient_credits` (HTTP 402): The account does not have enough credits for this request.
  *
- * Remediation: Have a person buy credits at details.purchase_url (or make them a checkout link with
- * details.checkout), then repeat the request. Do not retry automatically.
+ * Remediation: Have a person buy credits at details.purchase_url (details.options lists the plans and packs with
+ * their prices; details.checkout makes a checkout link for a pack), then repeat the request. Do not retry
+ * automatically.
  */
 export class InsufficientCreditsError extends APIError {
   override name = "InsufficientCreditsError";
@@ -147,7 +148,7 @@ export class JobNotFoundError extends APIError {
  * `unknown_endpoint` (HTTP 404): No endpoint or route has this path: a typo, an endpoint this platform does not
  * have yet, or a path outside the API. Nothing was fetched or charged.
  *
- * Remediation: Call details.suggestion when it is set (the path you most likely meant), or pick one from
+ * Remediation: Call details.suggestion when it is set (the path you most likely meant); otherwise pick one from
  * details.endpoints. Do not retry the same path.
  */
 export class UnknownEndpointError extends APIError {

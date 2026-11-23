@@ -7,10 +7,11 @@
 /// <reference types="node" />
 
 import { homedir } from "node:os";
+import { createInterface } from "node:readline/promises";
 import { parseArgs } from "node:util";
 import { AGENTS, type Agent, type AgentId, claudeHoldsKey, fetchSkills, type McpServer, runProgram, type SetupEnv, writeSkills } from "./agents.ts";
 import { SocialTap } from "./client.ts";
-import { AGENTS_DOCS_URL, COMMANDS, type Command, type CommandParam, MCP_SERVER_NAME, PRODUCT_NAME, SKILLS_INDEX_PATH } from "./commands.ts";
+import { AGENTS_DOCS_URL, COMMANDS, type Command, type CommandParam, checkKey, MCP_SERVER_NAME, PARAM_ALIASES, PRODUCT_NAME, SKILLS_INDEX_PATH } from "./commands.ts";
 import { API_KEY_ENV, CLI_CLIENT_NAME, DEFAULT_BASE_URL, SIGNUP_URL, VERSION } from "./constants.ts";
 import { type ClientOptions, keylessClient } from "./core.ts";
 import { APIError } from "./error.ts";
@@ -21,8 +22,10 @@ import { callTool, findTool, type ToolDefinition } from "./tools.ts";
 export interface IO extends SetupEnv {
   out(text: string): void;
   err(text: string): void;
-  /** Whether a person is at this terminal (who can finish a browser sign-in). */
+  /** Whether a person is at this terminal (who can finish a browser sign-in, and answer a question). */
   interactive?: boolean;
+  /** Asks the person at the terminal a question and returns their answer (only when interactive). */
+  ask?(question: string): Promise<string>;
 }
 
 export function processIO(): IO {
@@ -30,6 +33,16 @@ export function processIO(): IO {
     out: (t) => process.stdout.write(t.endsWith("\n") ? t : `${t}\n`),
     err: (t) => process.stderr.write(t.endsWith("\n") ? t : `${t}\n`),
     interactive: Boolean(process.stdin.isTTY && process.stdout.isTTY),
+    ask: async (question) => {
+      const rl = createInterface({ input: process.stdin, output: process.stdout });
+      try {
+        return await rl.question(question);
+      } catch {
+        return ""; // Ctrl+D or Ctrl+C at the question: no
+      } finally {
+        rl.close();
+      }
+    },
     home: homedir(),
     env: process.env,
     run: runProgram,
@@ -129,7 +142,8 @@ function usage(): string {
     `${PRODUCT_NAME} CLI ${VERSION}: public social media data as JSON.`,
     "",
     "Usage:",
-    "  socialtap <platform> <endpoint> --<param> <value> ...   call an endpoint (JSON on stdout)",
+    "  socialtap <platform> <endpoint> [<link, handle or query>] --<param> <value> ...",
+    "                                                          call an endpoint (JSON on stdout)",
     "      --data                                                print only data (no meta or page)",
     "      --all [--max-pages N] [--max-credits N]                 walk a list: one item per line",
     "  socialtap endpoints                                     every endpoint, its params and price",
@@ -141,18 +155,29 @@ function usage(): string {
     ...(KEYLESS_TOOLS.length ? [`The tools ${andList(KEYLESS_TOOLS)} need no API key.`] : []),
     `Platforms: ${platforms.join(", ")}. \`socialtap <platform>\` lists its endpoints, \`socialtap <platform> <endpoint> --help\` its params.`,
     "Flags and endpoint names take kebab-case or snake_case: --max-age or --max_age, search-posts or search_posts.",
+    "A lone argument is the endpoint's link, handle or query: socialtap tiktok profile nasa is --handle nasa.",
   ].join("\n");
+}
+
+/** How a command's usage names its params: its identity param as the lone argument, the others as flags. */
+function synopsis(c: Command, params: readonly CommandParam[]): string[] {
+  return params.map((p) => (p.name === c.identity ? `<${p.name}>` : `--${kebab(p.name)} <${p.type}>`));
 }
 
 function endpointList(): string {
   return COMMANDS.map((c) => {
-    const required = c.params.filter((p) => p.required).map((p) => `--${kebab(p.name)} <${p.type}>`);
+    const required = synopsis(
+      c,
+      c.params.filter((p) => p.required),
+    );
     return `socialtap ${c.platform} ${kebab(c.name)} ${required.join(" ")}\n    ${c.summary} (${c.price}${c.kind === "list" ? " per page" : ""})`;
   }).join("\n");
 }
 
 function commandHelp(c: Command): string {
-  const lines = [`socialtap ${c.platform} ${kebab(c.name)}: ${c.summary}`, `Endpoint ${c.endpoint}. Price: ${c.price}${c.kind === "list" ? " per page" : ""}.`, "", "Params:"];
+  const lines = [`socialtap ${c.platform} ${kebab(c.name)}: ${c.summary}`, `Endpoint ${c.endpoint}. Price: ${c.price}${c.kind === "list" ? " per page" : ""}.`];
+  if (c.identity) lines.push(`Usage: socialtap ${c.platform} ${kebab(c.name)} <${c.identity}> [--<param> <value>...] (the lone argument is --${kebab(c.identity)})`);
+  lines.push("", "Params:");
   for (const p of c.params) {
     lines.push(`  --${kebab(p.name)} <${p.enum ? p.enum.join("|") : p.type}>${p.required ? " (required)" : ""}`, `      ${p.description}`);
   }
@@ -197,11 +222,13 @@ async function endpoint(platform: string, rest: readonly string[], io: IO): Prom
   const options: Record<string, { type: "string" | "boolean"; short?: string }> = { ...CLIENT_OPTIONS, data: { type: "boolean" } };
   if (cmd.kind === "list") Object.assign(options, { all: { type: "boolean" }, "max-pages": { type: "string" }, "max-credits": { type: "string" } });
   for (const p of cmd.params) options[kebab(p.name)] = { type: p.type === "boolean" ? "boolean" : "string" };
-  const { values } = parse(args, options);
+  checkFlags(cmd, args, options);
+  const { values, positionals } = parse(args, options, true);
   if (values.help) {
     io.out(commandHelp(cmd));
     return 0;
   }
+  takeArgument(cmd, positionals, values);
   const params = readParams(cmd, values);
   const c = client(values as { "api-key"?: string; "base-url"?: string }, io);
   if (cmd.kind === "get") {
@@ -223,12 +250,78 @@ async function endpoint(platform: string, rest: readonly string[], io: IO): Prom
   return 0;
 }
 
-function parse(args: readonly string[], options: Record<string, { type: "string" | "boolean"; short?: string; multiple?: boolean }>) {
+type Options = Record<string, { type: "string" | "boolean"; short?: string; multiple?: boolean }>;
+
+function parse(args: readonly string[], options: Options, allowPositionals = false) {
   try {
-    return parseArgs({ args: kebabFlags(args), options, strict: true, allowPositionals: false });
+    return parseArgs({ args: kebabFlags(args), options, strict: true, allowPositionals });
   } catch (e) {
     throw new UsageError(e instanceof Error ? e.message : String(e));
   }
+}
+
+/**
+ * Refuses a flag the command doesn't take, saying which param it most likely means (suggestParam): --username on an
+ * endpoint that takes handle is --handle, as the API itself would answer the query param.
+ */
+function checkFlags(cmd: Command, args: readonly string[], options: Options): void {
+  for (const a of kebabFlags(args)) {
+    if (a === "--") return;
+    const m = /^--([^=]+)/.exec(a);
+    if (!m || Object.hasOwn(options, m[1]!)) continue;
+    const flag = m[1]!;
+    const s = suggestParam(flag, cmd.params.map((p) => p.name));
+    const p = cmd.params.find((x) => x.name === s);
+    const known = cmd.params.map((x) => `--${kebab(x.name)}`).join(", ");
+    throw new UsageError(
+      `socialtap ${cmd.platform} ${kebab(cmd.name)} has no --${flag}${p ? `; did you mean --${kebab(p.name)}?` : "."} Its params: ${known}.`,
+    );
+  }
+}
+
+/** The lone argument is the command's identity param (a link, a handle, a query): `socialtap tiktok profile nasa`. */
+function takeArgument(cmd: Command, positionals: readonly string[], values: Record<string, unknown>): void {
+  if (positionals.length === 0) return;
+  const usage = `socialtap ${cmd.platform} ${kebab(cmd.name)}`;
+  if (!cmd.identity) throw new UsageError(`${usage} takes no argument: pass its params as flags (--<param> <value>)`);
+  const flag = kebab(cmd.identity);
+  if (positionals.length > 1) throw new UsageError(`${usage} takes one argument, its ${cmd.identity} (got ${positionals.length}): quote a value with spaces`);
+  if (values[flag] !== undefined) throw new UsageError(`${usage}: the argument is --${flag}, which is given too: pass one`);
+  values[flag] = positionals[0];
+}
+
+/** Short names tolerate one edit, longer ones two (the API's core.SuggestParam). */
+const maxDistance = (s: string) => (s.length <= 4 ? 1 : 2);
+
+/** Optimal-string-alignment distance (the API's). */
+function editDistance(a: string, b: string): number {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array<number>(b.length).fill(0)]);
+  for (let j = 0; j <= b.length; j++) d[0]![j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      let v = Math.min(d[i - 1]![j]! + 1, d[i]![j - 1]! + 1, d[i - 1]![j - 1]! + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) v = Math.min(v, d[i - 2]![j - 2]! + 1);
+      d[i]![j] = v;
+    }
+  return d[a.length]![b.length]!;
+}
+
+/**
+ * The param an unknown name most likely means, as the API suggests one (core.SuggestParam): the same name in snake_case,
+ * an alias (PARAM_ALIASES: username is handle), else the closest name within a small edit distance; "" when nothing is close.
+ */
+function suggestParam(name: string, accepted: readonly string[]): string {
+  const n = name.trim().toLowerCase().replaceAll("-", "_");
+  if (accepted.includes(n)) return n;
+  if (Object.hasOwn(PARAM_ALIASES, n)) return PARAM_ALIASES[n]!.find((c) => accepted.includes(c)) ?? "";
+  let best = "";
+  let bestD = maxDistance(n) + 1;
+  for (const a of accepted) {
+    const d = editDistance(n, a);
+    if (d < bestD) [best, bestD] = [a, d];
+  }
+  return best;
 }
 
 /** The command's params from the flags (read in kebab-case: kebabFlags), typed; required ones present. */
@@ -333,6 +426,28 @@ async function skill(rest: readonly string[], io: IO): Promise<number> {
   return 0;
 }
 
+/**
+ * Refuses a key the API doesn't know (unauthorized) before an agent stores it, with where to get one. A key that may
+ * not read the account (forbidden) still authenticates. When the API can't be reached the check is skipped and said:
+ * the steps that follow need it anyway.
+ */
+async function verifyKey(key: string, from: string, baseURL: string | undefined, io: IO): Promise<void> {
+  if (checkKey === null) return;
+  const options: ClientOptions = { apiKey: key, fetch: io.fetch, maxRetries: 0 };
+  if (baseURL) options.baseURL = baseURL;
+  const c = new SocialTap(options);
+  c._client = CLI_CLIENT_NAME;
+  try {
+    await checkKey(c);
+  } catch (e) {
+    if (e instanceof APIError && e.status === 401) {
+      const next = SIGNUP_URL ? `Get a key at ${SIGNUP_URL}, or run init without one` : "Run init without a key";
+      throw new Error(`The API key from ${from} was refused (${e.code}), so nothing was changed. ${next}: each agent then signs you in with your browser.`);
+    }
+    if (!(e instanceof APIError)) io.err(`Couldn't check the API key from ${from}: ${e instanceof Error ? e.message : String(e)}`);
+  }
+}
+
 function origin(baseURL: string | undefined): string {
   return (baseURL ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
 }
@@ -346,7 +461,7 @@ async function init(rest: readonly string[], io: IO): Promise<number> {
         "socialtap init [--agent <id>]... [--api-key <key>] [--base-url <url>]",
         "",
         `Installs the ${PRODUCT_NAME} Agent Skill and registers the MCP server in each coding agent's user config.`,
-        `Agents: ${AGENTS.map((a) => `${a.id} (${a.name})`).join(", ")}; default: every one installed.`,
+        `Agents: ${AGENTS.map((a) => `${a.id} (${a.name})`).join(", ")}; default: every one installed (in a terminal, after you confirm).`,
         `The agent signs you in with your browser the first time a tool needs it. With --api-key, or $${API_KEY_ENV} set, it stores that key in plain text in the agent's config (readable only by you) and sends it instead; in a terminal, Claude Code still signs in with your browser unless you pass --api-key or its config already holds a key.`,
       ].join("\n"),
     );
@@ -357,6 +472,23 @@ async function init(rest: readonly string[], io: IO): Promise<number> {
   const agents: Agent[] = wanted.length > 0 ? AGENTS.filter((a) => wanted.includes(a.id)) : AGENTS.filter((a) => a.detect(io));
   if (agents.length === 0) {
     throw new UsageError(`found no coding agent (${AGENTS.map((a) => a.name).join(", ")}); choose with --agent <${ids.join("|")}>`);
+  }
+  const given = values["api-key"] as string | undefined;
+  const key = given ?? io.env[API_KEY_ENV];
+  // A key no agent could use is refused before anything is written.
+  if (key) await verifyKey(key, given ? "--api-key" : `$${API_KEY_ENV}`, values["base-url"] as string | undefined, io);
+  if (wanted.length === 0) {
+    // Every agent found, unasked: a person at the terminal confirms first; a script (no terminal) gets them all and is told.
+    const names = agents.map((a) => `${a.name} (${a.id})`).join(", ");
+    if (io.interactive && io.ask) {
+      const answer = await io.ask(`Set up ${PRODUCT_NAME} in ${names}? This edits each one's user config. [y/N] `);
+      if (!/^y(es)?$/i.test(answer.trim())) {
+        io.out(`Nothing changed. Choose agents with --agent <${ids.join("|")}>.`);
+        return 0;
+      }
+    } else {
+      io.out(`Setting up every coding agent found: ${names} (choose with --agent <${ids.join("|")}>).`);
+    }
   }
   const base = origin(values["base-url"] as string | undefined);
   let failed = 0;
@@ -377,8 +509,6 @@ async function init(rest: readonly string[], io: IO): Promise<number> {
     }
   }
 
-  const given = values["api-key"] as string | undefined;
-  const key = given ?? io.env[API_KEY_ENV];
   if (MCP_PATH === null) {
     io.out(`(${PRODUCT_NAME} has no MCP server: skipped)`);
   } else {

@@ -78,6 +78,21 @@ test("an endpoint command calls the API and prints data and meta", async (t) => 
   assert.match((await run([cmd.platform, cmd.name, "--help"])).out, /Params:/);
 });
 
+test("a lone argument is the endpoint's identity param; a flag it lacks names the param it means", async (t) => {
+  const cmd = COMMANDS.find((c) => c.kind === "get" && c.identity !== null && c.params.filter((p) => p.required).length === 1);
+  if (!cmd) return;
+  const mock = await MockServer.start();
+  t.after(() => mock.close());
+  mock.reply({ body: { data: {}, meta: {} } });
+  const r = await run([cmd.platform, cmd.name, "the-value", "--api-key", "k", "--base-url", mock.url]);
+  assert.equal(r.code, 0, r.err);
+  assert.equal(mock.requests[0]!.query.get(cmd.identity!), "the-value");
+  assert.equal((await run([cmd.platform, cmd.name, "a", "b", "--api-key", "k"])).code, 2);
+  const typo = await run([cmd.platform, cmd.name, `--${cmd.identity!}x`, "v", "--api-key", "k"]);
+  assert.equal(typo.code, 2);
+  assert.match(typo.err, new RegExp(`did you mean --${cmd.identity!.replaceAll("_", "-")}\\?`));
+});
+
 test("API errors are JSON on stderr with exit code 1", async (t) => {
   const mock = await MockServer.start();
   t.after(() => mock.close());
@@ -139,12 +154,14 @@ test("init installs the site's skill and registers the MCP server in every agent
   const index = { skills: [{ name: "socialtap", type: "skill-md", url: "socialtap/SKILL.md", digest: `sha256:${createHash("sha256").update(skill).digest("hex")}` }] };
   const mock = await MockServer.start();
   t.after(() => mock.close());
-  const serve = () => mock.reply({ body: index }, { text: skill });
+  // The key check (free, before anything is written), then the skill index and the skill.
+  const serve = () => mock.reply({ body: { data: {}, meta: {} } }, { body: index }, { text: skill });
 
   serve();
   const r = await run(["init", "--api-key", "st_live_key", "--base-url", mock.url], { home });
   assert.equal(r.code, 0, r.out + r.err);
-  assert.equal(mock.requests[0]!.path, SKILLS_INDEX_PATH);
+  assert.equal(mock.requests[0]!.headers["x-api-key"], "st_live_key");
+  assert.equal(mock.requests[1]!.path, SKILLS_INDEX_PATH);
   for (const dir of [".claude/skills", ".agents/skills", ".grok/skills"]) assert.equal(await readFile(join(home, dir, "socialtap", "SKILL.md"), "utf8"), skill);
 
   const url = mock.url + MCP_PATH;
@@ -166,6 +183,19 @@ test("init installs the site's skill and registers the MCP server in every agent
   serve();
   assert.equal((await run(["init", "--api-key", "st_live_key", "--base-url", mock.url], { home })).code, 0);
   assert.equal((await readFile(join(home, ".codex", "config.toml"), "utf8")).split(`[mcp_servers.${MCP_SERVER_NAME}]`).length, 2);
+
+  // A key the API refuses is never stored: nothing is written. At a terminal, every agent found waits for a yes.
+  mock.reply({ status: 401, body: { error: { code: "unauthorized", message: "invalid API key", request_id: "r", retryable: false } } });
+  const refused = await run(["init", "--api-key", "st_live_bad", "--base-url", mock.url], { home });
+  assert.equal(refused.code, 1);
+  assert.match(refused.err, /refused \(unauthorized\), so nothing was changed/);
+  assert.ok(!(await readFile(join(home, ".codex", "config.toml"), "utf8")).includes("st_live_bad"));
+  serve();
+  const asked: string[] = [];
+  const no = await run(["init", "--api-key", "st_live_key", "--base-url", mock.url], { home, interactive: true, ask: async (q) => (asked.push(q), "n") });
+  assert.equal(no.code, 0);
+  assert.match(asked[0] ?? "", /Claude Code \(claude\).*\[y\/N\]/);
+  assert.ok(!no.calls.some((c) => c[0] === "claude"), "declined: nothing registered");
 });
 
 test("init: a key in a config is the user's alone and said out loud; Claude Code at a terminal prefers the browser to the environment's", async (t) => {
@@ -178,8 +208,8 @@ test("init: a key in a config is the user's alone and said out loud; Claude Code
   await writeFile(cursor, "{}", { mode: 0o644 });
   const index = { skills: [{ name: "s", type: "skill-md", url: "/s.md" }] };
   const init = (io: Partial<IO>) => {
-    mock.reply({ body: index }, { text: "# s\n" });
-    return run(["init", "--base-url", mock.url], { home, ...io });
+    mock.reply({ body: { data: {}, meta: {} } }, { body: index }, { text: "# s\n" });
+    return run(["init", "--base-url", mock.url], { home, ask: async () => "y", ...io });
   };
   const claudeHeaders = (r: Run) => JSON.parse(r.calls.find((c) => c[2] === "add-json")![6]!).headers;
 
