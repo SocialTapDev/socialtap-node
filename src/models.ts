@@ -9875,6 +9875,19 @@ export interface ResponseBodyState {
   expires_at: string | null;
 }
 
+export interface RequestLogError {
+  /** The error's message, as answered (cut at 500 characters). */
+  message: string;
+  /** The input the error is about; null when none. */
+  param: string | null;
+  /** true when sending the same request again may succeed. */
+  retryable: boolean;
+  /** What to do about it. */
+  remediation: string;
+  /** The error code's documentation. Format: uri. */
+  doc_url: string;
+}
+
 export interface RequestLogEntry {
   /** Always request. Known values: request. */
   object: "request" | (string & {});
@@ -9912,6 +9925,8 @@ export interface RequestLogEntry {
   client_request_id: string | null;
   /** Whether its answer's body was kept (GET /v1/requests/{id}/response returns it). */
   response_body: ResponseBodyState;
+  /** Why it failed, as its answer said; null for a success, and for a failure logged before errors were kept. */
+  error: RequestLogError | null;
 }
 
 export interface RequestResponse {
