@@ -12,7 +12,7 @@ import { parseArgs } from "node:util";
 import { AGENTS, type Agent, type AgentId, claudeHoldsKey, fetchSkills, type McpServer, runProgram, type SetupEnv, writeSkills } from "./agents.ts";
 import { SocialTap } from "./client.ts";
 import { AGENTS_DOCS_URL, COMMANDS, type Command, type CommandParam, checkKey, MCP_SERVER_NAME, PARAM_ALIASES, PRODUCT_NAME, SKILLS_INDEX_PATH } from "./commands.ts";
-import { API_KEY_ENV, CLI_CLIENT_NAME, DEFAULT_BASE_URL, SIGNUP_URL, VERSION } from "./constants.ts";
+import { API_KEY_ENV, CLI_CLIENT_NAME, CLI_SIGNUP_URL, DEFAULT_BASE_URL, VERSION } from "./constants.ts";
 import { type ClientOptions, keylessClient } from "./core.ts";
 import { APIError } from "./error.ts";
 import { KEYLESS_TOOLS, MCP_PATH, TOOLS } from "./tooldefs.ts";
@@ -196,7 +196,7 @@ function client(values: { "api-key"?: string; "base-url"?: string }, io: IO, key
   const apiKey = values["api-key"] ?? io.env[API_KEY_ENV];
   const options: ClientOptions = { apiKey: apiKey ?? "", fetch: io.fetch };
   if (values["base-url"]) options.baseURL = values["base-url"];
-  if (!apiKey && !keyless) throw new Error(`missing API key: pass --api-key <key> or set ${API_KEY_ENV}${SIGNUP_URL ? `. Get one at ${SIGNUP_URL}` : ""}`);
+  if (!apiKey && !keyless) throw new Error(`missing API key: pass --api-key <key> or set ${API_KEY_ENV}${CLI_SIGNUP_URL ? `. Get one at ${CLI_SIGNUP_URL}` : ""}`);
   const c = apiKey ? new SocialTap(options) : keylessClient(() => new SocialTap(options));
   c._client = CLI_CLIENT_NAME;
   return c;
@@ -441,7 +441,7 @@ async function verifyKey(key: string, from: string, baseURL: string | undefined,
     await checkKey(c);
   } catch (e) {
     if (e instanceof APIError && e.status === 401) {
-      const next = SIGNUP_URL ? `Get a key at ${SIGNUP_URL}, or run init without one` : "Run init without a key";
+      const next = CLI_SIGNUP_URL ? `Get a key at ${CLI_SIGNUP_URL}, or run init without one` : "Run init without a key";
       throw new Error(`The API key from ${from} was refused (${e.code}), so nothing was changed. ${next}: each agent then signs you in with your browser.`);
     }
     if (!(e instanceof APIError)) io.err(`Couldn't check the API key from ${from}: ${e instanceof Error ? e.message : String(e)}`);
